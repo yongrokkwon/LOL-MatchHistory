@@ -1,6 +1,7 @@
 package gg.lol.android.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gg.lol.android.R
 import gg.lol.android.ui.component.HyperlinkText
+import gg.lol.android.ui.signup.SignUpActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +96,10 @@ fun LoginScreen() {
                     loginStatusRemember.value = !loginStatusRemember.value
                 }) {
                     Checkbox(checked = loginStatusRemember.value, onCheckedChange = null)
-                    Text(text = stringResource(id = R.string.login_status), modifier = Modifier.padding(start = 4.dp))
+                    Text(
+                        text = stringResource(id = R.string.login_status),
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
 
                 }
                 HyperlinkText(
@@ -122,7 +127,11 @@ fun LoginScreen() {
                     .padding(top = 4.dp),
                 fullText = stringResource(id = R.string.login_signup),
                 linkText = listOf(stringResource(id = R.string.login_signup_link)),
-                style = TextStyle(textAlign = TextAlign.Center)
+                style = TextStyle(textAlign = TextAlign.Center),
+                hyperlinks = listOf("SELF"),
+                onClick = {
+                    context.startActivity(Intent(context, SignUpActivity::class.java))
+                }
             )
         }
     }

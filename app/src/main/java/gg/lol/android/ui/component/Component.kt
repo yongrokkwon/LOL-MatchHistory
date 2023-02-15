@@ -22,7 +22,8 @@ fun HyperlinkText(
     linkTextFontWeight: FontWeight = FontWeight.Medium,
     linkTextDecoration: TextDecoration = TextDecoration.Underline,
     hyperlinks: List<String> = listOf(),
-    fontSize: TextUnit = TextUnit.Unspecified
+    fontSize: TextUnit = TextUnit.Unspecified,
+    onClick: () -> Unit = {}
 ) {
     val annotatedString = buildAnnotatedString {
         append(fullText)
@@ -41,7 +42,7 @@ fun HyperlinkText(
             )
             if (hyperlinks.isNotEmpty()) {
                 addStringAnnotation(
-                    tag = "URL",
+                    tag = hyperlinks[index],
                     annotation = hyperlinks[index],
                     start = startIndex,
                     end = endIndex
@@ -68,6 +69,10 @@ fun HyperlinkText(
                 .getStringAnnotations("URL", it, it)
                 .firstOrNull()?.let { stringAnnotation ->
                     uriHandler.openUri(stringAnnotation.item)
+                } ?: annotatedString
+                .getStringAnnotations("SELF", it, it)
+                .firstOrNull()?.let {
+                    onClick.invoke()
                 }
         }
     )
