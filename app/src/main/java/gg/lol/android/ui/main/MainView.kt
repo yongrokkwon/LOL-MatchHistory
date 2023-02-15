@@ -32,21 +32,17 @@ import gg.lol.android.ui.theme.ColorBackground
 
 @Preview
 @Composable
-fun LOLGGApp() {
+fun MainScreen() {
     val navController = rememberNavController()
     val navigationActions = remember { LOLGGNavigationActions(navController) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination =
-        navBackStackEntry?.destination?.route ?: LOLGGRoute.HOME
+    val selectedDestination = navBackStackEntry?.destination?.route ?: LOLGGRoute.HOME
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        NavHost(
-            Modifier.weight(1f),
-            navController
-        )
+        NavHost(Modifier.weight(1f), navController)
         Divider(color = ColorBackground, thickness = 1.dp)
         NavigationBar(
             modifier = Modifier.fillMaxWidth(),
@@ -90,26 +86,14 @@ fun LOLGGApp() {
 fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController
+) = NavHost(
+    modifier = modifier,
+    navController = navController,
+    startDestination = LOLGGRoute.HOME
 ) {
-    NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = LOLGGRoute.HOME
-    ) {
-        composable(LOLGGRoute.HOME) {
-            HomeScreen()
-        }
-        composable(LOLGGRoute.CHAMPION) {
-            ChampionScreen()
-        }
-        composable(LOLGGRoute.ESPORTS) {
-            EsportsScreen()
-        }
-        composable(LOLGGRoute.COMMUNITY) {
-            CommunityScreen()
-        }
-        composable(LOLGGRoute.SETTING) {
-            SettingScreen()
-        }
-    }
+    composable(LOLGGRoute.HOME) { HomeScreen() }
+    composable(LOLGGRoute.CHAMPION) { ChampionScreen() }
+    composable(LOLGGRoute.ESPORTS) { EsportsScreen() }
+    composable(LOLGGRoute.COMMUNITY) { CommunityScreen() }
+    composable(LOLGGRoute.SETTING) { SettingScreen() }
 }

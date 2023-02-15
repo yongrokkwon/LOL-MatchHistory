@@ -1,10 +1,10 @@
-package gg.lol.android
+package gg.lol.android.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import gg.lol.android.ui.LOLGGApp
+import gg.lol.android.ui.MainScreen
 import gg.lol.android.ui.theme.LOLGGTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,13 +12,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LOLGGTheme {
-                LOLGGMainView()
+                MainView()
             }
         }
     }
 }
 
 @Composable
-fun LOLGGMainView() {
-    LOLGGApp()
+fun MainView() {
+    MainScreen()
 }

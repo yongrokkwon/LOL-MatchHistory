@@ -29,6 +29,8 @@ object LOLGGRoute {
     const val ESPORTS = "이스포츠"
     const val COMMUNITY = "커뮤니티"
     const val SETTING = "설정"
+    const val LOGIN = "로그인"
+    const val SIGNUP = "회원가입"
 }
 
 sealed class LOLGGTopLevelDestination(

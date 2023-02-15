@@ -1,12 +1,9 @@
 package gg.lol.android.ui.account
 
-import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,12 +18,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import gg.lol.android.R
 import gg.lol.android.ui.component.HyperlinkText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController? = null) {
     val context = LocalContext.current
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -37,17 +35,6 @@ fun LoginScreen() {
             .background(Color.White)
             .fillMaxSize()
     ) {
-        TopAppBar(
-            modifier = Modifier
-                .fillMaxWidth(),
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.White),
-            title = { Text(stringResource(id = R.string.login)) },
-            navigationIcon = {
-                IconButton(onClick = { (context as? Activity)?.finish() }) {
-                    Icon(Icons.Filled.ArrowBack, null)
-                }
-            },
-        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,9 +114,7 @@ fun LoginScreen() {
                 linkText = listOf(stringResource(id = R.string.login_signup_link)),
                 style = TextStyle(textAlign = TextAlign.Center),
                 hyperlinks = listOf("SELF"),
-                onClick = {
-                    // TODO
-                }
+                onClick = { navController?.navigate(ROUTE_SIGNUP) }
             )
         }
     }
