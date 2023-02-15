@@ -1,7 +1,6 @@
-package gg.lol.android.ui.login
+package gg.lol.android.ui.account
 
 import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import gg.lol.android.R
 import gg.lol.android.ui.component.HyperlinkText
-import gg.lol.android.ui.signup.SignUpActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +128,7 @@ fun LoginScreen() {
                 style = TextStyle(textAlign = TextAlign.Center),
                 hyperlinks = listOf("SELF"),
                 onClick = {
-                    context.startActivity(Intent(context, SignUpActivity::class.java))
+                    // TODO
                 }
             )
         }

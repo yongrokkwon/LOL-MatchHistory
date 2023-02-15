@@ -1,4 +1,4 @@
-package gg.lol.android.ui.signup
+package gg.lol.android.ui.account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

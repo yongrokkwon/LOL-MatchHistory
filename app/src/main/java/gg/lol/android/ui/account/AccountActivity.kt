@@ -1,4 +1,4 @@
-package gg.lol.android.ui.login
+package gg.lol.android.ui.account
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

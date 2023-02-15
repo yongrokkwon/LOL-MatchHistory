@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
-import gg.lol.android.ui.login.LoginActivity
+import gg.lol.android.ui.account.LoginActivity
 
 @Composable
 fun SettingScreen() {
