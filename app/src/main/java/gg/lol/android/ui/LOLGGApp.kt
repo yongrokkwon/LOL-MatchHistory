@@ -34,9 +34,7 @@ import gg.lol.android.ui.theme.ColorBackground
 @Composable
 fun LOLGGApp() {
     val navController = rememberNavController()
-    val navigationActions = remember(navController) {
-        LOLGGNavigationActions(navController)
-    }
+    val navigationActions = remember { LOLGGNavigationActions(navController) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: LOLGGRoute.HOME
@@ -63,7 +61,9 @@ fun LOLGGApp() {
                         Icon(
                             imageVector = lolggDestination.selectedIcon,
                             contentDescription = stringResource(id = lolggDestination.iconTextId),
-                            modifier = Modifier.background(color = Color.White).size(18.dp, 18.dp),
+                            modifier = Modifier
+                                .background(color = Color.White)
+                                .size(18.dp, 18.dp),
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
