@@ -24,6 +24,7 @@
     <string name="setting_privacy">개인정보 처리방침</string>
 
     <string name="login_email">이메일 로그인</string>
+    <string name="login_password">비밀번호를 잊으셨나요?</string>
     <string name="login_hint_email">이메일 주소</string>
     <string name="login_hint_password">비밀번호</string>
     <string name="login_status">로그인 상태 유지하기</string>

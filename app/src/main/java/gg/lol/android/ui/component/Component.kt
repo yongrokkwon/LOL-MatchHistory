@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -14,12 +15,13 @@ import androidx.compose.ui.unit.TextUnit
 @Composable
 fun HyperlinkText(
     modifier: Modifier = Modifier,
+    style: TextStyle = TextStyle.Default,
     fullText: String,
     linkText: List<String>,
     linkTextColor: Color = Color.Blue,
     linkTextFontWeight: FontWeight = FontWeight.Medium,
     linkTextDecoration: TextDecoration = TextDecoration.Underline,
-    hyperlinks: List<String> = listOf("https://stevdza-san.com"),
+    hyperlinks: List<String> = listOf(),
     fontSize: TextUnit = TextUnit.Unspecified
 ) {
     val annotatedString = buildAnnotatedString {
@@ -37,12 +39,14 @@ fun HyperlinkText(
                 start = startIndex,
                 end = endIndex
             )
-            addStringAnnotation(
-                tag = "URL",
-                annotation = hyperlinks[index],
-                start = startIndex,
-                end = endIndex
-            )
+            if (hyperlinks.isNotEmpty()) {
+                addStringAnnotation(
+                    tag = "URL",
+                    annotation = hyperlinks[index],
+                    start = startIndex,
+                    end = endIndex
+                )
+            }
         }
         addStyle(
             style = SpanStyle(
@@ -58,6 +62,7 @@ fun HyperlinkText(
     ClickableText(
         modifier = modifier,
         text = annotatedString,
+        style = style,
         onClick = {
             annotatedString
                 .getStringAnnotations("URL", it, it)
