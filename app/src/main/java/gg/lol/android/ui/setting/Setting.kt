@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
-import gg.lol.android.ui.account.LoginActivity
+import gg.lol.android.ui.account.AccountActivity
 
 @Composable
 fun SettingScreen() {
@@ -44,7 +44,7 @@ fun SettingScreen() {
             style = MaterialTheme.typography.headlineLarge
         )
         CreateHead(R.string.login) {
-            context.startActivity(Intent(context, LoginActivity::class.java))
+            context.startActivity(Intent(context, AccountActivity::class.java))
         }
         CreateSpacer()
         CreateTitle(R.string.notify_push)
