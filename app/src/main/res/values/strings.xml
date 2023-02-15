@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">LOLGG</string>
+    
+    <string name="home">홈</string>
+    <string name="champion">챔피언</string>
+    <string name="esports">이스포츠</string>
+    <string name="community">커뮤니티</string>
+    <string name="setting">설정</string>
+    <string name="ingame">인게임</string>
+    <string name="system">시스템 설정 사용</string>
+    <string name="korean">한국어</string>
+
+    <string name="login">로그인</string>
+    <string name="notify_push">푸시 알림</string>
+    <string name="notify_game_info">게임 정보 알림</string>
+    <string name="notify_community">커뮤니티 알림</string>
+
+    <string name="setting_champion">챔피언 화면 기본 탭 설정</string>
+    <string name="setting_theme">기본 테마 설정</string>
+    <string name="setting_language">언어</string>
+    <string name="setting_bug">버그제보 및 건의하기</string>
+    <string name="setting_review">리뷰쓰러 가기</string>
+    <string name="setting_terms">이용약관</string>
+    <string name="setting_privacy">개인정보 처리방침</string>
+
+    <string name="login_email">이메일 로그인</string>
+    <string name="login_hint_email">이메일 주소</string>
+    <string name="login_hint_password">비밀번호</string>
+    <string name="login_status">로그인 상태 유지하기</string>
+    <string name="login_pw_find">비밀번호를 잊으셨나요?</string>
+    <string name="login_signup">LOLGG에 처음이세요? 회원가입하기</string>
+    <string name="login_signup_link">회원가입하기</string>
+
+    <string name="empty">Empty</string>
+</resources>
