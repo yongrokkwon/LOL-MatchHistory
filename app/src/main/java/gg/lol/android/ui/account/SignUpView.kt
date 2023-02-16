@@ -17,12 +17,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import gg.lol.android.R
 import gg.lol.android.ui.component.BirthVisualTransformation
 import gg.lol.android.ui.theme.GUIDE_STYLE
+import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.theme.Typography
 
 const val BIRTH_LENGTH = 8
@@ -77,6 +80,98 @@ fun BirthInputScreen(navController: NavHostController? = null) {
 
 @Composable
 fun InfoInputScreen(navController: NavHostController? = null) {
+    val email = remember { mutableStateOf("") }
+    val nickname = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Image(
+            modifier = Modifier
+                .height(50.dp)
+                .padding(top = 8.dp),
+            painter = painterResource(id = R.drawable.progress_second),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds
+        )
+        Text(
+            modifier = Modifier.padding(bottom = 8.dp),
+            text = stringResource(id = R.string.signup_info),
+            style = Typography.headlineLarge
+        )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = LightGray)
+                .padding(start = 6.dp, end = 6.dp, top = 8.dp, bottom = 8.dp),
+            text = stringResource(id = R.string.signup_info_guide),
+            style = TextStyle(
+                fontSize = 12.sp,
+            )
+        )
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            value = email.value,
+            onValueChange = { email.value = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            placeholder = { Text(stringResource(id = R.string.signup_info_email_hint)) },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White
+            ),
+            singleLine = true
+        )
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            value = nickname.value,
+            onValueChange = { nickname.value = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            placeholder = { Text(stringResource(id = R.string.nickname)) },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White
+            ),
+            singleLine = true
+        )
+        Text(
+            modifier = Modifier.padding(top = 4.dp),
+            text = stringResource(id = R.string.signup_info_nickname_guide),
+            style = GUIDE_STYLE
+        )
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            value = password.value,
+            onValueChange = { password.value = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            placeholder = { Text(stringResource(id = R.string.password)) },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.White
+            ),
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation()
+        )
+        Button(
+            modifier = Modifier.padding(top = 8.dp),
+            onClick = { navController?.navigate(ROUTE_SIGNUP_EMAIL_SEND) }) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.signup_info_button),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
+        }
+    }
+}
+
+@Composable
+fun SignUpEmailSendScreen(navController: NavHostController? = null) {
 
 }
 

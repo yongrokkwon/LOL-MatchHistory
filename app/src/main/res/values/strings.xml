@@ -9,6 +9,8 @@
     <string name="ingame">인게임</string>
     <string name="system">시스템 설정 사용</string>
     <string name="korean">한국어</string>
+    <string name="password">비밀번호</string>
+    <string name="nickname">닉네임</string>
     <string name="next">다음</string>
 
     <string name="login">로그인</string>
@@ -37,6 +39,12 @@
     <string name="signup_birth">생년월일 입력</string>
     <string name="signup_birth_hint">생년월일(ex-1999/10/08)</string>
     <string name="signup_birth_guide">생년월일 정보는 가입 연령 확인에서만 이용됩니다.</string>
+
+    <string name="signup_info">기본정보입력</string>
+    <string name="signup_info_guide">회원가입을 위해서 이메일 인증이 진행되며, 인증이 완료되기 전까지 회원가입이 완료가 되지 않습니다.</string>
+    <string name="signup_info_email_hint">이메일 주소</string>
+    <string name="signup_info_nickname_guide">개인정보를 기입하여 발생될 수 있는 피해는 LOLGG가 일절 책임지지 않습니다</string>
+    <string name="signup_info_button">가입하기</string>
 
     <string name="empty">Empty</string>
 </resources>

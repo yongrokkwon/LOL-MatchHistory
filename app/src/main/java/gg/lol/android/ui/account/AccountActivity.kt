@@ -26,6 +26,7 @@ import gg.lol.android.ui.theme.LOLGGTheme
 const val ROUTE_LOGIN = "LOGIN"
 const val ROUTE_SIGNUP = "SIGNUP"
 const val ROUTE_INFO_INPUT = "INFO_INPUT"
+const val ROUTE_SIGNUP_EMAIL_SEND = "ROUTE_SIGNUP_EMAIL_SEND"
 
 class AccountActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +66,7 @@ fun AccountView() {
                 appBarTitle.value = R.string.login
                 LoginScreen(navController)
             }
+            // TODO SignUP To Birth
             composable(route = ROUTE_SIGNUP) {
                 appBarTitle.value = R.string.signup
                 BirthInputScreen(navController)
@@ -72,6 +74,10 @@ fun AccountView() {
             composable(route = ROUTE_INFO_INPUT) {
                 appBarTitle.value = R.string.signup
                 InfoInputScreen(navController)
+            }
+            composable(route = ROUTE_SIGNUP_EMAIL_SEND) {
+                appBarTitle.value = R.string.signup
+                SignUpEmailSendScreen(navController)
             }
         }
     }

@@ -53,6 +53,6 @@ val Typography = Typography(
 val GUIDE_STYLE = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
-    fontSize = 10.sp,
+    fontSize = 12.sp,
     color = Color.Gray
 )
