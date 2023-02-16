@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +25,7 @@ import gg.lol.android.ui.theme.LOLGGTheme
 
 const val ROUTE_LOGIN = "LOGIN"
 const val ROUTE_SIGNUP = "SIGNUP"
+const val ROUTE_INFO_INPUT = "INFO_INPUT"
 
 class AccountActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,13 +43,14 @@ class AccountActivity : ComponentActivity() {
 fun AccountView() {
     val navController = rememberNavController()
     val context = LocalContext.current as Activity
+    val appBarTitle = remember { mutableStateOf(R.string.login) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             modifier = Modifier
                 .fillMaxWidth(),
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.White),
-            title = { Text(stringResource(id = R.string.login)) },
+            title = { Text(stringResource(id = appBarTitle.value)) },
             navigationIcon = {
                 IconButton(onClick = {
                     if (navController.backQueue.size == 2) context.finish()
@@ -57,8 +61,18 @@ fun AccountView() {
             },
         )
         NavHost(navController, startDestination = ROUTE_LOGIN) {
-            composable(route = ROUTE_LOGIN) { LoginScreen(navController) }
-            composable(route = ROUTE_SIGNUP) { SignUpScreen(navController) }
+            composable(route = ROUTE_LOGIN) {
+                appBarTitle.value = R.string.login
+                LoginScreen(navController)
+            }
+            composable(route = ROUTE_SIGNUP) {
+                appBarTitle.value = R.string.signup
+                BirthInputScreen(navController)
+            }
+            composable(route = ROUTE_INFO_INPUT) {
+                appBarTitle.value = R.string.signup
+                InfoInputScreen(navController)
+            }
         }
     }
 }

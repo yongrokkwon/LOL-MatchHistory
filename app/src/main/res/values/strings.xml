@@ -9,6 +9,7 @@
     <string name="ingame">인게임</string>
     <string name="system">시스템 설정 사용</string>
     <string name="korean">한국어</string>
+    <string name="next">다음</string>
 
     <string name="login">로그인</string>
     <string name="notify_push">푸시 알림</string>
@@ -31,6 +32,11 @@
     <string name="login_pw_find">비밀번호를 잊으셨나요?</string>
     <string name="login_signup">LOLGG에 처음이세요? 회원가입하기</string>
     <string name="login_signup_link">회원가입하기</string>
+
+    <string name="signup">회원가입</string>
+    <string name="signup_birth">생년월일 입력</string>
+    <string name="signup_birth_hint">생년월일(ex-1999/10/08)</string>
+    <string name="signup_birth_guide">생년월일 정보는 가입 연령 확인에서만 이용됩니다.</string>
 
     <string name="empty">Empty</string>
 </resources>
