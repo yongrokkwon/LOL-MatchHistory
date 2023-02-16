@@ -1,11 +1,7 @@
 package gg.lol.android
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import gg.lol.android.iconpack.Champion
-import gg.lol.android.iconpack.Community
-import gg.lol.android.iconpack.Esports
-import gg.lol.android.iconpack.Home
-import gg.lol.android.iconpack.Setting
+import gg.lol.android.iconpack.*
 import kotlin.collections.List as ____KtList
 
 public object IconPack
