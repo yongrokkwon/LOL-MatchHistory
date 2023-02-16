@@ -1,13 +1,13 @@
 package gg.lol.android.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 
@@ -19,9 +19,20 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryColor,
+//    onPrimary = PrimaryColor,
+//    primaryContainer = PrimaryColor,
+//    onPrimaryContainer = PrimaryColor,
+//    surface = PrimaryColor,
+//    onSurface = PrimaryColor,
+//    surfaceVariant = PrimaryColor,
+//    onSurfaceVariant = PrimaryColor,
+//    surfaceTint = PrimaryColor,
+//    inverseSurface = PrimaryColor,
+//    inverseOnSurface = PrimaryColor,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-    background = ColorBackground
+    background = ColorBackground,
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -42,10 +53,10 @@ fun LOLGGTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        /*dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+        }*/
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
