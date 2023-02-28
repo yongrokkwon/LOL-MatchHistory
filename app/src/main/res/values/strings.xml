@@ -46,5 +46,13 @@
     <string name="signup_info_nickname_guide">개인정보를 기입하여 발생될 수 있는 피해는 LOLGG가 일절 책임지지 않습니다</string>
     <string name="signup_info_button">가입하기</string>
 
+    <string name="email_guide_title">이메일 인증 안내</string>
+    <string name="email_guide_info_01">%s(으)로 인증 메일이 발송되었습니다.</string>
+    <string name="email_guide_info_02">메일을 1시간 이내에 확인한 후 인증 링크를 클릭해야 LOLGG 회원가입을 완료하실 수 있습니다.</string>
+    <string name="email_guide_info_03">메일을 받지 못하셨나요? 다시보내기</string>
+    <string name="email_guide_info_03_link">다시보내기</string>
+    <string name="email_guide_info_04">이메일 인증을 완료하셨나요? 로그인 하러 가기</string>
+    <string name="email_guide_info_04_link">로그인 하러 가기</string>
+
     <string name="empty">Empty</string>
 </resources>
