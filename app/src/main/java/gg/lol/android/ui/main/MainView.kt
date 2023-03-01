@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -24,15 +23,16 @@ import gg.lol.android.ui.champion.ChampionScreen
 import gg.lol.android.ui.community.CommunityScreen
 import gg.lol.android.ui.esports.EsportsScreen
 import gg.lol.android.ui.home.HomeScreen
+import gg.lol.android.ui.main.MainViewModel
 import gg.lol.android.ui.navigation.LOLGGNavigationActions
 import gg.lol.android.ui.navigation.LOLGGRoute
 import gg.lol.android.ui.navigation.TOP_LEVEL_DESTINATIONS
+import gg.lol.android.ui.search.SearchScreen
 import gg.lol.android.ui.setting.SettingScreen
 import gg.lol.android.ui.theme.ColorBackground
 
-@Preview
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
     val navigationActions = remember { LOLGGNavigationActions(navController) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -42,7 +42,7 @@ fun MainScreen() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        NavHost(Modifier.weight(1f), navController)
+        NavHost(Modifier.weight(1f), navController, viewModel)
         Divider(color = ColorBackground, thickness = 1.dp)
         NavigationBar(
             modifier = Modifier.fillMaxWidth(),
@@ -85,15 +85,19 @@ fun MainScreen() {
 @Composable
 fun NavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MainViewModel
 ) = NavHost(
     modifier = modifier,
     navController = navController,
     startDestination = LOLGGRoute.HOME
 ) {
-    composable(LOLGGRoute.HOME) { HomeScreen() }
+    composable(LOLGGRoute.HOME) {
+        HomeScreen(navController, viewModel)
+    }
     composable(LOLGGRoute.CHAMPION) { ChampionScreen() }
     composable(LOLGGRoute.ESPORTS) { EsportsScreen() }
     composable(LOLGGRoute.COMMUNITY) { CommunityScreen() }
     composable(LOLGGRoute.SETTING) { SettingScreen() }
+    composable(LOLGGRoute.SEARCH) { SearchScreen() }
 }

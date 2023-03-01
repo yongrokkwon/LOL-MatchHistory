@@ -23,13 +23,14 @@ import gg.lol.android.IconPack
 import gg.lol.android.R
 import gg.lol.android.iconpack.*
 
+// TODO selaed class refactor
 object LOLGGRoute {
     const val HOME = "홈"
     const val CHAMPION = "챔피언"
     const val ESPORTS = "이스포츠"
     const val COMMUNITY = "커뮤니티"
     const val SETTING = "설정"
-    const val LOGIN = "로그인"
+    const val SEARCH = "SEARCH"
     const val SIGNUP = "회원가입"
 }
 

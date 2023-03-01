@@ -55,6 +55,7 @@ fun AccountView(viewModel: AccountViewModel) {
     val navController = rememberNavController()
     val context = LocalContext.current as Activity
     val appBarTitle by viewModel.appBarTitle.observeAsState(initial = "")
+    // TODO Remember to ViewModel LiveData
     val screenLastCheck = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
