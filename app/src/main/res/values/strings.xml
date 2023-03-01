@@ -53,6 +53,11 @@
     <string name="email_guide_info_03_link">다시보내기</string>
     <string name="email_guide_info_04">이메일 인증을 완료하셨나요? 로그인 하러 가기</string>
     <string name="email_guide_info_04_link">로그인 하러 가기</string>
+    
+    <string name="search_hint">소환사 검색</string>
+    <string name="search_recent">최근 검색</string>
+    <string name="search_all_delete">전체 삭제</string>
+    <string name="search_no_history">최근 검색 내역이 없습니다.</string>
 
     <string name="empty">Empty</string>
 </resources>

@@ -50,9 +50,17 @@ val Typography = Typography(
     */
 )
 
+// TODO naming
 val GUIDE_STYLE = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 12.sp,
+    color = Color.Gray
+)
+
+val SearchHint = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
     color = Color.Gray
 )

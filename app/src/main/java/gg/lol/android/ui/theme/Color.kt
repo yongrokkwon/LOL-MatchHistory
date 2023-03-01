@@ -1,5 +1,8 @@
 package gg.lol.android.ui.theme
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -13,3 +16,13 @@ val Pink40 = Color(0xFF7D5260)
 val ColorBackground = Color(0xFFF5F7FA)
 val LightGray = Color(0xFFF3F5F7)
 val PrimaryColor = Color(0xFF5F81E4)
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun getTextFieldNoUnderLine() = TextFieldDefaults.textFieldColors(
+    textColor = Color.Gray,
+    disabledTextColor = Color.Transparent,
+    focusedIndicatorColor = Color.Transparent,
+    unfocusedIndicatorColor = Color.Transparent,
+    disabledIndicatorColor = Color.Transparent
+)

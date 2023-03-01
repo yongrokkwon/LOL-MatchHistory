@@ -1,5 +1,6 @@
 package gg.lol.android.ui.home
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -19,10 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import gg.lol.android.R
 import gg.lol.android.ui.main.MainViewModel
-import gg.lol.android.ui.navigation.LOLGGRoute
+import gg.lol.android.ui.search.SearchActivity
 
 @Composable
 fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = hiltViewModel()) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,7 +37,7 @@ fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = 
                 .fillMaxWidth()
                 .height(60.dp)
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                .clickable { navController?.navigate(LOLGGRoute.SEARCH) },
+                .clickable { context.startActivity(Intent(context, SearchActivity::class.java)) },
             painter = painterResource(id = R.drawable.home_search),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
