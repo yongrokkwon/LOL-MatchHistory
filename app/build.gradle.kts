@@ -65,11 +65,20 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
     implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
+    implementation("androidx.work:work-runtime:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.45")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    //
+
+    // Room DB
+    implementation("androidx.room:room-runtime:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.0")
     //
 
     testImplementation("junit:junit:4.13.2")

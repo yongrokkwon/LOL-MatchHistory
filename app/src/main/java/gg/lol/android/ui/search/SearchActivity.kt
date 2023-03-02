@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.ui.theme.LOLGGTheme
 
+@AndroidEntryPoint
 class SearchActivity : ComponentActivity() {
     private val viewModel: SearchViewModel by viewModels()
 
