@@ -12,6 +12,12 @@
     <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="next">다음</string>
+    
+    <string name="home_favorite_summoner">즐겨찾기한 소환사</string>
+    <string name="home_change_index">순서 변경</string>
+    <string name="home_favorite_empty_guide_01">즐겨찾기한 소환사가 없습니다.</string>
+    <string name="home_favorite_empty_guide_02">소환사를 검색한 후 등록해주세요!</string>
+    <string name="home_favorite_button">소환사 검색하기</string>
 
     <string name="login">로그인</string>
     <string name="notify_push">푸시 알림</string>
@@ -58,6 +64,6 @@
     <string name="search_recent">최근 검색</string>
     <string name="search_all_delete">전체 삭제</string>
     <string name="search_no_history">최근 검색 내역이 없습니다.</string>
-
+    
     <string name="empty">Empty</string>
 </resources>

@@ -17,6 +17,9 @@ val ColorBackground = Color(0xFFF5F7FA)
 val LightGray = Color(0xFFF3F5F7)
 val PrimaryColor = Color(0xFF5F81E4)
 
+val BackgroundPrimaryColor = Color(0xFFF0F4FF)
+val ButtonTextColor = Color(0xFF396BF6)
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun getTextFieldNoUnderLine() = TextFieldDefaults.textFieldColors(
