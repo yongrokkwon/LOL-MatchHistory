@@ -18,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -34,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -134,9 +134,9 @@ fun CreateEmptyFavoriteSummonerView() {
             textAlign = TextAlign.Center,
             fontSize = 12.sp
         )
-        CreateHomeButton(stringResource(id = R.string.home_favorite_button)) {
+        HomeButton(stringResource(id = R.string.home_favorite_button), onClick = {
             // TODO
-        }
+        })
     }
 }
 
@@ -190,33 +190,34 @@ fun CreateEmptySummoner() {
                 fontSize = 12.sp,
             )
         )
-        CreateHomeButton(stringResource(id = R.string.home_summoner_button)) {
+        HomeButton(stringResource(id = R.string.home_summoner_button), {
             // TODO
-        }
+        })
     }
 }
 
 @Composable
-fun CreateHomeButton(text: String, onClick: () -> Unit) {
+fun HomeButton(
+    text: String,
+    onClick: () -> Unit,
+    buttonColor: Color = BackgroundPrimaryColor,
+    textColor: Color = ButtonTextColor,
+    fontSize: TextUnit = 11.sp
+) {
     Button(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = BackgroundPrimaryColor)
-            .height(30.dp),
-        onClick = { onClick.invoke() },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = BackgroundPrimaryColor
-        ),
-        shape = RoundedCornerShape(6.dp),
+            .height(30.dp)
+            .background(color = buttonColor),
+        shape = RoundedCornerShape(6.dp)
     ) {
         Text(
             text = text,
-            color = ButtonTextColor,
-            fontSize = 11.sp
+            color = textColor,
+            fontSize = fontSize
         )
     }
-}
-
 
 @Composable
 fun HomePreview() {
