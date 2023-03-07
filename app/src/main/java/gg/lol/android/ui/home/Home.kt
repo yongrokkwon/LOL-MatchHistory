@@ -218,6 +218,7 @@ fun HomeButton(
             fontSize = fontSize
         )
     }
+}
 
 @Composable
 fun HomePreview() {
