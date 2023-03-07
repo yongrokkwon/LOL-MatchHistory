@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -208,9 +209,11 @@ fun HomeButton(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp)
-            .background(color = buttonColor),
-        shape = RoundedCornerShape(6.dp)
+            .height(30.dp),
+        shape = RoundedCornerShape(6.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = buttonColor
+        ),
     ) {
         Text(
             text = text,
