@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,11 +25,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,6 +44,7 @@ import gg.lol.android.ui.search.SearchActivity
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.GUIDE_STYLE
+import gg.lol.android.ui.theme.LightGray
 
 @Composable
 fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = hiltViewModel()) {
@@ -62,13 +66,7 @@ fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = 
             contentScale = ContentScale.FillBounds
         )
         CreateEmptyFavoriteSummonerView()
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = { }),
-        ) {
-
-        }
+        CreateEmptySummoner()
     }
 }
 
@@ -136,21 +134,89 @@ fun CreateEmptyFavoriteSummonerView() {
             textAlign = TextAlign.Center,
             fontSize = 12.sp
         )
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = BackgroundPrimaryColor)
-                .height(30.dp),
-            onClick = { /*TODO*/ },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = BackgroundPrimaryColor
-            ),
-            shape = RoundedCornerShape(6.dp),
-        ) {
-            Text(text = stringResource(id = R.string.home_favorite_button), color = ButtonTextColor, fontSize = 12.sp)
+        CreateHomeButton(stringResource(id = R.string.home_favorite_button)) {
+            // TODO
         }
     }
 }
+
+@Composable
+fun CreateEmptySummoner() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .background(color = Color.White)
+            .padding(start = 8.dp, end = 16.dp, bottom = 16.dp)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            shape = RoundedCornerShape(10.dp),
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = LightGray)
+                    .padding(start = 32.dp, top = 16.dp, bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(60.dp),
+                    painter = painterResource(id = R.drawable.home_summoner_empty),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null
+                )
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = stringResource(id = R.string.home_summoner_empty_guide_01),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
+        Text(
+            text = stringResource(id = R.string.home_summoner_empty_guide_02),
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 16.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                fontSize = 12.sp,
+            )
+        )
+        CreateHomeButton(stringResource(id = R.string.home_summoner_button)) {
+            // TODO
+        }
+    }
+}
+
+@Composable
+fun CreateHomeButton(text: String, onClick: () -> Unit) {
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = BackgroundPrimaryColor)
+            .height(30.dp),
+        onClick = { onClick.invoke() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = BackgroundPrimaryColor
+        ),
+        shape = RoundedCornerShape(6.dp),
+    ) {
+        Text(
+            text = text,
+            color = ButtonTextColor,
+            fontSize = 11.sp
+        )
+    }
+}
+
 
 @Composable
 fun HomePreview() {
