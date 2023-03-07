@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -75,7 +74,9 @@ fun SearchScreen(
                     .fillMaxWidth()
                     .height(50.dp)
                     .border(
-                        width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(6.dp)
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(6.dp)
                     ),
                 leadingIcon = {
                     Icon(
@@ -98,6 +99,7 @@ fun SearchScreen(
 
         Column(
             modifier = Modifier
+                .padding(top = 8.dp)
                 .fillMaxSize()
                 .background(color = Color.White)
                 .padding(8.dp)
@@ -133,8 +135,9 @@ fun SearchScreen(
                         ) {
                             Image(
                                 modifier = Modifier
-                                    .clip(CircleShape)
-                                    .padding(end = 8.dp),
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .padding(end = 0.dp)
+                                    .size(40.dp),
                                 painter = painterResource(R.drawable.search_history_test), // TODO Item ICON
                                 contentScale = ContentScale.Crop,
                                 contentDescription = null,
