@@ -20,6 +20,8 @@ val PrimaryColor = Color(0xFF5F81E4)
 val BackgroundPrimaryColor = Color(0xFFF0F4FF)
 val ButtonTextColor = Color(0xFF396BF6)
 
+val MultiKillBackgroundColor = Color(0xFFF9ECEC)
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun getTextFieldNoUnderLine() = TextFieldDefaults.textFieldColors(

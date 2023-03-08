@@ -3,6 +3,7 @@
 package gg.lol.android.ui.search
 
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
+import gg.lol.android.ui.record.RecordActivity
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
@@ -131,7 +133,16 @@ fun SearchScreen(
                 ) {
                     items(searchHistories) { item ->
                         Row(
-                            modifier = Modifier.padding(top = 8.dp)
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .clickable {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            RecordActivity::class.java
+                                        )
+                                    )
+                                }
                         ) {
                             Image(
                                 modifier = Modifier
@@ -149,13 +160,14 @@ fun SearchScreen(
                             ) {
                                 Text(text = item.nickname, fontWeight = FontWeight.Bold)
                                 Row() {
+                                    // TODO
                                     Image(
                                         modifier = Modifier.size(20.dp),
                                         painter = painterResource(id = R.drawable.search_challenger),
                                         contentDescription = null,
                                         contentScale = ContentScale.FillBounds
                                     )
-                                    Text(text = "C1") // TODO Tier
+                                    Text(text = "C1")
                                 }
                             }
                             Row(
