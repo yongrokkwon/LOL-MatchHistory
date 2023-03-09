@@ -250,7 +250,8 @@ fun RecordScreen(
                                 Text(
                                     modifier = Modifier
                                         .align(Alignment.CenterEnd)
-                                        .background(color = MultiKillBackgroundColor),
+                                        .background(color = MultiKillBackgroundColor)
+                                        .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp),
                                     text = "더블킬",
                                     color = Color.Red,
                                     style = TextStyle(fontSize = 11.sp)
