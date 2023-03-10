@@ -58,8 +58,6 @@ fun RecordScreen(
                             Modifier
                                 .background(color = Color.Red)
                                 .weight(1.5f)
-//                                .widthIn(min = 45.dp)
-//                                .width(width = 45.dp)
                                 .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
                                 .align(Alignment.CenterVertically)
                         ) {
@@ -95,66 +93,38 @@ fun RecordScreen(
                                 Image(
                                     modifier = Modifier
                                         .clip(RoundedCornerShape(10.dp))
-                                        .size(45.dp),
+                                        .size(50.dp),
                                     painter = painterResource(id = R.drawable.champion_leblanc),
                                     contentDescription = null
                                 )
                                 Column(
                                     modifier = Modifier
-                                        .padding(start = 4.dp)
-//                                        .fillMaxHeight()
-                                        .align(Alignment.CenterVertically)
-                                ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(5.dp))
-                                            .size(20.dp)
-                                            .padding(bottom = 2.5.dp),
-                                        painter = painterResource(id = R.drawable.summoner_spell_ignite),
-                                        contentDescription = null
-                                    )
-                                    Image(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(5.dp))
-                                            .size(20.dp),
-                                        painter = painterResource(id = R.drawable.summoner_spell_flash),
-                                        contentDescription = null
-                                    )
-                                }
-                                Column(
-                                    modifier = Modifier
                                         .fillMaxHeight()
                                         .align(Alignment.CenterVertically)
                                 ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(10.dp))
-                                            .size(20.dp),
-                                        painter = painterResource(id = R.drawable.summoner_rune_electrocute),
-                                        contentDescription = null
-                                    )
-                                    Image(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(10.dp))
-                                            .size(20.dp),
-                                        painter = painterResource(id = R.drawable.summoner_rune_sorcery),
-                                        contentDescription = null
-                                    )
-                                }
-                                // TODO 이미지의 Height가 가장큰 기준이 되므로 FillMaxHeight가 먹지않음. 구조 수정이 필요해보임
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(height = 45.dp)
-                                        .padding(start = 4.dp)
-                                ) {
-                                    Box(
+                                    Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(45.dp)
+                                            .heightIn(min = 25.dp)
+                                            .padding(start = 4.dp),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
+                                        Image(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(5.dp))
+                                                .size(20.dp),
+                                            painter = painterResource(id = R.drawable.summoner_spell_ignite),
+                                            contentDescription = null
+                                        )
+                                        Image(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(10.dp))
+                                                .size(20.dp),
+                                            painter = painterResource(id = R.drawable.summoner_rune_electrocute),
+                                            contentDescription = null
+                                        )
                                         Text(
-                                            modifier = Modifier,
+                                            modifier = Modifier.padding(start = 4.dp),
                                             text = "10/14/12",
                                             style = TextStyle(
                                                 color = Color.Black,
@@ -164,32 +134,52 @@ fun RecordScreen(
                                             textAlign = TextAlign.Center
                                         )
                                         Text(
-                                            modifier = Modifier.align(Alignment.TopEnd),
+                                            modifier = Modifier.fillMaxWidth(),
                                             text = "개인/2인 랭크",
                                             style = TextStyle(color = Color.Gray, fontSize = 11.sp),
-                                            textAlign = TextAlign.Center
+                                            textAlign = TextAlign.End
                                         )
                                     }
-                                    Box(
+                                    Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(45.dp)
-                                            .padding(start = 4.dp)
+                                            .heightIn(min = 25.dp)
+                                            .padding(start = 4.dp),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
+                                        Image(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(5.dp))
+                                                .size(20.dp),
+                                            painter = painterResource(id = R.drawable.summoner_spell_flash),
+                                            contentDescription = null
+                                        )
+                                        Image(
+                                            modifier = Modifier
+                                                .clip(RoundedCornerShape(10.dp))
+                                                .size(20.dp),
+                                            painter = painterResource(id = R.drawable.summoner_rune_sorcery),
+                                            contentDescription = null
+                                        )
                                         Text(
-                                            modifier = Modifier,
+                                            modifier = Modifier.padding(start = 4.dp),
                                             text = "킬 관여 58%",
                                             style = TextStyle(color = Color.Gray, fontSize = 11.sp)
                                         )
                                         Text(
-                                            modifier = Modifier.align(Alignment.TopEnd),
+                                            modifier = Modifier.fillMaxWidth(),
                                             text = "1일전",
-                                            style = TextStyle(color = Color.Gray, fontSize = 11.sp)
+                                            style = TextStyle(color = Color.Gray, fontSize = 11.sp),
+                                            textAlign = TextAlign.End
                                         )
                                     }
                                 }
                             }
-                            Box(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 4.dp)
+                            ) {
                                 Row(modifier = Modifier.fillMaxWidth()) {
                                     Image(
                                         modifier = Modifier
@@ -251,7 +241,12 @@ fun RecordScreen(
                                     modifier = Modifier
                                         .align(Alignment.CenterEnd)
                                         .background(color = MultiKillBackgroundColor)
-                                        .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp),
+                                        .padding(
+                                            top = 4.dp,
+                                            bottom = 4.dp,
+                                            start = 8.dp,
+                                            end = 8.dp
+                                        ),
                                     text = "더블킬",
                                     color = Color.Red,
                                     style = TextStyle(fontSize = 11.sp)
