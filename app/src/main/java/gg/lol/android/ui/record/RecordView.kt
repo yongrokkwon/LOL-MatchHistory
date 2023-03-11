@@ -59,7 +59,6 @@ fun RecordScreen(
 fun SearchHistoryCard(item: SearchHistory) {
     Row(
         modifier = Modifier
-            .padding(top = 8.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -73,8 +72,8 @@ fun SearchHistoryCard(item: SearchHistory) {
         ResultInformation(
             Modifier
                 .weight(9f)
+                .padding(start = 8.dp, end = 8.dp)
                 .align(Alignment.CenterVertically)
-                .padding(start = 8.dp, end = 8.dp, bottom = 4.dp),
         )
     }
 }
@@ -268,13 +267,13 @@ fun ResultInformationBottom() {
                 .align(Alignment.CenterEnd)
                 .background(color = MultiKillBackgroundColor)
                 .padding(
-                    top = 4.dp,
-                    bottom = 4.dp,
-                    start = 8.dp,
-                    end = 8.dp
+                    top = 2.dp,
+                    bottom = 2.dp,
+                    start = 4.dp,
+                    end = 4.dp
                 ),
             text = "더블킬",
-            style = TextStyle(fontSize = 11.sp, color = Color.Red)
+            style = TextStyle(fontSize = 10.sp, color = Color.Red)
         )
     }
 }
