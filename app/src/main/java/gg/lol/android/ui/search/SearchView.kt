@@ -136,7 +136,9 @@ fun SearchScreen(
                                         Intent(
                                             context,
                                             RecordActivity::class.java
-                                        )
+                                        ).apply {
+                                            putExtra(RecordActivity.EXTRA_NICKNAME, item.nickname)
+                                        }
                                     )
                                 }
                         ) {
