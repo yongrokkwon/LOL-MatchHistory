@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import gg.lol.android.R
-import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.ui.record.RecordActivity
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
@@ -47,9 +46,6 @@ import gg.lol.android.ui.theme.getTextFieldNoUnderLine
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    // TODO Test
-    viewModel.insert(SearchHistory(nickname = "hide on bush"))
-
     val searchHistories = viewModel.searchHistories.observeAsState().value ?: emptyList()
     val context = LocalContext.current as Activity
     val searchWord = remember { mutableStateOf("") }
@@ -191,5 +187,5 @@ fun SearchScreen(
 @Preview
 @Composable
 fun SearchPreview() {
-    SearchScreen()
+//    SearchScreen()
 }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -35,13 +34,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
 
 @Composable
 fun RecordScreen(
-    viewModel: RecordViewModel = hiltViewModel()
+    viewModel: RecordViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val searchHistories = viewModel.searchHistories.observeAsState(emptyList()).value
     val context = LocalContext.current as Activity
@@ -53,7 +54,7 @@ fun RecordScreen(
             Text(text = "No items to display")
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
             ) {
                 items(searchHistories) { item ->
                     SearchHistoryCard(item)
@@ -135,7 +136,7 @@ fun ResultInformationTop() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
+//            .fillMaxHeight()
     ) {
         RoundImage(
             imageRes = R.drawable.champion_leblanc,
@@ -144,7 +145,7 @@ fun ResultInformationTop() {
         )
         Column(
             modifier = Modifier
-                .fillMaxHeight()
+//                .fillMaxHeight()
                 .align(Alignment.CenterVertically)
         ) {
             Row(
@@ -289,5 +290,5 @@ fun ResultInformationBottom() {
 @Preview
 @Composable
 fun SearchPreview() {
-    RecordScreen()
+//    RecordScreen()
 }
