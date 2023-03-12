@@ -116,7 +116,7 @@ fun CreateEmptyFavoriteSummonerView() {
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            IconFavorite(false)
+            IconFavorite(isFavorite = true)
             Text(
                 modifier = Modifier.padding(),
                 text = stringResource(id = R.string.home_favorite_empty_guide_01),
