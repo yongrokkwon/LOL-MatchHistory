@@ -10,7 +10,7 @@ data class Summoner(
     @ColumnInfo(name = "nickname")
     val nickname: String,
     @ColumnInfo(name = "isFavorite")
-    val isFavorite: Boolean,
+    val isFavorite: Boolean = false,
     @ColumnInfo(name = "mySummoner")
-    val mySummoner: Boolean
+    val mySummoner: Boolean = false
 )
