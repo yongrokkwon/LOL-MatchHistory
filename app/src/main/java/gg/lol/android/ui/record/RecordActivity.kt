@@ -102,7 +102,7 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
                             textAlign = TextAlign.Center,
                             color = Color.Black,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp
+                            fontSize = 18.sp
                         )
                     )
                 },
