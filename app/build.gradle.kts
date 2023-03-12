@@ -2,7 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    id("kotlin-kapt")
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -65,7 +67,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
     implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
-    implementation("androidx.work:work-runtime:2.8.0")
+    // 이거쓰면 ROOM DB 에러남
+//    implementation("androidx.work:work-runtime:2.8.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
 
@@ -76,9 +79,9 @@ dependencies {
     //
 
     // Room DB
-    implementation("androidx.room:room-runtime:2.5.0")
-    kapt("androidx.room:room-compiler:2.5.0")
-    implementation("androidx.room:room-ktx:2.5.0")
+    implementation("androidx.room:room-runtime:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
     //
 
     testImplementation("junit:junit:4.13.2")
