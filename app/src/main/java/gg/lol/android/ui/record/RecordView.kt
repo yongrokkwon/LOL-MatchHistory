@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,6 +45,7 @@ import androidx.navigation.NavHostController
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
+import gg.lol.android.ui.theme.PrimaryColor
 
 @Composable
 fun RecordScreen(
@@ -55,6 +59,7 @@ fun RecordScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         TopView()
+        RecordUpdateAndInGame()
         if (searchHistories.isEmpty()) {
             Text(text = "No items to display")
         } else {
@@ -71,9 +76,11 @@ fun RecordScreen(
 
 @Composable
 fun TopView() {
-    Box(modifier = Modifier
-        .height(200.dp)
-        .padding(start = 8.dp, bottom = 8.dp)) {
+    Box(
+        modifier = Modifier
+            .height(200.dp)
+            .padding(start = 8.dp, bottom = 8.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxHeight()
@@ -133,6 +140,35 @@ fun TopView() {
             }
         }
     }
+}
+
+@Composable
+fun RecordUpdateAndInGame() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 8.dp, end = 8.dp)) {
+        Button(
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+            shape = RoundedCornerShape(10),
+            content = {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(id = R.string.record_update),
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                )
+            },
+            onClick = { /* TODO */ }
+        )
+    }
+}
+
+@Composable
+fun SeasonInformation() {
+
 }
 
 @Composable

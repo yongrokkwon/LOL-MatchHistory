@@ -68,6 +68,8 @@
     <string name="search_recent">최근 검색</string>
     <string name="search_all_delete">전체 삭제</string>
     <string name="search_no_history">최근 검색 내역이 없습니다.</string>
+
+    <string name="record_update">전적 갱신</string>
     
     <string name="empty">Empty</string>
 </resources>
