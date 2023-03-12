@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -50,6 +54,7 @@ fun RecordScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        TopView()
         if (searchHistories.isEmpty()) {
             Text(text = "No items to display")
         } else {
@@ -59,6 +64,72 @@ fun RecordScreen(
                 items(searchHistories) { item ->
                     SearchHistoryCard(item)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun TopView() {
+    Box(modifier = Modifier
+        .height(200.dp)
+        .padding(start = 8.dp, bottom = 8.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.BottomStart)
+        ) {
+            Box(modifier = Modifier.align(Alignment.Bottom)) {
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(35.dp))
+                        .width(80.dp)
+                        .height(80.dp),
+                    painter = painterResource(R.drawable.summoner_icon_test),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(start = 2.dp, end = 2.dp)
+                        .background(color = Color.Gray),
+                    text = "642",
+                    style = TextStyle(color = Color.White)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Bottom)
+                    .padding(start = 8.dp)
+            ) {
+                Text(
+                    modifier = Modifier,
+                    text = "Hide On Bush",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp
+                    )
+                )
+                Text(
+                    modifier = Modifier,
+                    text = "T1[Faker]",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                )
+                Text(
+                    modifier = Modifier,
+                    text = "래더 랭킹 514위",
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                )
             }
         }
     }

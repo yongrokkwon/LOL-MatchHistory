@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import gg.lol.android.ui.theme.PrimaryColor
 
-
 @Composable
 fun IconFavorite(modifier: Modifier = Modifier, isFavorite: Boolean) {
     Icon(

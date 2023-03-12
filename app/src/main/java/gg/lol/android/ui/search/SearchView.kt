@@ -147,7 +147,7 @@ fun SearchScreen(
                                     .clip(RoundedCornerShape(12.dp))
                                     .padding(end = 0.dp)
                                     .size(40.dp),
-                                painter = painterResource(R.drawable.search_history_test), // TODO Item ICON
+                                painter = painterResource(R.drawable.summoner_icon_test), // TODO Item ICON
                                 contentScale = ContentScale.Crop,
                                 contentDescription = null,
                             )
