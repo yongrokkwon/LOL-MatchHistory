@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -46,6 +45,7 @@ import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.LightGray
+import gg.lol.android.ui.view.IconFavorite
 
 @Composable
 fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = hiltViewModel()) {
@@ -116,11 +116,7 @@ fun CreateEmptyFavoriteSummonerView() {
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
-            Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = null,
-                tint = Color.Yellow
-            )
+            IconFavorite(false)
             Text(
                 modifier = Modifier.padding(),
                 text = stringResource(id = R.string.home_favorite_empty_guide_01),
