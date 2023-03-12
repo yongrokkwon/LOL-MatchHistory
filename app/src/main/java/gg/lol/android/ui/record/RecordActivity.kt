@@ -61,7 +61,7 @@ class RecordActivity : ComponentActivity() {
 @Composable
 fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
     val context = LocalContext.current as Activity
-    val appBarTitle by viewModel.nickName.observeAsState(initial = "")
+    val nickName by viewModel.nickName.observeAsState(initial = "")
     val appBarBackground by viewModel.appbarBackground.observeAsState(initial = Color.Transparent)
     val navController = rememberNavController()
 
@@ -71,7 +71,17 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
             modifier = Modifier
                 .fillMaxWidth(),
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = appBarBackground),
-            title = { Text(text = appBarTitle) },
+            title = {
+                Text(
+                    text = nickName,
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                )
+            },
             navigationIcon = {
                 IconButton(
                     onClick = {
