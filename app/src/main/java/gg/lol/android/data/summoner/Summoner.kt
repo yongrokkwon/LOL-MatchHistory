@@ -9,8 +9,8 @@ data class Summoner(
     @PrimaryKey
     @ColumnInfo(name = "nickname")
     val nickname: String,
-    @ColumnInfo(name = "favorite")
-    val favorite: Boolean,
-    @ColumnInfo(name = "summoner")
-    val summoner: Boolean
+    @ColumnInfo(name = "isFavorite")
+    val isFavorite: Boolean,
+    @ColumnInfo(name = "mySummoner")
+    val mySummoner: Boolean
 )

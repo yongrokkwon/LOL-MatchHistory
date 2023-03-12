@@ -10,21 +10,25 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.repository.SearchHistoryRepository
+import gg.lol.android.repository.SummonerRepository
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecordViewModel @Inject internal constructor(
-    private val searchHistoryRepository: SearchHistoryRepository
+    private val searchHistoryRepository: SearchHistoryRepository,
+    private val summonerRepository: SummonerRepository
 ) : ViewModel() {
 
     val searchHistories = searchHistoryRepository.fetchSearchHistories().asLiveData()
 
-    private val _appbarTitle = MutableLiveData<String>()
-    val appBarTitle get() = _appbarTitle
+    private val _nickName = MutableLiveData<String>()
+    val nickName get() = _nickName
 
     private val _appbarBackground = MutableLiveData<Color>()
     val appbarBackground get() = _appbarBackground
+
+    fun getSummoner() = summonerRepository.getSummonerByNickName(nickName.value ?: "")
 
     fun setAppBarBackground(value: Color) {
         _appbarBackground.value = value
@@ -37,8 +41,8 @@ class RecordViewModel @Inject internal constructor(
         this._screenCloseCheck.value = value
     }
 
-    fun setAppBarTitle(value: String) {
-        _appbarTitle.value = value
+    fun setNickName(value: String) {
+        _nickName.value = value
     }
 
     fun insert(searchHistory: SearchHistory) {

@@ -14,13 +14,10 @@ interface SummonerDao {
     fun insert(summoner: Summoner)
 
     @Query("SELECT * FROM summoner")
-    fun getAll(): List<Summoner>
+    fun fetchSummoners(): List<Summoner>
 
-    @Query("SELECT * FROM summoner WHERE favorite = 1")
-    fun getFavorites(): List<Summoner>
-
-    @Query("SELECT * FROM summoner WHERE summoner = 1")
-    fun getMySummoners(): List<Summoner>
+    @Query("SELECT * FROM summoner WHERE nickname = :nickName")
+    fun getSummonerByNickName(nickName: String): Summoner?
 
     @Update
     fun update(summoner: Summoner)

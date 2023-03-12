@@ -23,6 +23,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -31,6 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.ui.account.ROUTE_LOGIN
 import gg.lol.android.ui.theme.LOLGGTheme
+import gg.lol.android.ui.view.IconFavorite
 
 @AndroidEntryPoint
 class RecordActivity : ComponentActivity() {
@@ -38,11 +43,12 @@ class RecordActivity : ComponentActivity() {
     companion object {
         const val EXTRA_NICKNAME = "EXTRA_NICKNAME"
     }
+
     private val viewModel: RecordViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setAppBarTitle(intent.getStringExtra(EXTRA_NICKNAME) ?: "")
+        viewModel.setNickName(intent.getStringExtra(EXTRA_NICKNAME) ?: "")
         setContent {
             LOLGGTheme {
                 RecordView()
@@ -55,7 +61,7 @@ class RecordActivity : ComponentActivity() {
 @Composable
 fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
     val context = LocalContext.current as Activity
-    val appBarTitle by viewModel.appBarTitle.observeAsState(initial = "")
+    val appBarTitle by viewModel.nickName.observeAsState(initial = "")
     val appBarBackground by viewModel.appbarBackground.observeAsState(initial = Color.Transparent)
     val navController = rememberNavController()
 

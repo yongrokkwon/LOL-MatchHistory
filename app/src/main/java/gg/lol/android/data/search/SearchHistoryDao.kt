@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchHistoryDao {
+    // TODO Naming
     @Query("SELECT * FROM search_history")
     fun getSearchHistory(): Flow<List<SearchHistory>>
 
