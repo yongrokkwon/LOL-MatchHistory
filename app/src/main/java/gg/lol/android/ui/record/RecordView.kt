@@ -348,7 +348,7 @@ fun ResultInformationTop() {
                     cornerRadius = 10.dp
                 )
                 Text(
-                    modifier = Modifier.padding(start = 4.dp),
+                    modifier = Modifier,
                     text = "킬 관여 58%",
                     style = TextStyle(color = Color.Gray, fontSize = 11.sp)
                 )
