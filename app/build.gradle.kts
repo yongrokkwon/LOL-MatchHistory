@@ -71,6 +71,8 @@ dependencies {
 //    implementation("androidx.work:work-runtime:2.8.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
 
+    // Coli
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.45")
