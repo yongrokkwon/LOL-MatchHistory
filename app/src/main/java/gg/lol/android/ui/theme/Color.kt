@@ -21,6 +21,8 @@ val BackgroundPrimaryColor = Color(0xFFF0F4FF)
 val ButtonTextColor = Color(0xFF396BF6)
 
 val MultiKillBackgroundColor = Color(0xFFF9ECEC)
+val SeasonInformationBackgroundColor = Color(0xFFF5F7FA)
+val SeasonInformationTextColor = Color(0xFF999999)
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

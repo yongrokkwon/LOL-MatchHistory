@@ -17,10 +17,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,8 +48,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
+import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
+import gg.lol.android.ui.theme.SeasonInformationTextColor
 
 @Composable
 fun RecordScreen(
@@ -57,9 +63,11 @@ fun RecordScreen(
 
     Column(
         modifier = Modifier.fillMaxSize()
+            .background(color = Color.White)
     ) {
         TopView()
         RecordUpdateAndInGame()
+        SeasonInformation()
         if (searchHistories.isEmpty()) {
             Text(text = "No items to display")
         } else {
@@ -144,9 +152,11 @@ fun TopView() {
 
 @Composable
 fun RecordUpdateAndInGame() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 8.dp, end = 8.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp)
+    ) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
             shape = RoundedCornerShape(10),
@@ -168,7 +178,35 @@ fun RecordUpdateAndInGame() {
 
 @Composable
 fun SeasonInformation() {
-
+    // TODO
+    val items = listOf(mapOf(Pair("S2022", "DIAMOND 1")))
+    LazyRow(modifier = Modifier) {
+        itemsIndexed(items) { index, item ->
+            Card(
+                modifier = Modifier,
+//                    .background(color = LightGray),
+                shape = RoundedCornerShape(2.dp),
+                colors = CardDefaults.cardColors(containerColor = LightGray)
+            ) {
+                Row (modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)) {
+                    val season = item.keys.elementAt(index)
+                    val tier = item.getValue(season)
+                    Text(
+                        text = season,
+                        style = TextStyle(
+                            color = SeasonInformationTextColor,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp
+                        )
+                    )
+                    Text(
+                        text = tier,
+                        style = TextStyle(color = SeasonInformationTextColor, fontSize = 12.sp)
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
