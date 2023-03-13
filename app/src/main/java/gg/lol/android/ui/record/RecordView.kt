@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,11 +22,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -46,8 +50,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
+import gg.lol.android.ui.theme.BackgroundPrimaryColor
+import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
@@ -55,19 +62,20 @@ import gg.lol.android.ui.theme.SeasonInformationTextColor
 
 @Composable
 fun RecordScreen(
-    viewModel: RecordViewModel = hiltViewModel(),
-    navController: NavHostController
+    viewModel: RecordViewModel = hiltViewModel(), navController: NavHostController
 ) {
     val searchHistories = viewModel.searchHistories.observeAsState(emptyList()).value
     val context = LocalContext.current as Activity
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = Color.White)
     ) {
         TopView()
         RecordUpdateAndInGame()
         SeasonInformation()
+        TierInformation()
         if (searchHistories.isEmpty()) {
             Text(text = "No items to display")
         } else {
@@ -119,30 +127,18 @@ fun TopView() {
                     .padding(start = 8.dp)
             ) {
                 Text(
-                    modifier = Modifier,
-                    text = "Hide On Bush",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp
+                    modifier = Modifier, text = "Hide On Bush", style = TextStyle(
+                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 22.sp
                     )
                 )
                 Text(
-                    modifier = Modifier,
-                    text = "T1[Faker]",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
+                    modifier = Modifier, text = "T1[Faker]", style = TextStyle(
+                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp
                     )
                 )
                 Text(
-                    modifier = Modifier,
-                    text = "래더 랭킹 514위",
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
+                    modifier = Modifier, text = "래더 랭킹 514위", style = TextStyle(
+                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp
                     )
                 )
             }
@@ -157,43 +153,40 @@ fun RecordUpdateAndInGame() {
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp)
     ) {
-        Button(
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+        Button(colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
             shape = RoundedCornerShape(10),
             content = {
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(id = R.string.record_update),
                     style = TextStyle(
-                        textAlign = TextAlign.Center,
-                        color = Color.White,
-                        fontSize = 12.sp
+                        textAlign = TextAlign.Center, color = Color.White, fontSize = 12.sp
                     )
                 )
             },
-            onClick = { /* TODO */ }
-        )
+            onClick = { /* TODO */ })
     }
 }
 
 @Composable
 fun SeasonInformation() {
     // TODO
-    val items = listOf(mapOf(Pair("S2022", "DIAMOND 1")))
+    val items = listOf(mapOf(Pair("S2022", "DIAMOND 1"), Pair("S2021", "DIAMOND 2")))
     LazyRow(modifier = Modifier) {
         itemsIndexed(items) { index, item ->
             Card(
-                modifier = Modifier,
+                modifier = Modifier.padding(8.dp),
 //                    .background(color = LightGray),
                 shape = RoundedCornerShape(2.dp),
                 colors = CardDefaults.cardColors(containerColor = LightGray)
             ) {
-                Row (modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)) {
+                Row(
+                    modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                ) {
                     val season = item.keys.elementAt(index)
                     val tier = item.getValue(season)
                     Text(
-                        text = season,
-                        style = TextStyle(
+                        text = season, style = TextStyle(
                             color = SeasonInformationTextColor,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
@@ -210,11 +203,83 @@ fun SeasonInformation() {
 }
 
 @Composable
-fun SearchHistoryCard(item: SearchHistory) {
+fun TierInformation() {
+    LazyRow() {
+        items(listOf("", "")) {
+            TierItem()
+        }
+    }
+}
+
+@Composable
+fun TierItem() {
+//    Card(
+//        modifier = Modifier
+//            .padding(4.dp)
+//            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
+//            .fillMaxWidth(),
+//        colors = CardDefaults.cardColors(containerColor = Color.White),
+//    ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(8.dp)
+            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .height(100.dp)
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter("https://opgg-static.akamaized.net/images/medals_new/diamond.png?image=q_auto,f_webp,w_144&v=1678675410621"),
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+//                    .fillMaxHeight()
+        )
+        Column(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(top = 8.dp, bottom = 8.dp)
+        ) {
+            Text(
+                modifier = Modifier
+                    .background(color = BackgroundPrimaryColor)
+                    .padding(2.dp),
+                text = "개인/2인 랭크",
+                style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
+            )
+            Text(
+                text = "Master 1", style = TextStyle(
+                    fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black
+                )
+            )
+            Text(
+                text = "111LP", style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    color = SeasonInformationTextColor
+                )
+            )
+            Text(
+                text = "274승 269패 (50%)",
+                style = TextStyle(fontSize = 12.sp, color = SeasonInformationTextColor)
+            )
+        }
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Composable
+fun SearchHistoryCard(item: SearchHistory) {
+    Row(
+        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         ResultRecord(
             Modifier
@@ -234,10 +299,7 @@ fun SearchHistoryCard(item: SearchHistory) {
 
 @Composable
 fun RoundImage(
-    @DrawableRes imageRes: Int,
-    imageSize: Dp,
-    cornerRadius: Dp,
-    contentDescription: String? = null
+    @DrawableRes imageRes: Int, imageSize: Dp, cornerRadius: Dp, contentDescription: String? = null
 ) {
     Image(
         modifier = Modifier
@@ -265,8 +327,7 @@ fun ResultRecord(modifier: Modifier) {
             style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
         )
         Divider(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-            color = Color.White
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp), color = Color.White
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -279,14 +340,11 @@ fun ResultRecord(modifier: Modifier) {
 @Composable
 fun ResultInformationTop() {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
 //            .fillMaxHeight()
     ) {
         RoundImage(
-            imageRes = R.drawable.champion_leblanc,
-            imageSize = 50.dp,
-            cornerRadius = 10.dp
+            imageRes = R.drawable.champion_leblanc, imageSize = 50.dp, cornerRadius = 10.dp
         )
         Column(
             modifier = Modifier
@@ -324,9 +382,7 @@ fun ResultInformationTop() {
                     modifier = Modifier.fillMaxWidth(),
                     text = "개인/2인 랭크",
                     style = TextStyle(
-                        color = Color.Gray,
-                        fontSize = 11.sp,
-                        textAlign = TextAlign.End
+                        color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.End
                     ),
                 )
             }
@@ -356,9 +412,7 @@ fun ResultInformationTop() {
                     modifier = Modifier.fillMaxWidth(),
                     text = "1일전",
                     style = TextStyle(
-                        color = Color.Gray,
-                        fontSize = 11.sp,
-                        textAlign = TextAlign.End
+                        color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.End
                     ),
                 )
             }
@@ -375,39 +429,27 @@ fun ResultInformationBottom() {
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
@@ -421,13 +463,8 @@ fun ResultInformationBottom() {
                 .align(Alignment.CenterEnd)
                 .background(color = MultiKillBackgroundColor)
                 .padding(
-                    top = 2.dp,
-                    bottom = 2.dp,
-                    start = 4.dp,
-                    end = 4.dp
-                ),
-            text = "더블킬",
-            style = TextStyle(fontSize = 10.sp, color = Color.Red)
+                    top = 2.dp, bottom = 2.dp, start = 4.dp, end = 4.dp
+                ), text = "더블킬", style = TextStyle(fontSize = 10.sp, color = Color.Red)
         )
     }
 }
