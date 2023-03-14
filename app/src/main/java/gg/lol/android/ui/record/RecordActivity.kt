@@ -83,7 +83,7 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
 
     LaunchedEffect(Unit) {
         data = withContext(Dispatchers.IO) {
-            viewModel.getSummoner()
+            viewModel.getSummonerDB()
         }
         isLoading = false
     }

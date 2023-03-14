@@ -8,6 +8,13 @@ plugins {
 }
 
 android {
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
     compileSdk = 33
 
     defaultConfig {
@@ -96,4 +103,25 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
     debugImplementation("androidx.compose.ui:ui-tooling:1.3.3")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+
+    // AndroidX Test Core library
+    testImplementation("androidx.test:core:1.5.0")
+
+    // AndroidX Test Runner library
+    testImplementation("androidx.test:runner:1.5.2")
+
+    val mockkVersion = "1.12.0"
+    // MockK library for mocking objects
+    testImplementation("io.mockk:mockk:1.9.3")
+
+    // AndroidX Test Rules library
+    testImplementation("androidx.test:rules:1.5.0")
+
+    // Coroutines Test library for testing with coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+
+    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("androidx.test:core-ktx:1.5.0")
+    testImplementation("org.robolectric:robolectric:4.9.2")
 }
