@@ -74,7 +74,7 @@ fun RecordScreen(
     ) {
         TopView()
         RecordUpdateAndInGame()
-        SeasonInformation()
+//        SeasonInformation()
         TierInformation()
         if (searchHistories.isEmpty()) {
             Text(text = "No items to display")
