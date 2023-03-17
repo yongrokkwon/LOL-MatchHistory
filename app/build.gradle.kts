@@ -30,18 +30,24 @@ android {
     buildTypes {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
+
+            buildConfigField("String", "BASE_URL", "\"" + Config.Debug.BASEURL + "\"")
         }
 
         create("staging") {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BASE_URL", "\"" + Config.Debug.BASEURL + "\"")
         }
 
         getByName("release") {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BASE_URL", "\"" + Config.Release.BASEURL + "\"")
         }
     }
     compileOptions {
