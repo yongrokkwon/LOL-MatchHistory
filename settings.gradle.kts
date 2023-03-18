@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "LOLGG"
 include(":app")
+include(":presentation")
+include(":data")
+include(":domain")
+include(":data-local")
+include(":data-remote")

@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -32,7 +31,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,12 +57,13 @@ import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
+import gg.op.lol.presentation.viewmodel.RecordViewModel
 
 @Composable
 fun RecordScreen(
     viewModel: RecordViewModel = hiltViewModel(), navController: NavHostController
 ) {
-    val searchHistories = viewModel.searchHistories.observeAsState(emptyList()).value
+//    val searchHistories = viewModel.searchHistories.observeAsState(emptyList()).value
     val context = LocalContext.current as Activity
 
     Column(
@@ -76,17 +75,17 @@ fun RecordScreen(
         RecordUpdateAndInGame()
 //        SeasonInformation()
         TierInformation()
-        if (searchHistories.isEmpty()) {
-            Text(text = "No items to display")
-        } else {
-            LazyColumn(
-                modifier = Modifier
-            ) {
-                items(searchHistories) { item ->
-                    SearchHistoryCard(item)
-                }
-            }
-        }
+//        if (searchHistories.isEmpty()) {
+//            Text(text = "No items to display")
+//        } else {
+//            LazyColumn(
+//                modifier = Modifier
+//            ) {
+//                items(searchHistories) { item ->
+//                    SearchHistoryCard(item)
+//                }
+//            }
+//        }
     }
 }
 

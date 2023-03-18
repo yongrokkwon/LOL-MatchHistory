@@ -3,22 +3,18 @@ package gg.op.lol.android
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.data.search.SearchHistoryDao
 import gg.lol.android.data.summoner.Summoner
-import gg.lol.android.data.summoner.SummonerDao
 import gg.lol.android.network.UserService
-import gg.lol.android.network.response.SummonerResponse
-import gg.lol.android.repository.SearchHistoryRepository
-import gg.lol.android.repository.SummonerRepository
-import gg.lol.android.ui.record.RecordViewModel
+import gg.op.lol.data.repository.SearchHistoryRepository
+import gg.op.lol.data.repository.SummonerRepository
+import io.mockk.every
 import io.mockk.mockk
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
@@ -36,62 +32,40 @@ class RecordViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var summonerRepository: SummonerRepository
-    private lateinit var searchHistoryRepository: SearchHistoryRepository
     private lateinit var userService: UserService
-    private lateinit var viewModel: RecordViewModel
+    private lateinit var viewModel: gg.op.lol.presentation.viewmodel.RecordViewModel
+
+    private val searchHistoryDao = mockk<SearchHistoryDao>()
+    private val summonerDao = mockk<SummonerDao>()
+
+    private val searchHistoryRepository =
+        gg.op.lol.data.repository.SearchHistoryRepository(searchHistoryDao)
+    private val summonerRepository =
+        SummonerRepository(summonerDao, userService)
+
+    private fun mockkSetup() {
+        every { searchHistoryDao.getSearchHistory() } returns flowOf(emptyList())
+        every { summonerDao.getSummonerByNickName("hide on bush") } returns Summoner("hide on bush")
+    }
 
     @Before
     fun setUp() {
+        mockkSetup()
         userService = mock(UserService::class.java)
-        searchHistoryRepository = mockk()
-        summonerRepository = SummonerRepository(
-            object : SummonerDao {
-                override fun insert(summoner: Summoner) {
-
-                }
-
-                override fun fetchSummoners(): List<Summoner> {
-                    return emptyList()
-                }
-
-                override fun getSummonerByNickName(nickName: String): Summoner? {
-                    return null
-                }
-
-                override fun update(summoner: Summoner) {
-
-                }
-
-                override fun delete(summoner: Summoner) {
-
-                }
-            },
-            userService
+        viewModel = gg.op.lol.presentation.viewmodel.RecordViewModel(
+            searchHistoryRepository,
+            summonerRepository
         )
-        viewModel = RecordViewModel(SearchHistoryRepository(object : SearchHistoryDao {
-            override fun getSearchHistory(): Flow<List<SearchHistory>> {
-                return MutableStateFlow(emptyList())
-            }
-
-            override suspend fun insertSearchHistory(searchHistory: SearchHistory) {
-
-            }
-
-            override suspend fun clearSearchHistory() {
-
-            }
-        }), summonerRepository)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getSummoner_success() = runTest {
         val testResult = Response.success(
-            SummonerResponse(
+            gg.op.lol.domain.models.SummonerResponseModel(
                 code = 200,
                 message = "Success",
-                result = SummonerResponse.Result(
+                result = gg.op.lol.domain.models.SummonerResponseModel.Result(
                     leaguePoints = "647",
                     wins = "157",
                     losses = "139",
@@ -107,10 +81,10 @@ class RecordViewModelTest {
         // Given
         `when`(userService.getSummoner("hide on bush")).thenReturn(
             Response.success(
-                SummonerResponse(
+                gg.op.lol.domain.models.SummonerResponseModel(
                     code = 200,
                     message = "Success",
-                    result = SummonerResponse.Result(
+                    result = gg.op.lol.domain.models.SummonerResponseModel.Result(
                         leaguePoints = "647",
                         wins = "157",
                         losses = "139",

@@ -15,14 +15,16 @@ android {
         }
     }
 
-    compileSdk = 33
+    compileSdk = Config.Android.COMPILESDK
 
     defaultConfig {
-        applicationId = "gg.lol.android"
-        minSdk = 29
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0.0"
+        minSdk = Config.Android.MINSDK
+        targetSdk = Config.Android.TARGETSDK
+
+        applicationId = Config.Release.APPLICATION_ID
+        versionCode = Config.Release.VERSION_CODE
+        versionName = Config.Release.VERSION_NAME
+
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,76 +60,63 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
-//        kotlinCompilerVersion = "1.7.0"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        kotlinCompilerExtensionVersion = Config.ComposeOption.KOTLIN_COMPILER_EXTENSION_VERSION
     }
 }
 
 dependencies {
-    implementation("androidx.compose.foundation:foundation:1.3.1")
-    implementation("androidx.compose.foundation:foundation-layout:1.3.1")
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.compose.ui:ui:1.3.3")
-    implementation("androidx.compose.ui:ui-tooling:1.3.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
-    implementation("androidx.compose.material3:material3:1.0.1")
-    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
-    // 이거쓰면 ROOM DB 에러남
-//    implementation("androidx.work:work-runtime:2.8.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation(project(Modules.presentation))
+    implementation(project(Modules.domain))
+    implementation(project(Modules.data))
+    implementation(project(Modules.remote))
+    implementation(project(Modules.local))
 
-    // Coli
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(AndroidX.FOUNDATION)
+    implementation(AndroidX.FOUNDATION_LAYOUT)
 
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    //
+    implementation(AndroidX.NAVIGATION_COMPOSE)
+    implementation(AndroidX.CORE_KTX)
+    implementation(AndroidX.ACTIVITY_COMPOSE)
+    implementation(AndroidX.COMPOSE_UI)
+    implementation(AndroidX.COMPOSE_UI_TOOLING)
+    implementation(AndroidX.COMPOSE_UI_TOOLING_PREVIEW)
+    implementation(AndroidX.MATERIAL3)
+    implementation(AndroidX.RUNTIME_LIVEDATA)
+    implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
+    implementation(AndroidX.LIFECYCLE_RUNTIME_KTX)
 
-    // Room DB
-    implementation("androidx.room:room-runtime:2.4.3")
-    implementation("androidx.room:room-ktx:2.4.3")
-    kapt("androidx.room:room-compiler:2.4.3")
-    //
+    implementation(Library.COIL_COMPOSE)
 
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(Google.HILT_ANDROID)
+    kapt(Google.HILT_ANDROID_COMPILER)
+    implementation(AndroidX.HILT_NAVIGATION_COMPOSE)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.3.3")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+//    implementation(Google.HILT_ANDROID)
+//    kapt(Google.HILT_COMPILER)
+//    implementation(Google.HILT_ANDROID_COMPILER)
+//    implementation(AndroidX.HILT_NAVIGATION_COMPOSE)
 
-    // AndroidX Test Core library
-    testImplementation("androidx.test:core:1.5.0")
+    implementation(AndroidX.ROOM_RUNTIME)
+    implementation(AndroidX.ROOM_KTX)
+    kapt(AndroidX.ROOM_COMPILER)
 
-    // AndroidX Test Runner library
-    testImplementation("androidx.test:runner:1.5.2")
+    implementation(Library.RETROFIT)
+    implementation(Library.RETROFIT_GSON)
 
-    val mockkVersion = "1.12.0"
-    // MockK library for mocking objects
-    testImplementation("io.mockk:mockk:1.9.3")
+    androidTestImplementation(AndroidTest.JUNIT_EXT)
+    androidTestImplementation(AndroidTest.ESPRESSO_CORE)
+    androidTestImplementation(AndroidTest.COMPOSE_UI_TEST)
+    debugImplementation(AndroidTest.COMPOSE_UI_TOOLING)
+    debugImplementation(AndroidTest.COMPOSE_UI_TEST_MANIFEST)
 
-    // AndroidX Test Rules library
-    testImplementation("androidx.test:rules:1.5.0")
-
-    // Coroutines Test library for testing with coroutines
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-
-    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation("androidx.test:core-ktx:1.5.0")
-    testImplementation("org.robolectric:robolectric:4.9.2")
+    testImplementation(UnitTest.JUNIT)
+    testImplementation(UnitTest.CORE_TEST)
+    testImplementation(UnitTest.RUNNER)
+    testImplementation(UnitTest.MOCKK)
+    testImplementation(UnitTest.RULES)
+    testImplementation(UnitTest.KOTLINX_COROUTINES_TEST)
+    testImplementation(UnitTest.CORE_TESTING)
+    testImplementation(UnitTest.JUNIT_KTX)
+    testImplementation(UnitTest.CORE_KTX)
+    testImplementation(UnitTest.ROBOLECTRIC)
 }

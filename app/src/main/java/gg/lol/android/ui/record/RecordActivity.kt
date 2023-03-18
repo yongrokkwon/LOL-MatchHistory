@@ -43,8 +43,7 @@ import gg.lol.android.ui.account.ROUTE_LOGIN
 import gg.lol.android.ui.theme.LOLGGTheme
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import gg.op.lol.presentation.viewmodel.RecordViewModel
 
 @AndroidEntryPoint
 class RecordActivity : ComponentActivity() {
@@ -68,7 +67,7 @@ class RecordActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
+fun RecordView(viewModel: gg.op.lol.presentation.viewmodel.RecordViewModel = hiltViewModel()) {
     val context = LocalContext.current as Activity
     val nickName by viewModel.nickName.observeAsState(initial = "")
     val appBarBackground by viewModel.appbarBackground.observeAsState(initial = Color.Transparent)
@@ -82,9 +81,9 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
     }
 
     LaunchedEffect(Unit) {
-        data = withContext(Dispatchers.IO) {
-            viewModel.getSummonerDB()
-        }
+//        data = withContext(Dispatchers.IO) {
+//            viewModel.getSummonerDB()
+//        }
         isLoading = false
     }
 
@@ -136,7 +135,7 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
 
 @Composable
 fun RecordNavHost(
-    viewModel: RecordViewModel,
+    viewModel: gg.op.lol.presentation.viewmodel.RecordViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {

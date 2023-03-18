@@ -22,9 +22,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import gg.lol.android.data.LOLGGDatabase
-import gg.lol.android.data.search.SearchHistoryDao
-import gg.lol.android.data.summoner.SummonerDao
+import gg.op.lol.data.local.dao.SummonerDao
+import gg.op.lol.data.local.database.LOLGGDatabase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -42,8 +41,8 @@ class DatabaseModule {
         return appDatabase.summonerDao()
     }
 
-    @Provides
-    fun provideSearchHistoryDao(appDatabase: LOLGGDatabase): SearchHistoryDao {
-        return appDatabase.searchHistoryDao()
-    }
+//    @Provides
+//    fun provideSearchHistoryDao(appDatabase: LOLGGDatabase): SearchHistoryDao {
+//        return appDatabase.searchHistoryDao()
+//    }
 }
