@@ -71,7 +71,6 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
             RecordView(viewModel, state.data)
         }
         is UiState.Error -> {
-
         }
         is UiState.Loading -> LoadingView()
     }
@@ -108,14 +107,20 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel(), data: Summoner) {
                         if (viewModel.screenCloseCheck) {
                             context.finish()
                         } else {
-                            if (navController.backQueue.size == 2) context.finish()
-                            else navController.popBackStack()
+                            if (navController.backQueue.size == 2) {
+                                context.finish()
+                            } else {
+                                navController.popBackStack()
+                            }
                         }
                         viewModel.setScreenCloseCheck(false)
                     }
                 ) {
-                    if (viewModel.screenCloseCheck) Icon(Icons.Filled.Close, null)
-                    else Icon(Icons.Filled.ArrowBack, null)
+                    if (viewModel.screenCloseCheck) {
+                        Icon(Icons.Filled.Close, null)
+                    } else {
+                        Icon(Icons.Filled.ArrowBack, null)
+                    }
                 }
             },
             actions = {

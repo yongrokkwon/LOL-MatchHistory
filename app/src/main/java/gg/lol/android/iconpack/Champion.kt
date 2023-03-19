@@ -16,11 +16,22 @@ public val IconPack.Champion: ImageVector
         if (_champion != null) {
             return _champion!!
         }
-        _champion = Builder(name = "Champion", defaultWidth = 48.0.dp, defaultHeight = 48.0.dp,
-                viewportWidth = 12.7f, viewportHeight = 12.7f).apply {
-            path(fill = SolidColor(Color(0xFF000000)), stroke = null, strokeLineWidth = 0.0746494f,
-                    strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-                    pathFillType = NonZero) {
+        _champion = Builder(
+            name = "Champion",
+            defaultWidth = 48.0.dp,
+            defaultHeight = 48.0.dp,
+            viewportWidth = 12.7f,
+            viewportHeight = 12.7f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF000000)),
+                stroke = null,
+                strokeLineWidth = 0.0746494f,
+                strokeLineCap = Butt,
+                strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(3.1234f, 12.5505f)
                 curveToRelative(-1.2612f, -0.3921f, -2.2945f, -1.4333f, -2.905f, -2.9271f)
                 lineToRelative(-0.2183f, -0.5343f)
@@ -71,7 +82,7 @@ public val IconPack.Champion: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _champion!!
     }
 

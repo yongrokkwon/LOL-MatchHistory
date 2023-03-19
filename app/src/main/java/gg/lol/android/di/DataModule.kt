@@ -16,5 +16,4 @@ object DataModule {
     @Singleton
     fun provideCharacterRepository(summonerRepository: SummonerRepositoryImp): SummonerRepository =
         summonerRepository
-
 }

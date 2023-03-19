@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -59,7 +64,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             contentDescription = stringResource(id = lolggDestination.iconTextId),
                             modifier = Modifier
                                 .background(color = Color.White)
-                                .size(18.dp, 18.dp),
+                                .size(18.dp, 18.dp)
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
@@ -67,7 +72,7 @@ fun MainScreen(viewModel: MainViewModel) {
                         selectedTextColor = Color.Black,
                         indicatorColor = Color.White,
 //                        unselectedIconColor = Color.White,
-                        unselectedTextColor = Color.Black,
+                        unselectedTextColor = Color.Black
                     ),
                     label = {
                         Text(

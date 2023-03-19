@@ -150,4 +150,3 @@ class RecordViewModelTest {
         return data as T
     }
 }
-

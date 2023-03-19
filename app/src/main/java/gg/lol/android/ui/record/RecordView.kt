@@ -66,7 +66,8 @@ import gg.op.lol.presentation.viewmodel.RecordViewModel
 
 @Composable
 fun RecordListScreen(
-    viewModel: RecordViewModel = hiltViewModel(), navController: NavHostController
+    viewModel: RecordViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val context = LocalContext.current as Activity
 
@@ -75,7 +76,6 @@ fun RecordListScreen(
             RecordListView(viewModel, state.data)
         }
         is UiState.Error -> {
-
         }
         is UiState.Loading -> LoadingView()
     }
@@ -126,7 +126,7 @@ fun TopView(viewModel: RecordViewModel, header: Summoner) {
                         .height(80.dp),
                     painter = painterResource(R.drawable.summoner_icon_test),
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Crop
                 )
                 Text(
                     modifier = Modifier
@@ -146,7 +146,9 @@ fun TopView(viewModel: RecordViewModel, header: Summoner) {
                     modifier = Modifier,
                     text = viewModel.nickName.value ?: "",
                     style = TextStyle(
-                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 22.sp
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp
                     )
                 )
 //                Text(
@@ -171,18 +173,22 @@ fun RecordUpdateAndInGame() {
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp)
     ) {
-        Button(colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+        Button(
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
             shape = RoundedCornerShape(10),
             content = {
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(id = R.string.record_update),
                     style = TextStyle(
-                        textAlign = TextAlign.Center, color = Color.White, fontSize = 12.sp
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        fontSize = 12.sp
                     )
                 )
             },
-            onClick = { /* TODO */ })
+            onClick = { /* TODO */ }
+        )
     }
 }
 
@@ -204,7 +210,8 @@ fun SeasonInformation() {
                     val season = item.keys.elementAt(index)
                     val tier = item.getValue(season)
                     Text(
-                        text = season, style = TextStyle(
+                        text = season,
+                        style = TextStyle(
                             color = SeasonInformationTextColor,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
@@ -266,12 +273,16 @@ fun TierItem() {
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
             Text(
-                text = "Master 1", style = TextStyle(
-                    fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black
+                text = "Master 1",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Color.Black
                 )
             )
             Text(
-                text = "111LP", style = TextStyle(
+                text = "111LP",
+                style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     color = SeasonInformationTextColor
@@ -297,7 +308,8 @@ fun TierItem() {
 @Composable
 fun SearchHistoryCard(item: SearchHistory) {
     Row(
-        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         ResultRecord(
             Modifier
@@ -317,7 +329,10 @@ fun SearchHistoryCard(item: SearchHistory) {
 
 @Composable
 fun RoundImage(
-    @DrawableRes imageRes: Int, imageSize: Dp, cornerRadius: Dp, contentDescription: String? = null
+    @DrawableRes imageRes: Int,
+    imageSize: Dp,
+    cornerRadius: Dp,
+    contentDescription: String? = null
 ) {
     Image(
         modifier = Modifier
@@ -342,15 +357,16 @@ fun ResultRecord(modifier: Modifier) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "패",
-            style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
+            style = TextStyle(color = Color.White, textAlign = TextAlign.Center)
         )
         Divider(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp), color = Color.White
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+            color = Color.White
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = "15:57",
-            style = TextStyle(color = Color.White, textAlign = TextAlign.Center),
+            style = TextStyle(color = Color.White, textAlign = TextAlign.Center)
         )
     }
 }
@@ -362,7 +378,9 @@ fun ResultInformationTop() {
 //            .fillMaxHeight()
     ) {
         RoundImage(
-            imageRes = R.drawable.champion_leblanc, imageSize = 50.dp, cornerRadius = 10.dp
+            imageRes = R.drawable.champion_leblanc,
+            imageSize = 50.dp,
+            cornerRadius = 10.dp
         )
         Column(
             modifier = Modifier
@@ -394,14 +412,16 @@ fun ResultInformationTop() {
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
-                    ),
+                    )
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "개인/2인 랭크",
                     style = TextStyle(
-                        color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.End
-                    ),
+                        color = Color.Gray,
+                        fontSize = 11.sp,
+                        textAlign = TextAlign.End
+                    )
                 )
             }
             Row(
@@ -430,8 +450,10 @@ fun ResultInformationTop() {
                     modifier = Modifier.fillMaxWidth(),
                     text = "1일전",
                     style = TextStyle(
-                        color = Color.Gray, fontSize = 11.sp, textAlign = TextAlign.End
-                    ),
+                        color = Color.Gray,
+                        fontSize = 11.sp,
+                        textAlign = TextAlign.End
+                    )
                 )
             }
         }
@@ -447,27 +469,39 @@ fun ResultInformationBottom() {
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
-                imageRes = R.drawable.item_everfrost, imageSize = 20.dp, cornerRadius = 5.dp
+                imageRes = R.drawable.item_everfrost,
+                imageSize = 20.dp,
+                cornerRadius = 5.dp
             )
             Spacer(modifier = Modifier.size(4.dp))
             RoundImage(
@@ -481,8 +515,13 @@ fun ResultInformationBottom() {
                 .align(Alignment.CenterEnd)
                 .background(color = MultiKillBackgroundColor)
                 .padding(
-                    top = 2.dp, bottom = 2.dp, start = 4.dp, end = 4.dp
-                ), text = "더블킬", style = TextStyle(fontSize = 10.sp, color = Color.Red)
+                    top = 2.dp,
+                    bottom = 2.dp,
+                    start = 4.dp,
+                    end = 4.dp
+                ),
+            text = "더블킬",
+            style = TextStyle(fontSize = 10.sp, color = Color.Red)
         )
     }
 }

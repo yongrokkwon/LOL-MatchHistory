@@ -16,11 +16,22 @@ public val IconPack.Esports: ImageVector
         if (_esports != null) {
             return _esports!!
         }
-        _esports = Builder(name = "Esports", defaultWidth = 48.0.dp, defaultHeight = 48.0.dp,
-                viewportWidth = 12.7f, viewportHeight = 12.7f).apply {
-            path(fill = SolidColor(Color(0xFF032133)), stroke = SolidColor(Color(0x00000000)),
-                    strokeLineWidth = 0.264583f, strokeLineCap = Butt, strokeLineJoin = Miter,
-                    strokeLineMiter = 4.0f, pathFillType = NonZero) {
+        _esports = Builder(
+            name = "Esports",
+            defaultWidth = 48.0.dp,
+            defaultHeight = 48.0.dp,
+            viewportWidth = 12.7f,
+            viewportHeight = 12.7f
+        ).apply {
+            path(
+                fill = SolidColor(Color(0xFF032133)),
+                stroke = SolidColor(Color(0x00000000)),
+                strokeLineWidth = 0.264583f,
+                strokeLineCap = Butt,
+                strokeLineJoin = Miter,
+                strokeLineMiter = 4.0f,
+                pathFillType = NonZero
+            ) {
                 moveToRelative(2.3224f, 1.7982f)
                 curveToRelative(-0.5607f, 0.0f, -1.7371f, -0.2302f, -2.1526f, 0.254f)
                 curveToRelative(-0.2422f, 0.2823f, -0.1542f, 0.8116f, -0.1541f, 1.1606f)
@@ -52,7 +63,7 @@ public val IconPack.Esports: ImageVector
                 close()
             }
         }
-        .build()
+            .build()
         return _esports!!
     }
 

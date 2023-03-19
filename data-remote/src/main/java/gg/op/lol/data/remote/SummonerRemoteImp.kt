@@ -23,5 +23,4 @@ class SummonerRemoteImp @Inject constructor(
     private suspend fun getSummonerHistory(id: String): SummonerHistoryResponse {
         return userService.getSummonerHistory(id)
     }
-
 }

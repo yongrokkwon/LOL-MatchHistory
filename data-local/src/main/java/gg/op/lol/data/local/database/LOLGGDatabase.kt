@@ -9,7 +9,7 @@ import gg.op.lol.data.local.models.SummonerLocalEntity
 
 const val DATABASE_NAME = "lolgg-db"
 
-//@Database(entities = [Summoner::class, SearchHistory::class], version = 1, exportSchema = false)
+// @Database(entities = [Summoner::class, SearchHistory::class], version = 1, exportSchema = false)
 @Database(entities = [SummonerLocalEntity::class], version = 1, exportSchema = false)
 abstract class LOLGGDatabase : RoomDatabase() {
     abstract fun summonerDao(): SummonerDao

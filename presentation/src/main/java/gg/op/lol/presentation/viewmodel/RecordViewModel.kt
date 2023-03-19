@@ -61,7 +61,6 @@ class RecordViewModel @Inject internal constructor(
         _nickName.value = value
     }
 
-
     fun getSummoner(name: String) {
         viewModelScope.launch {
 //            when (val result = summonerInfoUseCase.getSummoner(name)) {
@@ -70,5 +69,4 @@ class RecordViewModel @Inject internal constructor(
 //            }
         }
     }
-
 }

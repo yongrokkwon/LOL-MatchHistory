@@ -21,7 +21,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import gg.lol.android.IconPack
 import gg.lol.android.R
-import gg.lol.android.iconpack.*
+import gg.lol.android.iconpack.Champion
+import gg.lol.android.iconpack.Community
+import gg.lol.android.iconpack.Esports
+import gg.lol.android.iconpack.Home
+import gg.lol.android.iconpack.Setting
 
 // TODO selaed class refactor
 object LOLGGRoute {
@@ -96,5 +100,5 @@ val TOP_LEVEL_DESTINATIONS = listOf(
     LOLGGTopLevelDestination.Champion,
     LOLGGTopLevelDestination.Esports,
     LOLGGTopLevelDestination.Community,
-    LOLGGTopLevelDestination.Setting,
+    LOLGGTopLevelDestination.Setting
 )

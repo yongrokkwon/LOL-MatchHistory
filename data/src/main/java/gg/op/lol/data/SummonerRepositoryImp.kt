@@ -36,5 +36,4 @@ class SummonerRepositoryImp @Inject constructor(
         )
         emit(summoner)
     }
-
 }

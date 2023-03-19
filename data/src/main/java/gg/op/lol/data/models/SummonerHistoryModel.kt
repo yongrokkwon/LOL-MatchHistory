@@ -1,4 +1,4 @@
-package gg.op.lol.data.models;
+package gg.op.lol.data.models
 
 class SummonerHistoryModel : ArrayList<SummonerHistoryModel.Item>() {
     data class Item(

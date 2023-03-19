@@ -4,9 +4,7 @@ import gg.op.lol.data.models.SummonerHistoryModel
 import gg.op.lol.data.remote.models.SummonerHistoryResponse
 import javax.inject.Inject
 
-class SummonerRemoteMapper @Inject constructor(
-
-) : RemoteMapper<SummonerHistoryResponse, SummonerHistoryModel> {
+class SummonerRemoteMapper @Inject constructor() : RemoteMapper<SummonerHistoryResponse, SummonerHistoryModel> {
     override fun mapFromLocal(type: SummonerHistoryResponse): SummonerHistoryModel {
         return SummonerHistoryModel().apply {
             addAll(

@@ -1,12 +1,18 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package gg.lol.android.ui.account
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +38,7 @@ import gg.lol.android.ui.theme.Typography
 
 const val BIRTH_LENGTH = 8
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BirthInputScreen(navController: NavHostController? = null) {
     val birthInput = remember { mutableStateOf("") }
@@ -70,7 +77,8 @@ fun BirthInputScreen(navController: NavHostController? = null) {
         )
         Button(
             modifier = Modifier.padding(top = 8.dp),
-            onClick = { navController?.navigate(ROUTE_INFO_INPUT) }) {
+            onClick = { navController?.navigate(ROUTE_INFO_INPUT) }
+        ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.next),
@@ -80,10 +88,11 @@ fun BirthInputScreen(navController: NavHostController? = null) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InfoInputScreen(
     navController: NavHostController? = null,
-    viewModel: AccountViewModel = hiltViewModel(),
+    viewModel: AccountViewModel = hiltViewModel()
 ) {
     val email = remember { mutableStateOf("") }
     val nickname = remember { mutableStateOf("") }
@@ -115,7 +124,7 @@ fun InfoInputScreen(
                 .padding(start = 6.dp, end = 6.dp, top = 8.dp, bottom = 8.dp),
             text = stringResource(id = R.string.signup_info_guide),
             style = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 12.sp
             )
         )
         TextField(
@@ -168,7 +177,8 @@ fun InfoInputScreen(
             onClick = {
                 viewModel.setEmail(email.value)
                 navController?.navigate(route = ROUTE_SIGNUP_EMAIL_SEND)
-            }) {
+            }
+        ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.signup_info_button),
@@ -181,7 +191,7 @@ fun InfoInputScreen(
 @Composable
 fun SignUpEmailSendScreen(
     navController: NavHostController? = null,
-    viewModel: AccountViewModel = hiltViewModel(),
+    viewModel: AccountViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier

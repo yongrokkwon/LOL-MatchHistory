@@ -73,7 +73,6 @@ fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = 
 
 @Composable
 fun CreateFavoriteSummonerView() {
-
 }
 
 @Composable
@@ -150,14 +149,14 @@ fun CreateEmptySummoner() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp),
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(10.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = LightGray)
                     .padding(start = 32.dp, top = 16.dp, bottom = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     modifier = Modifier
@@ -184,7 +183,7 @@ fun CreateEmptySummoner() {
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 12.sp
             )
         )
         HomeButton(stringResource(id = R.string.home_summoner_button), {
@@ -209,7 +208,7 @@ fun HomeButton(
         shape = RoundedCornerShape(6.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonColor
-        ),
+        )
     ) {
         Text(
             text = text,

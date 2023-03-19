@@ -1,4 +1,4 @@
-package gg.op.lol.data.models;
+package gg.op.lol.data.models
 
 data class SummonerEntity(
     val nickName: String,

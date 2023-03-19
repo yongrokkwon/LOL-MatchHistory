@@ -57,7 +57,7 @@ object ServiceFactory {
             chain.proceed(requestWithHeaders)
         }
     }
-    //"Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+    // "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
     //    "Origin": "https://developer.riotgames.com",
 
     private const val OK_HTTP_TIMEOUT = 60L

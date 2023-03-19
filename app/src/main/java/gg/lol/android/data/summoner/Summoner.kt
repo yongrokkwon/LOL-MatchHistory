@@ -1,8 +1,8 @@
-package gg.lol.android.data.summoner;
+package gg.lol.android.data.summoner
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "summoner")
 data class Summoner(

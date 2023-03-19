@@ -1,4 +1,4 @@
-package gg.lol.android.data.search;
+package gg.lol.android.data.search
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -7,9 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AccountViewModel @Inject internal constructor(
-
-) : ViewModel() {
+class AccountViewModel @Inject internal constructor() : ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> get() = _email
@@ -24,5 +22,4 @@ class AccountViewModel @Inject internal constructor(
     fun setEmail(value: String) {
         _email.value = value
     }
-
 }

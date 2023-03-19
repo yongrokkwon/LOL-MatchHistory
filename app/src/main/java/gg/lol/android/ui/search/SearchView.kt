@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package gg.lol.android.ui.search
 
 import android.app.Activity
@@ -8,7 +6,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,7 +22,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +49,7 @@ import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
 import gg.lol.android.ui.theme.getTextFieldNoUnderLine
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
@@ -87,7 +96,8 @@ fun SearchScreen(
                 singleLine = true,
                 placeholder = {
                     Text(
-                        stringResource(id = R.string.search_hint), style = SearchHint
+                        stringResource(id = R.string.search_hint),
+                        style = SearchHint
                     )
                 },
                 colors = getTextFieldNoUnderLine()
@@ -151,7 +161,7 @@ fun SearchScreen(
                                     .size(40.dp),
                                 painter = painterResource(R.drawable.summoner_icon_test), // TODO Item ICON
                                 contentScale = ContentScale.Crop,
-                                contentDescription = null,
+                                contentDescription = null
                             )
                             Column(
                                 modifier = Modifier
@@ -172,7 +182,7 @@ fun SearchScreen(
                             }
                             Row(
                                 modifier = Modifier.align(Alignment.CenterVertically),
-                                horizontalArrangement = Arrangement.End,
+                                horizontalArrangement = Arrangement.End
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.FavoriteBorder,

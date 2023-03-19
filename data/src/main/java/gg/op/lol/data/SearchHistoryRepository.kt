@@ -10,5 +10,4 @@ class SearchHistoryRepository @Inject constructor(
 
 //    fun getSearchHistories() = searchHistoryDao.getSearchHistory()
 //    suspend fun insertSearchHistory(searchHistory: SearchHistory) = searchHistoryDao.insertSearchHistory(searchHistory)
-
 }

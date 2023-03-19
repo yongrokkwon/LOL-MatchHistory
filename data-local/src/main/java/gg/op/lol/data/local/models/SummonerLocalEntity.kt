@@ -1,8 +1,8 @@
-package gg.op.lol.data.local.models;
+package gg.op.lol.data.local.models
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "summoner")
 data class SummonerLocalEntity(

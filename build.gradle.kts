@@ -7,7 +7,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.4.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+} // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent

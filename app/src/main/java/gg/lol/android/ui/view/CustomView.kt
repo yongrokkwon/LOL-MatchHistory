@@ -49,5 +49,6 @@ fun TouchBlocker() {
     Box(
         Modifier
             .fillMaxSize()
-            .pointerInput(Unit) { detectTapGestures { } })
+            .pointerInput(Unit) { detectTapGestures { } }
+    )
 }

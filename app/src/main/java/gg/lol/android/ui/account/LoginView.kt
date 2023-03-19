@@ -2,9 +2,18 @@ package gg.lol.android.ui.account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,15 +84,16 @@ fun LoginScreen(navController: NavHostController? = null) {
                     .fillMaxWidth()
                     .padding(top = 8.dp)
             ) {
-                Row(modifier = Modifier.clickable {
-                    loginStatusRemember.value = !loginStatusRemember.value
-                }) {
+                Row(
+                    modifier = Modifier.clickable {
+                        loginStatusRemember.value = !loginStatusRemember.value
+                    }
+                ) {
                     Checkbox(checked = loginStatusRemember.value, onCheckedChange = null)
                     Text(
                         text = stringResource(id = R.string.login_status),
                         modifier = Modifier.padding(start = 4.dp)
                     )
-
                 }
                 HyperlinkText(
                     fullText = stringResource(id = R.string.login_password),

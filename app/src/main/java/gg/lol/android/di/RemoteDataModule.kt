@@ -26,5 +26,4 @@ object RemoteDataModule {
     fun provideUserService(): UserService {
         return ServiceFactory.create(BuildConfig.DEBUG, BuildConfig.BASE_URL)
     }
-
 }

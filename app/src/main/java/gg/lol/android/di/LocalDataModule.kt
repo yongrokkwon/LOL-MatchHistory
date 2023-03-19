@@ -17,5 +17,4 @@ object LocalDataModule {
     fun provideSummonerLocal(summonerLocal: SummonerLocalImp): SummonerLocal {
         return summonerLocal
     }
-
 }

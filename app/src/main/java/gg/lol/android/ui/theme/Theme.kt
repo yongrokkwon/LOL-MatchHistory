@@ -35,7 +35,6 @@ private val LightColorScheme = lightColorScheme(
     background = ColorBackground,
     surfaceVariant = Color.White
 
-
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),

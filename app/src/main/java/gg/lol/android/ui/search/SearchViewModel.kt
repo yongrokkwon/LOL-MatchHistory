@@ -22,5 +22,4 @@ class SearchViewModel @Inject internal constructor(
             Log.d("###", "insert success")
         }
     }
-
 }
