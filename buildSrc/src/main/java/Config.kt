@@ -10,15 +10,15 @@ object Config {
         const val APPLICATION_ID = "gg.lol.android"
         const val VERSION_CODE = 1
         const val VERSION_NAME = "1.0.0"
-        const val BASEURL = "https://790b-218-51-73-161.jp.ngrok.io/"
+        const val BASEURL = "https://kr.api.riotgames.com/lol/summoner/v4/"
     }
 
     object Debug {
-        const val BASEURL = "https://790b-218-51-73-161.jp.ngrok.io/"
+        const val BASEURL = "https://kr.api.riotgames.com/lol/summoner/v4/"
     }
 
     object Staging {
-        const val BASEURL = "https://790b-218-51-73-161.jp.ngrok.io/"
+        const val BASEURL = "https://kr.api.riotgames.com/lol/summoner/v4/"
     }
 
     object ComposeOption {
