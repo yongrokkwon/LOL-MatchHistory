@@ -1,7 +1,7 @@
 package gg.op.lol.data.repository
 
-import gg.op.lol.data.models.SummonerModel
+import gg.op.lol.data.models.SummonerHistoryModel
 
 interface SummonerRemote {
-    suspend fun getSummonerByNickName(nickName: String): SummonerModel
+    suspend fun getSummoner(nickName: String): SummonerHistoryModel
 }

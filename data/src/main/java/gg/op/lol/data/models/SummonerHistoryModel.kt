@@ -1,6 +1,6 @@
-package gg.op.lol.domain.models
+package gg.op.lol.data.models;
 
-class Summoner : ArrayList<Summoner.Item>() {
+class SummonerHistoryModel : ArrayList<SummonerHistoryModel.Item>() {
     data class Item(
         val freshBlood: Boolean,
         val hotStreak: Boolean,

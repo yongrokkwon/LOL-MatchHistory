@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
+import gg.op.lol.domain.models.Summoner
+import gg.op.lol.presentation.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -16,16 +19,26 @@ class RecordViewModel @Inject internal constructor(
     private val summonerInfoUseCase: GetSummonerInfoUseCase
 ) : ViewModel() {
 
+    // TODO Refactor
     private val _nickName = MutableLiveData<String>()
     val nickName get() = _nickName
 
     private val _appbarBackground = MutableLiveData<Color>()
     val appbarBackground get() = _appbarBackground
 
+    private val _headerUiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
+    val headerUiState get() = _headerUiState
+
+    init {
+        viewModelScope.launch {
+            getRemoteSummoner()
+        }
+    }
+
     suspend fun getRemoteSummoner() {
         viewModelScope.launch(Dispatchers.IO) {
             summonerInfoUseCase.invoke(nickName.value ?: "").collect {
-
+                _headerUiState.value = UiState.Success(it)
             }
         }
     }

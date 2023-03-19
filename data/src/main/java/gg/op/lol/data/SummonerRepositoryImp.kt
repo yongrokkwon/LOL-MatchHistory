@@ -18,7 +18,7 @@ class SummonerRepositoryImp @Inject constructor(
 ) : SummonerRepository {
     override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> = flow {
         val summoner = summonerResponseMapper.mapFromEntity(
-            summonerDataSourceFactory.getLocalDataSource().getSummonerByNickName(nickName)
+            summonerDataSourceFactory.getLocalDataSource().getSummoner(nickName)
         )
         emit(summoner)
     }
@@ -27,12 +27,12 @@ class SummonerRepositoryImp @Inject constructor(
         val summoners = summonerDataSourceFactory.getLocalDataSource().getSummoners().map {
             summonerEntityMapper.mapFromEntity(it)
         }
-        emit(summoners)
+//        emit(summoners) TODO
     }
 
-    override suspend fun getRemoteSummonerByNickName(nickName: String): Flow<Summoner> = flow {
+    override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {
         val summoner = summonerResponseMapper.mapFromEntity(
-            summonerDataSourceFactory.getRemoteDataSource().getSummonerByNickName(nickName)
+            summonerDataSourceFactory.getRemoteDataSource().getSummoner(nickName)
         )
         emit(summoner)
     }

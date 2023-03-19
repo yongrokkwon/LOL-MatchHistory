@@ -1,7 +1,7 @@
 package gg.op.lol.data.source
 
 import gg.op.lol.data.models.SummonerEntity
-import gg.op.lol.data.models.SummonerModel
+import gg.op.lol.data.models.SummonerHistoryModel
 import gg.op.lol.data.repository.SummonerDataSource
 import gg.op.lol.data.repository.SummonerRemote
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class SummonerRemoteDataSource @Inject constructor(
         throw UnsupportedOperationException("Get Summoners is not supported for RemoteDataSource.")
     }
 
-    override suspend fun getSummonerByNickName(nickName: String): SummonerModel {
-        return summonerRemote.getSummonerByNickName(nickName)
+    override suspend fun getSummoner(nickName: String): SummonerHistoryModel {
+        return summonerRemote.getSummoner(nickName)
     }
 }

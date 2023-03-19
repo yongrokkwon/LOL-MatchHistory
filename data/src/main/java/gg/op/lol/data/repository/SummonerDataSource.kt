@@ -1,12 +1,12 @@
 package gg.op.lol.data.repository
 
 import gg.op.lol.data.models.SummonerEntity
-import gg.op.lol.data.models.SummonerModel
+import gg.op.lol.data.models.SummonerHistoryModel
 
 interface SummonerDataSource {
     // Local
     fun getSummoners(): List<SummonerEntity>
 
     // Remote
-    suspend fun getSummonerByNickName(nickName: String): SummonerModel
+    suspend fun getSummoner(nickName: String): SummonerHistoryModel
 }

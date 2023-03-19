@@ -1,7 +1,7 @@
 package gg.op.lol.data.source
 
 import gg.op.lol.data.models.SummonerEntity
-import gg.op.lol.data.models.SummonerModel
+import gg.op.lol.data.models.SummonerHistoryModel
 import gg.op.lol.data.repository.SummonerDataSource
 import gg.op.lol.data.repository.SummonerLocal
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class SummonerLocalDataSource @Inject constructor(
         return summonerLocal.getSummoners()
     }
 
-    override suspend fun getSummonerByNickName(nickName: String): SummonerModel {
+    override suspend fun getSummoner(nickName: String): SummonerHistoryModel {
         throw UnsupportedOperationException("Get SummonerByNickName is not supported for LocalDataSource.")
     }
 }
