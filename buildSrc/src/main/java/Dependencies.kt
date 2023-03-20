@@ -110,7 +110,6 @@ object Library {
     const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE_VERSION}"
 }
 
-
 object UnitTest {
     const val CORE_TEST = "androidx.test:core:${Versions.CORE_TEST_VERSION}"
     const val RUNNER = "androidx.test:runner:${Versions.RUNNER_VERSION}"

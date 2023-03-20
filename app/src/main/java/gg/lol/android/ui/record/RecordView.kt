@@ -84,9 +84,7 @@ fun RecordListScreen(
 @Composable
 fun RecordListView(viewModel: RecordViewModel, header: Summoner) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
+        modifier = Modifier.fillMaxSize().background(color = Color.White)
     ) {
         TopView(viewModel, header)
         RecordUpdateAndInGame()
@@ -109,38 +107,27 @@ fun RecordListView(viewModel: RecordViewModel, header: Summoner) {
 @Composable
 fun TopView(viewModel: RecordViewModel, header: Summoner) {
     Box(
-        modifier = Modifier
-            .height(200.dp)
-            .padding(start = 8.dp, bottom = 8.dp)
+        modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .align(Alignment.BottomStart)
+            modifier = Modifier.fillMaxHeight().align(Alignment.BottomStart)
         ) {
             Box(modifier = Modifier.align(Alignment.Bottom)) {
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(35.dp))
-                        .width(80.dp)
-                        .height(80.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(35.dp)).width(80.dp).height(80.dp),
                     painter = painterResource(R.drawable.summoner_icon_test),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(start = 2.dp, end = 2.dp)
-                        .background(color = Color.Gray),
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                        .padding(start = 2.dp, end = 2.dp).background(color = Color.Gray),
                     text = "642",
                     style = TextStyle(color = Color.White)
                 )
             }
             Column(
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(start = 8.dp)
+                modifier = Modifier.align(Alignment.Bottom).padding(start = 8.dp)
             ) {
                 Text(
                     modifier = Modifier,
@@ -169,9 +156,7 @@ fun TopView(viewModel: RecordViewModel, header: Summoner) {
 @Composable
 fun RecordUpdateAndInGame() {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp)
+        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)
     ) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
@@ -205,7 +190,12 @@ fun SeasonInformation() {
                 colors = CardDefaults.cardColors(containerColor = LightGray)
             ) {
                 Row(
-                    modifier = Modifier.padding(start = 4.dp, end = 4.dp, top = 2.dp, bottom = 2.dp)
+                    modifier = Modifier.padding(
+                        start = 4.dp,
+                        end = 4.dp,
+                        top = 2.dp,
+                        bottom = 2.dp
+                    )
                 ) {
                     val season = item.keys.elementAt(index)
                     val tier = item.getValue(season)
@@ -246,29 +236,24 @@ fun TierItem() {
 //        colors = CardDefaults.cardColors(containerColor = Color.White),
 //    ) {
     Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
-            .fillMaxWidth()
-            .background(color = Color.White)
-            .height(100.dp)
+        modifier = Modifier.padding(8.dp)
+            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp)).fillMaxWidth()
+            .background(color = Color.White).height(100.dp)
     ) {
         Image(
-            painter = rememberAsyncImagePainter("https://opgg-static.akamaized.net/images/medals_new/diamond.png?image=q_auto,f_webp,w_144&v=1678675410621"),
+            painter = rememberAsyncImagePainter(
+                "https://opgg-static.akamaized.net/images/medals_new/diamond.png?" +
+                    "image=q_auto,f_webp,w_144&v=1678675410621"
+            ),
             contentDescription = null,
-            modifier = Modifier
-                .size(100.dp)
+            modifier = Modifier.size(100.dp)
 //                    .fillMaxHeight()
         )
         Column(
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(top = 8.dp, bottom = 8.dp)
+            modifier = Modifier.align(Alignment.CenterVertically).padding(top = 8.dp, bottom = 8.dp)
         ) {
             Text(
-                modifier = Modifier
-                    .background(color = BackgroundPrimaryColor)
-                    .padding(2.dp),
+                modifier = Modifier.background(color = BackgroundPrimaryColor).padding(2.dp),
                 text = "개인/2인 랭크",
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
@@ -312,17 +297,12 @@ fun SearchHistoryCard(item: SearchHistory) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResultRecord(
-            Modifier
-                .background(color = Color.Red)
-                .weight(1.5f)
+            Modifier.background(color = Color.Red).weight(1.5f)
                 .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
                 .align(Alignment.CenterVertically)
         )
         ResultInformation(
-            Modifier
-                .weight(9f)
-                .padding(start = 8.dp, end = 8.dp)
-                .align(Alignment.CenterVertically)
+            Modifier.weight(9f).padding(start = 8.dp, end = 8.dp).align(Alignment.CenterVertically)
         )
     }
 }
@@ -335,9 +315,7 @@ fun RoundImage(
     contentDescription: String? = null
 ) {
     Image(
-        modifier = Modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .size(imageSize),
+        modifier = Modifier.clip(RoundedCornerShape(cornerRadius)).size(imageSize),
         painter = painterResource(id = imageRes),
         contentDescription = contentDescription
     )
@@ -388,10 +366,7 @@ fun ResultInformationTop() {
                 .align(Alignment.CenterVertically)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 25.dp)
-                    .padding(start = 4.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RoundImage(
@@ -425,10 +400,7 @@ fun ResultInformationTop() {
                 )
             }
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 25.dp)
-                    .padding(start = 4.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RoundImage(
@@ -463,9 +435,7 @@ fun ResultInformationTop() {
 @Composable
 fun ResultInformationBottom() {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp)
+        modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             RoundImage(
@@ -511,10 +481,8 @@ fun ResultInformationBottom() {
             )
         }
         Text(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .background(color = MultiKillBackgroundColor)
-                .padding(
+            modifier = Modifier.align(Alignment.CenterEnd)
+                .background(color = MultiKillBackgroundColor).padding(
                     top = 2.dp,
                     bottom = 2.dp,
                     start = 4.dp,

@@ -19,7 +19,9 @@ object ServiceFactory {
     private fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
-            .client(createOkHttpClient(createLoggingInterceptor(isDebug), createHeaderInterceptor()))
+            .client(
+                createOkHttpClient(createLoggingInterceptor(isDebug), createHeaderInterceptor())
+            )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

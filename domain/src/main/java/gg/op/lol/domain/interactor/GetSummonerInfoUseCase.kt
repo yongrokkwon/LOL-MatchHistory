@@ -11,5 +11,6 @@ class GetSummonerInfoUseCase @Inject constructor(
     private val summonerRepository: SummonerRepository
 ) : GetSummonerInfoBaseUseCase {
 
-    override suspend operator fun invoke(params: String): Flow<Summoner> = summonerRepository.getRemoteSummoner(params)
+    override suspend operator fun invoke(params: String): Flow<Summoner> =
+        summonerRepository.getRemoteSummoner(params)
 }

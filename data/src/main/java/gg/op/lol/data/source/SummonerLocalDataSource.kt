@@ -15,6 +15,8 @@ class SummonerLocalDataSource @Inject constructor(
     }
 
     override suspend fun getSummoner(nickName: String): SummonerHistoryModel {
-        throw UnsupportedOperationException("Get SummonerByNickName is not supported for LocalDataSource.")
+        throw UnsupportedOperationException(
+            "Get SummonerByNickName is not supported for LocalDataSource."
+        )
     }
 }
