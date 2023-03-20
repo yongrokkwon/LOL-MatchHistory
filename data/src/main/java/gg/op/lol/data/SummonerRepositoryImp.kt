@@ -1,7 +1,7 @@
 package gg.op.lol.data
 
 import gg.op.lol.data.mapper.SummonerEntityMapper
-import gg.op.lol.data.mapper.SummonerResponseMapper
+import gg.op.lol.data.mapper.SummonerHistoryMapper
 import gg.op.lol.data.source.SummonerDataSourceFactory
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.repository.SummonerRepository
@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.flow
 class SummonerRepositoryImp @Inject constructor(
     private val summonerDataSourceFactory: SummonerDataSourceFactory,
     private val summonerEntityMapper: SummonerEntityMapper,
-    private val summonerResponseMapper: SummonerResponseMapper
+    private val summonerHistoryMapper: SummonerHistoryMapper
 ) : SummonerRepository {
     override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> = flow {
-        val summoner = summonerResponseMapper.mapFromEntity(
-            summonerDataSourceFactory.getLocalDataSource().getSummoner(nickName)
+        val summoner = summonerHistoryMapper.mapFromEntity(
+            summonerDataSourceFactory.getLocalDataSource().getSummonerHistory(nickName)
         )
         emit(summoner)
     }
@@ -31,9 +31,12 @@ class SummonerRepositoryImp @Inject constructor(
     }
 
     override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {
-        val summoner = summonerResponseMapper.mapFromEntity(
-            summonerDataSourceFactory.getRemoteDataSource().getSummoner(nickName)
-        )
+        val remoteDataSource = summonerDataSourceFactory.getRemoteDataSource()
+        val summonerInfo = remoteDataSource.getSummonerInfo(nickName)
+        val summonerHistory = remoteDataSource.getSummonerHistory(summonerInfo.id)
+        val summoner = summonerHistoryMapper.mapFromEntity(summonerHistory).apply {
+            summonerLevel = summonerInfo.summonerLevel
+        }
         emit(summoner)
     }
 }

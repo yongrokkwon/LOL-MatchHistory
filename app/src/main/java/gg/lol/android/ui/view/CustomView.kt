@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +25,16 @@ fun IconFavorite(modifier: Modifier = Modifier, isFavorite: Boolean) {
         imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
         contentDescription = null,
         tint = if (isFavorite) PrimaryColor else Color.Black
+    )
+}
+
+@Composable
+fun NetworkError(modifier: Modifier = Modifier) {
+    AlertDialog(
+        modifier = modifier,
+        onDismissRequest = {},
+        confirmButton = { Text(text = "확인") },
+        text = { Text(text = "네트워크 에러 발생") }
     )
 }
 

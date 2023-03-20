@@ -1,26 +1,24 @@
 package gg.op.lol.data.remote
 
 import gg.op.lol.data.models.SummonerHistoryModel
+import gg.op.lol.data.models.SummonerInfoModel
 import gg.op.lol.data.remote.api.UserService
-import gg.op.lol.data.remote.mapper.SummonerRemoteMapper
-import gg.op.lol.data.remote.models.SummonerHistoryResponse
+import gg.op.lol.data.remote.mapper.SummonerHistoryMapper
+import gg.op.lol.data.remote.mapper.SummonerInfoMapper
 import gg.op.lol.data.repository.SummonerRemote
 import javax.inject.Inject
 
 class SummonerRemoteImp @Inject constructor(
     private val userService: UserService,
-    private val summonerRemoteMapper: SummonerRemoteMapper
+    private val summonerHistoryMapper: SummonerHistoryMapper,
+    private val summonerInfoMapper: SummonerInfoMapper
 ) : SummonerRemote {
 
-    override suspend fun getSummoner(nickName: String): SummonerHistoryModel {
-        return summonerRemoteMapper.mapFromLocal(getSummonerInfo(nickName))
+    override suspend fun getSummonerHistory(id: String): SummonerHistoryModel {
+        return summonerHistoryMapper.mapFromLocal(userService.getSummonerHistory(id))
     }
 
-    private suspend fun getSummonerInfo(nickName: String): SummonerHistoryResponse {
-        return getSummonerHistory(userService.getSummonerInfo(nickName).id)
-    }
-
-    private suspend fun getSummonerHistory(id: String): SummonerHistoryResponse {
-        return userService.getSummonerHistory(id)
+    override suspend fun getSummonerInfo(nickName: String): SummonerInfoModel {
+        return summonerInfoMapper.mapFromLocal(userService.getSummonerInfo(nickName))
     }
 }

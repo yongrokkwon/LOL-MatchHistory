@@ -1,6 +1,9 @@
 package gg.op.lol.domain.models
 
-class Summoner : ArrayList<Summoner.Item>() {
+data class Summoner(
+    var summonerLevel: Int,
+    val item: List<Item>
+) {
     data class Item(
         val freshBlood: Boolean,
         val hotStreak: Boolean,

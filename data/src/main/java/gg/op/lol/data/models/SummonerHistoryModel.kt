@@ -1,6 +1,9 @@
 package gg.op.lol.data.models
 
-class SummonerHistoryModel : ArrayList<SummonerHistoryModel.Item>() {
+data class SummonerHistoryModel(
+    val summonerLevel: Int = 0,
+    val item: List<Item>
+) {
     data class Item(
         val freshBlood: Boolean,
         val hotStreak: Boolean,

@@ -39,6 +39,7 @@ import gg.lol.android.ui.account.ROUTE_LOGIN
 import gg.lol.android.ui.theme.LOLGGTheme
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
+import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.RecordViewModel
@@ -55,6 +56,7 @@ class RecordActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setNickName(intent.getStringExtra(EXTRA_NICKNAME) ?: "")
+
         setContent {
             LOLGGTheme {
                 RecordView()
@@ -63,15 +65,15 @@ class RecordActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
-    when (val state = viewModel.headerUiState.collectAsState().value) {
+    val context = LocalContext.current as Activity
+
+    when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> {
             RecordView(viewModel, state.data)
         }
-        is UiState.Error -> {
-        }
+        is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
         is UiState.Loading -> LoadingView()
     }
 }

@@ -3,21 +3,20 @@ package gg.op.lol.presentation.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class RecordViewModel @Inject internal constructor(
     private val summonerInfoUseCase: GetSummonerInfoUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     // TODO Refactor
     private val _nickName = MutableLiveData<String>()
@@ -26,20 +25,22 @@ class RecordViewModel @Inject internal constructor(
     private val _appbarBackground = MutableLiveData<Color>()
     val appbarBackground get() = _appbarBackground
 
-    private val _headerUiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
-    val headerUiState get() = _headerUiState
+    private val _uiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
+    val uiState get() = _uiState
+
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _uiState.value = UiState.Error(exception)
+    }
 
     init {
-        viewModelScope.launch {
+        launchCoroutineIO {
             getRemoteSummoner()
         }
     }
 
     suspend fun getRemoteSummoner() {
-        viewModelScope.launch(Dispatchers.IO) {
-            summonerInfoUseCase.invoke(nickName.value ?: "").collect {
-                _headerUiState.value = UiState.Success(it)
-            }
+        summonerInfoUseCase.invoke(nickName.value ?: "").collect {
+            _uiState.value = UiState.Success(it)
         }
     }
 

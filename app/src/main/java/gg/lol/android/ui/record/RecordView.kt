@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -60,6 +61,7 @@ import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
+import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.RecordViewModel
@@ -71,12 +73,11 @@ fun RecordListScreen(
 ) {
     val context = LocalContext.current as Activity
 
-    when (val state = viewModel.headerUiState.collectAsState().value) {
+    when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> {
             RecordListView(viewModel, state.data)
         }
-        is UiState.Error -> {
-        }
+        is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
         is UiState.Loading -> LoadingView()
     }
 }
@@ -122,7 +123,7 @@ fun TopView(viewModel: RecordViewModel, header: Summoner) {
                 Text(
                     modifier = Modifier.align(Alignment.BottomCenter)
                         .padding(start = 2.dp, end = 2.dp).background(color = Color.Gray),
-                    text = "642",
+                    text = "${header.summonerLevel}",
                     style = TextStyle(color = Color.White)
                 )
             }
