@@ -1,4 +1,4 @@
-package gg.lol.android.ui.record
+package gg.lol.android.ui.match
 
 import android.app.Activity
 import android.os.Bundle
@@ -42,16 +42,16 @@ import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
-import gg.op.lol.presentation.viewmodel.RecordViewModel
+import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
 
 @AndroidEntryPoint
-class RecordActivity : ComponentActivity() {
+class MatchHistoryActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_NICKNAME = "EXTRA_NICKNAME"
     }
 
-    private val viewModel: RecordViewModel by viewModels()
+    private val viewModel: MatchHistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,19 +59,19 @@ class RecordActivity : ComponentActivity() {
 
         setContent {
             LOLGGTheme {
-                RecordView()
+                MatchHistoryRoot()
             }
         }
     }
 }
 
 @Composable
-fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
+fun MatchHistoryRoot(viewModel: MatchHistoryViewModel = hiltViewModel()) {
     val context = LocalContext.current as Activity
 
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> {
-            RecordView(viewModel, state.data)
+            MatchHistoryScreen(viewModel, state.data)
         }
         is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
         is UiState.Loading -> LoadingView()
@@ -80,14 +80,14 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordView(viewModel: RecordViewModel = hiltViewModel(), data: SummonerHistory) {
+fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data: SummonerHistory) {
     val context = LocalContext.current as Activity
     val navController = rememberNavController()
     val nickName by viewModel.nickName.observeAsState(initial = "")
     val appBarBackground by viewModel.appbarBackground.observeAsState(initial = Color.Transparent)
 
     Box(modifier = Modifier.fillMaxSize()) {
-        RecordNavHost(viewModel, navController)
+        MatchHistoryNavHost(viewModel, navController)
         CenterAlignedTopAppBar(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -137,15 +137,15 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel(), data: SummonerHisto
 }
 
 @Composable
-fun RecordNavHost(
-    viewModel: RecordViewModel,
+fun MatchHistoryNavHost(
+    viewModel: MatchHistoryViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     NavHost(modifier = modifier, navController = navController, startDestination = ROUTE_LOGIN) {
         composable(route = ROUTE_LOGIN) {
             viewModel.setScreenCloseCheck(false)
-            RecordListScreen(viewModel, navController)
+            MatchHistoryView(viewModel, navController)
         }
     }
 }

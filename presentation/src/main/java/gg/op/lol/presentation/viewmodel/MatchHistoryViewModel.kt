@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class RecordViewModel @Inject internal constructor(
+class MatchHistoryViewModel @Inject internal constructor(
     private val summonerInfoUseCase: GetSummonerInfoUseCase
 ) : BaseViewModel() {
 
@@ -64,10 +64,7 @@ class RecordViewModel @Inject internal constructor(
 
     fun getSummoner(name: String) {
         viewModelScope.launch {
-//            when (val result = summonerInfoUseCase.getSummoner(name)) {
-//                is Result.Success -> _summonerResponse.value = result.data
-//                is Result.Error -> Log.e("RecordViewModel", "getSummonerError", result.exception)
-//            }
+            // TODO
         }
     }
 }

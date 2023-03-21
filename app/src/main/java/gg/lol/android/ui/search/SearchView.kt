@@ -43,7 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import gg.lol.android.R
-import gg.lol.android.ui.record.RecordActivity
+import gg.lol.android.ui.match.MatchHistoryActivity
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
@@ -144,10 +144,10 @@ fun SearchScreen(
                                     context.startActivity(
                                         Intent(
                                             context,
-                                            RecordActivity::class.java
+                                            MatchHistoryActivity::class.java
                                         ).apply {
                                             putExtra(
-                                                RecordActivity.EXTRA_NICKNAME,
+                                                MatchHistoryActivity.EXTRA_NICKNAME,
                                                 "hide on bush" /*TODO*/
                                             )
                                         }
@@ -159,7 +159,7 @@ fun SearchScreen(
                                     .clip(RoundedCornerShape(12.dp))
                                     .padding(end = 0.dp)
                                     .size(40.dp),
-                                painter = painterResource(R.drawable.summoner_icon_test), // TODO Item ICON
+                                painter = painterResource(R.drawable.summoner_icon_test), // TODO
                                 contentScale = ContentScale.Crop,
                                 contentDescription = null
                             )
@@ -173,7 +173,9 @@ fun SearchScreen(
                                     // TODO
                                     Image(
                                         modifier = Modifier.size(20.dp),
-                                        painter = painterResource(id = R.drawable.search_challenger),
+                                        painter = painterResource(
+                                            id = R.drawable.search_challenger
+                                        ),
                                         contentDescription = null,
                                         contentScale = ContentScale.FillBounds
                                     )

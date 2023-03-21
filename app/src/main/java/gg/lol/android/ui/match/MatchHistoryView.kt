@@ -1,4 +1,4 @@
-package gg.lol.android.ui.record
+package gg.lol.android.ui.match
 
 import android.app.Activity
 import androidx.annotation.DrawableRes
@@ -64,18 +64,18 @@ import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
-import gg.op.lol.presentation.viewmodel.RecordViewModel
+import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
 
 @Composable
-fun RecordListScreen(
-    viewModel: RecordViewModel = hiltViewModel(),
+fun MatchHistoryView(
+    viewModel: MatchHistoryViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
     val context = LocalContext.current as Activity
 
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> {
-            RecordListView(viewModel, state.data)
+            MatchHistoryList(viewModel, state.data)
         }
         is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
         is UiState.Loading -> LoadingView()
@@ -83,12 +83,12 @@ fun RecordListScreen(
 }
 
 @Composable
-fun RecordListView(viewModel: RecordViewModel, header: SummonerHistory) {
+fun MatchHistoryList(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
     Column(
         modifier = Modifier.fillMaxSize().background(color = Color.White)
     ) {
-        TopView(viewModel, header)
-        RecordUpdateAndInGame()
+        Header(viewModel, header)
+        MatchHistoryUpdateAndInGame()
 //        SeasonInformation()
         TierInformation()
         if (false /* TODO */) {
@@ -98,7 +98,7 @@ fun RecordListView(viewModel: RecordViewModel, header: SummonerHistory) {
                 modifier = Modifier
             ) {
                 items(listOf("1", "2")) { item ->
-                    SearchHistoryCard(SearchHistory())
+                    MatchHistoryCard(SearchHistory())
                 }
             }
         }
@@ -106,7 +106,7 @@ fun RecordListView(viewModel: RecordViewModel, header: SummonerHistory) {
 }
 
 @Composable
-fun TopView(viewModel: RecordViewModel, header: SummonerHistory) {
+fun Header(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
     Box(
         modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
     ) {
@@ -155,7 +155,7 @@ fun TopView(viewModel: RecordViewModel, header: SummonerHistory) {
 }
 
 @Composable
-fun RecordUpdateAndInGame() {
+fun MatchHistoryUpdateAndInGame() {
     Row(
         modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)
     ) {
@@ -165,7 +165,7 @@ fun RecordUpdateAndInGame() {
             content = {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = stringResource(id = R.string.record_update),
+                    text = stringResource(id = R.string.match_update),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         color = Color.White,
@@ -292,12 +292,12 @@ fun TierItem() {
 }
 
 @Composable
-fun SearchHistoryCard(item: SearchHistory) {
+fun MatchHistoryCard(item: SearchHistory) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ResultRecord(
+        ResultMatchHistory(
             Modifier.background(color = Color.Red).weight(1.5f)
                 .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
                 .align(Alignment.CenterVertically)
@@ -331,7 +331,7 @@ fun ResultInformation(modifier: Modifier) {
 }
 
 @Composable
-fun ResultRecord(modifier: Modifier) {
+fun ResultMatchHistory(modifier: Modifier) {
     Column(modifier) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -497,6 +497,5 @@ fun ResultInformationBottom() {
 
 @Preview
 @Composable
-fun SearchPreview() {
-//    RecordScreen()
+fun MatchHistoryPreview() {
 }

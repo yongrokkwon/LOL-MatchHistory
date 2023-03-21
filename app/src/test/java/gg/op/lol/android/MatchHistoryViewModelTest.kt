@@ -25,7 +25,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import retrofit2.Response
 
-class RecordViewModelTest {
+class MatchHistoryViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -33,7 +33,7 @@ class RecordViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var userService: UserService
-    private lateinit var viewModel: gg.op.lol.presentation.viewmodel.RecordViewModel
+    private lateinit var viewModel: gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
 
     private val searchHistoryDao = mockk<SearchHistoryDao>()
     private val summonerDao = mockk<SummonerDao>()
@@ -52,7 +52,7 @@ class RecordViewModelTest {
     fun setUp() {
         mockkSetup()
         userService = mock(UserService::class.java)
-        viewModel = gg.op.lol.presentation.viewmodel.RecordViewModel(
+        viewModel = gg.op.lol.presentation.viewmodel.MatchHistoryViewModel(
             searchHistoryRepository,
             summonerRepository
         )

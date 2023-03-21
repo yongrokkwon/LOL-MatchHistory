@@ -34,7 +34,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.record.RecordActivity"
+            android:name=".ui.match.MatchHistoryActivity"
             android:screenOrientation="portrait" />
 
     </application>
