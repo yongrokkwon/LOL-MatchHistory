@@ -1,15 +1,15 @@
 package gg.op.lol.data.remote.mapper
 
-import gg.op.lol.data.models.SummonerHistoryModel
+import gg.op.lol.data.models.SummonerHistoryEntity
 import gg.op.lol.data.remote.models.SummonerHistoryResponse
 import javax.inject.Inject
 
 class SummonerHistoryMapper @Inject constructor() :
-    RemoteMapper<SummonerHistoryResponse, SummonerHistoryModel> {
-    override fun mapFromLocal(type: SummonerHistoryResponse): SummonerHistoryModel {
-        return SummonerHistoryModel(
+    RemoteMapper<SummonerHistoryResponse, SummonerHistoryEntity> {
+    override fun mapFromLocal(type: SummonerHistoryResponse): SummonerHistoryEntity {
+        return SummonerHistoryEntity(
             item = type.map {
-                SummonerHistoryModel.Item(
+                SummonerHistoryEntity.Item(
                     freshBlood = it.freshBlood,
                     hotStreak = it.hotStreak,
                     inactive = it.inactive,
@@ -28,7 +28,7 @@ class SummonerHistoryMapper @Inject constructor() :
         )
     }
 
-    override fun mapToLocal(type: SummonerHistoryModel): SummonerHistoryResponse {
+    override fun mapToLocal(type: SummonerHistoryEntity): SummonerHistoryResponse {
         return SummonerHistoryResponse().apply {
             type.item.map {
                 SummonerHistoryResponse.Item(

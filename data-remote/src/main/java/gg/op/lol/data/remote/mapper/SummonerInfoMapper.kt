@@ -1,13 +1,13 @@
 package gg.op.lol.data.remote.mapper
 
-import gg.op.lol.data.models.SummonerInfoModel
+import gg.op.lol.data.models.SummonerInfoEntity
 import gg.op.lol.data.remote.models.SummonerInfoResponse
 import javax.inject.Inject
 
 class SummonerInfoMapper @Inject constructor() :
-    RemoteMapper<SummonerInfoResponse, SummonerInfoModel> {
-    override fun mapFromLocal(type: SummonerInfoResponse): SummonerInfoModel {
-        return SummonerInfoModel(
+    RemoteMapper<SummonerInfoResponse, SummonerInfoEntity> {
+    override fun mapFromLocal(type: SummonerInfoResponse): SummonerInfoEntity {
+        return SummonerInfoEntity(
             accountId = type.accountId,
             id = type.id,
             name = type.name,
@@ -18,7 +18,7 @@ class SummonerInfoMapper @Inject constructor() :
         )
     }
 
-    override fun mapToLocal(type: SummonerInfoModel): SummonerInfoResponse {
+    override fun mapToLocal(type: SummonerInfoEntity): SummonerInfoResponse {
         return SummonerInfoResponse(
             accountId = type.accountId,
             id = type.id,

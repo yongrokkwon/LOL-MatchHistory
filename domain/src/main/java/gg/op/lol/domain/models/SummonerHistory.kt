@@ -1,7 +1,7 @@
-package gg.op.lol.data.models
+package gg.op.lol.domain.models
 
-data class SummonerHistoryModel(
-    val summonerLevel: Int = 0,
+data class SummonerHistory(
+    var summonerLevel: Int,
     val item: List<Item>
 ) {
     data class Item(

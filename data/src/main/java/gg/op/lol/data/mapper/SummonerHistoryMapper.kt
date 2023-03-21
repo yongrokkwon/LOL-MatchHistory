@@ -1,15 +1,15 @@
 package gg.op.lol.data.mapper
 
-import gg.op.lol.data.models.SummonerHistoryModel
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.data.models.SummonerHistoryEntity
+import gg.op.lol.domain.models.SummonerHistory
 import javax.inject.Inject
 
-class SummonerHistoryMapper @Inject constructor() : Mapper<SummonerHistoryModel, Summoner> {
-    override fun mapFromEntity(type: SummonerHistoryModel): Summoner {
-        return Summoner(
+class SummonerHistoryMapper @Inject constructor() : Mapper<SummonerHistoryEntity, SummonerHistory> {
+    override fun mapFromEntity(type: SummonerHistoryEntity): SummonerHistory {
+        return SummonerHistory(
             summonerLevel = type.summonerLevel,
             item = type.item.map {
-                Summoner.Item(
+                SummonerHistory.Item(
                     freshBlood = it.freshBlood,
                     hotStreak = it.hotStreak,
                     inactive = it.inactive,
@@ -28,11 +28,11 @@ class SummonerHistoryMapper @Inject constructor() : Mapper<SummonerHistoryModel,
         )
     }
 
-    override fun mapToEntity(type: Summoner): SummonerHistoryModel {
-        return SummonerHistoryModel(
+    override fun mapToEntity(type: SummonerHistory): SummonerHistoryEntity {
+        return SummonerHistoryEntity(
             type.summonerLevel,
             item = type.item.map {
-                SummonerHistoryModel.Item(
+                SummonerHistoryEntity.Item(
                     freshBlood = it.freshBlood,
                     hotStreak = it.hotStreak,
                     inactive = it.inactive,

@@ -40,7 +40,7 @@ import gg.lol.android.ui.theme.LOLGGTheme
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.RecordViewModel
 
@@ -80,7 +80,7 @@ fun RecordView(viewModel: RecordViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecordView(viewModel: RecordViewModel = hiltViewModel(), data: Summoner) {
+fun RecordView(viewModel: RecordViewModel = hiltViewModel(), data: SummonerHistory) {
     val context = LocalContext.current as Activity
     val navController = rememberNavController()
     val nickName by viewModel.nickName.observeAsState(initial = "")

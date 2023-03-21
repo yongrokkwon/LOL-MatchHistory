@@ -62,7 +62,7 @@ import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.RecordViewModel
 
@@ -83,7 +83,7 @@ fun RecordListScreen(
 }
 
 @Composable
-fun RecordListView(viewModel: RecordViewModel, header: Summoner) {
+fun RecordListView(viewModel: RecordViewModel, header: SummonerHistory) {
     Column(
         modifier = Modifier.fillMaxSize().background(color = Color.White)
     ) {
@@ -106,7 +106,7 @@ fun RecordListView(viewModel: RecordViewModel, header: Summoner) {
 }
 
 @Composable
-fun TopView(viewModel: RecordViewModel, header: Summoner) {
+fun TopView(viewModel: RecordViewModel, header: SummonerHistory) {
     Box(
         modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
     ) {

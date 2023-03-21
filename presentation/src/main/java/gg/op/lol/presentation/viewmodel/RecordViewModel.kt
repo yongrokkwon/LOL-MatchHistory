@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -25,7 +25,7 @@ class RecordViewModel @Inject internal constructor(
     private val _appbarBackground = MutableLiveData<Color>()
     val appbarBackground get() = _appbarBackground
 
-    private val _uiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
+    private val _uiState = MutableStateFlow<UiState<SummonerHistory>>(UiState.Loading)
     val uiState get() = _uiState
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->

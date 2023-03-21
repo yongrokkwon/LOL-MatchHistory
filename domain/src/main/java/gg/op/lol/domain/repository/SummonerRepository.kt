@@ -1,13 +1,13 @@
 package gg.op.lol.domain.repository
 
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SummonerHistory
 import kotlinx.coroutines.flow.Flow
 
 interface SummonerRepository {
     // Remote
-    suspend fun getRemoteSummoner(nickName: String): Flow<Summoner>
+    suspend fun getRemoteSummoner(nickName: String): Flow<SummonerHistory>
 
     // Local
-    suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner>
-    suspend fun getLocalSummoners(): Flow<List<Summoner>>
+    suspend fun getLocalSummonerByNickName(nickName: String): Flow<SummonerHistory>
+    suspend fun getLocalSummoners(): Flow<List<SummonerHistory>>
 }

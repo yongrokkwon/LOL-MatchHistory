@@ -3,7 +3,7 @@ package gg.op.lol.data
 import gg.op.lol.data.mapper.SummonerEntityMapper
 import gg.op.lol.data.mapper.SummonerHistoryMapper
 import gg.op.lol.data.source.SummonerDataSourceFactory
-import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.domain.repository.SummonerRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,21 +16,22 @@ class SummonerRepositoryImp @Inject constructor(
     private val summonerEntityMapper: SummonerEntityMapper,
     private val summonerHistoryMapper: SummonerHistoryMapper
 ) : SummonerRepository {
-    override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> = flow {
-        val summoner = summonerHistoryMapper.mapFromEntity(
-            summonerDataSourceFactory.getLocalDataSource().getSummonerHistory(nickName)
-        )
-        emit(summoner)
-    }
+    override suspend fun getLocalSummonerByNickName(nickName: String): Flow<SummonerHistory> =
+        flow {
+            val summoner = summonerHistoryMapper.mapFromEntity(
+                summonerDataSourceFactory.getLocalDataSource().getSummonerHistory(nickName)
+            )
+            emit(summoner)
+        }
 
-    override suspend fun getLocalSummoners(): Flow<List<Summoner>> = flow {
+    override suspend fun getLocalSummoners(): Flow<List<SummonerHistory>> = flow {
         val summoners = summonerDataSourceFactory.getLocalDataSource().getSummoners().map {
             summonerEntityMapper.mapFromEntity(it)
         }
 //        emit(summoners) TODO
     }
 
-    override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {
+    override suspend fun getRemoteSummoner(nickName: String): Flow<SummonerHistory> = flow {
         val remoteDataSource = summonerDataSourceFactory.getRemoteDataSource()
         val summonerInfo = remoteDataSource.getSummonerInfo(nickName)
         val summonerHistory = remoteDataSource.getSummonerHistory(summonerInfo.id)
