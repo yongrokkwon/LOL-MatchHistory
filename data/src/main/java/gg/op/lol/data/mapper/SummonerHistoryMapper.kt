@@ -7,7 +7,6 @@ import javax.inject.Inject
 class SummonerHistoryMapper @Inject constructor() : Mapper<SummonerHistoryEntity, SummonerHistory> {
     override fun mapFromEntity(type: SummonerHistoryEntity): SummonerHistory {
         return SummonerHistory(
-            summonerLevel = type.summonerLevel,
             item = type.item.map {
                 SummonerHistory.Item(
                     freshBlood = it.freshBlood,
@@ -30,7 +29,6 @@ class SummonerHistoryMapper @Inject constructor() : Mapper<SummonerHistoryEntity
 
     override fun mapToEntity(type: SummonerHistory): SummonerHistoryEntity {
         return SummonerHistoryEntity(
-            type.summonerLevel,
             item = type.item.map {
                 SummonerHistoryEntity.Item(
                     freshBlood = it.freshBlood,

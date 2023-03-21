@@ -81,7 +81,6 @@ fun MatchHistoryRoot(viewModel: MatchHistoryViewModel = hiltViewModel()) {
 fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data: SummonerHistory) {
     val context = LocalContext.current as Activity
     val navController = rememberNavController()
-    val nickName = viewModel.summonerName.collectAsState().value
     val appBarBackground = viewModel.appbarBackground.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -92,7 +91,7 @@ fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data:
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = appBarBackground),
             title = {
                 Text(
-                    text = nickName,
+                    text = data.summonerName,
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         color = Color.Black,

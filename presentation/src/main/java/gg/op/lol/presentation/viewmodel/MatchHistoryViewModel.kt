@@ -37,8 +37,8 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
-    suspend fun getRemoteSummoner() {
-        summonerInfoUseCase.invoke(summonerName.value ?: "").collect {
+    private suspend fun getRemoteSummoner() {
+        summonerInfoUseCase.invoke(summonerName.value).collect {
             _uiState.value = UiState.Success(it)
         }
     }

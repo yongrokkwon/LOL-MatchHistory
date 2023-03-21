@@ -37,6 +37,7 @@ class SummonerRepositoryImp @Inject constructor(
         val summonerHistory = remoteDataSource.getSummonerHistory(summonerInfo.id)
         val summoner = summonerHistoryMapper.mapFromEntity(summonerHistory).apply {
             summonerLevel = summonerInfo.summonerLevel
+            summonerName = summonerInfo.name
         }
         emit(summoner)
     }

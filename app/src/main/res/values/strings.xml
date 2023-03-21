@@ -70,6 +70,8 @@
     <string name="search_no_history">최근 검색 내역이 없습니다.</string>
 
     <string name="match_update">전적 갱신</string>
+    <string name="match_solo_rank">개인/2인 랭크</string>
+    <string name="match_free_rank">자유랭크</string>
 
     <string name="empty">Empty</string>
     <string name="title_data">data</string>

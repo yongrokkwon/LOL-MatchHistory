@@ -51,7 +51,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.R
 import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
@@ -65,6 +64,10 @@ import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.SummonerHistory
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
+
+enum class QueueType { RANKED_SOLO_5X5, RANKED_FLEX_SR }
+
+enum class Tier { CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON }
 
 @Composable
 fun MatchHistoryView(
@@ -83,14 +86,16 @@ fun MatchHistoryView(
 }
 
 @Composable
-fun MatchHistoryList(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
+fun MatchHistoryList(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
     Column(
-        modifier = Modifier.fillMaxSize().background(color = Color.White)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White)
     ) {
-        Header(viewModel, header)
+        Header(viewModel, summonerHistory)
         MatchHistoryUpdateAndInGame()
 //        SeasonInformation()
-        TierInformation()
+        TierInformation(summonerHistory.item)
         if (false /* TODO */) {
             Text(text = "No items to display")
         } else {
@@ -106,33 +111,44 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, header: SummonerHistory) 
 }
 
 @Composable
-fun Header(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
+fun Header(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
     Box(
-        modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
+        modifier = Modifier
+            .height(200.dp)
+            .padding(start = 8.dp, bottom = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight().align(Alignment.BottomStart)
+            modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.BottomStart)
         ) {
             Box(modifier = Modifier.align(Alignment.Bottom)) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(35.dp)).width(80.dp).height(80.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(35.dp))
+                        .width(80.dp)
+                        .height(80.dp),
                     painter = painterResource(R.drawable.summoner_icon_test),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    modifier = Modifier.align(Alignment.BottomCenter)
-                        .padding(start = 2.dp, end = 2.dp).background(color = Color.Gray),
-                    text = "${header.summonerLevel}",
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(start = 2.dp, end = 2.dp)
+                        .background(color = Color.Gray),
+                    text = "${summonerHistory.summonerLevel}",
                     style = TextStyle(color = Color.White)
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.Bottom).padding(start = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.Bottom)
+                    .padding(start = 8.dp)
             ) {
                 Text(
                     modifier = Modifier,
-                    text = viewModel.summonerName.collectAsState().value,
+                    text = summonerHistory.summonerName,
                     style = TextStyle(
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
@@ -157,7 +173,9 @@ fun Header(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
 @Composable
 fun MatchHistoryUpdateAndInGame() {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp)
     ) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
@@ -219,16 +237,36 @@ fun SeasonInformation() {
 }
 
 @Composable
-fun TierInformation() {
-    LazyRow() {
-        items(listOf("", "")) {
-            TierItem()
+fun TierInformation(summonerHistoryItems: List<SummonerHistory.Item>) {
+    LazyRow {
+        items(summonerHistoryItems) {
+            TierItem(it)
         }
     }
 }
 
 @Composable
-fun TierItem() {
+fun TierItem(item: SummonerHistory.Item) {
+    val queueType = when (item.queueType.uppercase()) {
+        QueueType.RANKED_SOLO_5X5.name -> stringResource(id = R.string.match_solo_rank)
+        QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_free_rank)
+        else -> return
+    }
+    val tier = "${item.tier} ${item.rank}"
+    val tierImage = painterResource(
+        id = when (item.tier) {
+            Tier.IRON.name -> R.drawable.iron
+            Tier.BRONZE.name -> R.drawable.bronze
+            Tier.SILVER.name -> R.drawable.silver
+            Tier.GOLD.name -> R.drawable.gold
+            Tier.PLATINUM.name -> R.drawable.platinum
+            Tier.DIAMOND.name -> R.drawable.diamond
+            Tier.MASTER.name -> R.drawable.master
+            Tier.GRANDMASTER.name -> R.drawable.grandmaster
+            Tier.CHALLENGER.name -> R.drawable.challenger
+            else -> R.drawable.unranked
+        }
+    )
 //    Card(
 //        modifier = Modifier
 //            .padding(4.dp)
@@ -237,29 +275,33 @@ fun TierItem() {
 //        colors = CardDefaults.cardColors(containerColor = Color.White),
 //    ) {
     Row(
-        modifier = Modifier.padding(8.dp)
-            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp)).fillMaxWidth()
-            .background(color = Color.White).height(100.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .height(100.dp)
     ) {
         Image(
-            painter = rememberAsyncImagePainter(
-                "https://opgg-static.akamaized.net/images/medals_new/diamond.png?" +
-                    "image=q_auto,f_webp,w_144&v=1678675410621"
-            ),
+            painter = tierImage,
             contentDescription = null,
             modifier = Modifier.size(100.dp)
 //                    .fillMaxHeight()
         )
         Column(
-            modifier = Modifier.align(Alignment.CenterVertically).padding(top = 8.dp, bottom = 8.dp)
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(top = 8.dp, bottom = 8.dp)
         ) {
             Text(
-                modifier = Modifier.background(color = BackgroundPrimaryColor).padding(2.dp),
-                text = "개인/2인 랭크",
+                modifier = Modifier
+                    .background(color = BackgroundPrimaryColor)
+                    .padding(2.dp),
+                text = queueType,
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
             Text(
-                text = "Master 1",
+                text = tier,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
@@ -267,7 +309,7 @@ fun TierItem() {
                 )
             )
             Text(
-                text = "111LP",
+                text = "${item.leaguePoints} LP",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
@@ -275,7 +317,8 @@ fun TierItem() {
                 )
             )
             Text(
-                text = "274승 269패 (50%)",
+                text = "${item.wins}승 ${item.losses}패 " +
+                    "(${calculateWinRate(item.wins, item.losses)}%)",
                 style = TextStyle(fontSize = 12.sp, color = SeasonInformationTextColor)
             )
         }
@@ -298,12 +341,17 @@ fun MatchHistoryCard(item: SearchHistory) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResultMatchHistory(
-            Modifier.background(color = Color.Red).weight(1.5f)
+            Modifier
+                .background(color = Color.Red)
+                .weight(1.5f)
                 .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
                 .align(Alignment.CenterVertically)
         )
         ResultInformation(
-            Modifier.weight(9f).padding(start = 8.dp, end = 8.dp).align(Alignment.CenterVertically)
+            Modifier
+                .weight(9f)
+                .padding(start = 8.dp, end = 8.dp)
+                .align(Alignment.CenterVertically)
         )
     }
 }
@@ -316,7 +364,9 @@ fun RoundImage(
     contentDescription: String? = null
 ) {
     Image(
-        modifier = Modifier.clip(RoundedCornerShape(cornerRadius)).size(imageSize),
+        modifier = Modifier
+            .clip(RoundedCornerShape(cornerRadius))
+            .size(imageSize),
         painter = painterResource(id = imageRes),
         contentDescription = contentDescription
     )
@@ -367,7 +417,10 @@ fun ResultInformationTop() {
                 .align(Alignment.CenterVertically)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 25.dp)
+                    .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RoundImage(
@@ -401,7 +454,10 @@ fun ResultInformationTop() {
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 25.dp)
+                    .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RoundImage(
@@ -436,7 +492,9 @@ fun ResultInformationTop() {
 @Composable
 fun ResultInformationBottom() {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             RoundImage(
@@ -482,8 +540,10 @@ fun ResultInformationBottom() {
             )
         }
         Text(
-            modifier = Modifier.align(Alignment.CenterEnd)
-                .background(color = MultiKillBackgroundColor).padding(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .background(color = MultiKillBackgroundColor)
+                .padding(
                     top = 2.dp,
                     bottom = 2.dp,
                     start = 4.dp,
@@ -498,4 +558,12 @@ fun ResultInformationBottom() {
 @Preview
 @Composable
 fun MatchHistoryPreview() {
+}
+
+fun calculateWinRate(wins: Int, losses: Int): Int {
+    val totalGames = wins + losses
+    if (totalGames == 0) {
+        return 0
+    }
+    return (wins.toDouble() / totalGames.toDouble() * 100).toInt()
 }

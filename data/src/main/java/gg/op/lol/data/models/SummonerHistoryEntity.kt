@@ -1,7 +1,6 @@
 package gg.op.lol.data.models
 
 data class SummonerHistoryEntity(
-    val summonerLevel: Int = 0,
     val item: List<Item>
 ) {
     data class Item(
