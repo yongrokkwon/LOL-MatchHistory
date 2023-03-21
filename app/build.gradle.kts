@@ -33,23 +33,16 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
 
-            buildConfigField("String", "BASE_URL", "\"" + Config.Debug.BASEURL + "\"")
+            buildConfigField("String", "KR_URL", "\"" + Config.Debug.KR_URL + "\"")
+            buildConfigField("String", "ASIA_URL", "\"" + Config.Debug.ASIA_URL + "\"")
         }
-
-        create("staging") {
-            isMinifyEnabled = true
-            signingConfig = signingConfigs.getByName("debug")
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            buildConfigField("String", "BASE_URL", "\"" + Config.Debug.BASEURL + "\"")
-        }
-
         getByName("release") {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
-            buildConfigField("String", "BASE_URL", "\"" + Config.Release.BASEURL + "\"")
+            buildConfigField("String", "KR_URL", "\"" + Config.Release.KR_URL + "\"")
+            buildConfigField("String", "ASIA_URL", "\"" + Config.Release.ASIA_URL + "\"")
         }
     }
     compileOptions {

@@ -11,9 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceFactory {
 
-    fun create(isDebug: Boolean, baseUrl: String): UserService {
+    fun create(isDebug: Boolean, baseUrl: String): SummonerService {
         val retrofit = createRetrofit(isDebug, baseUrl)
-        return retrofit.create(UserService::class.java)
+        return retrofit.create(SummonerService::class.java)
     }
 
     private fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {
