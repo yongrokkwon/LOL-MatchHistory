@@ -20,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -83,8 +81,8 @@ fun MatchHistoryRoot(viewModel: MatchHistoryViewModel = hiltViewModel()) {
 fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data: SummonerHistory) {
     val context = LocalContext.current as Activity
     val navController = rememberNavController()
-    val nickName by viewModel.nickName.observeAsState(initial = "")
-    val appBarBackground by viewModel.appbarBackground.observeAsState(initial = Color.Transparent)
+    val nickName = viewModel.summonerName.collectAsState().value
+    val appBarBackground = viewModel.appbarBackground.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
         MatchHistoryNavHost(viewModel, navController)

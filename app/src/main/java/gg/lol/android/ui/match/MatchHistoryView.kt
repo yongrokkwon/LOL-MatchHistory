@@ -132,7 +132,7 @@ fun Header(viewModel: MatchHistoryViewModel, header: SummonerHistory) {
             ) {
                 Text(
                     modifier = Modifier,
-                    text = viewModel.nickName.value ?: "",
+                    text = viewModel.summonerName.collectAsState().value,
                     style = TextStyle(
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,

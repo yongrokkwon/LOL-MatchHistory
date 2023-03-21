@@ -2,7 +2,6 @@ package gg.op.lol.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
@@ -11,6 +10,7 @@ import gg.op.lol.presentation.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -18,15 +18,14 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val summonerInfoUseCase: GetSummonerInfoUseCase
 ) : BaseViewModel() {
 
-    // TODO Refactor
-    private val _nickName = MutableLiveData<String>()
-    val nickName get() = _nickName
+    private val _summonerName = MutableStateFlow("")
+    val summonerName: StateFlow<String> get() = _summonerName
 
-    private val _appbarBackground = MutableLiveData<Color>()
-    val appbarBackground get() = _appbarBackground
+    private val _appbarBackground = MutableStateFlow(Color.White)
+    val appbarBackground: StateFlow<Color> get() = _appbarBackground
 
     private val _uiState = MutableStateFlow<UiState<SummonerHistory>>(UiState.Loading)
-    val uiState get() = _uiState
+    val uiState: StateFlow<UiState<SummonerHistory>> get() = _uiState
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _uiState.value = UiState.Error(exception)
@@ -39,7 +38,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     }
 
     suspend fun getRemoteSummoner() {
-        summonerInfoUseCase.invoke(nickName.value ?: "").collect {
+        summonerInfoUseCase.invoke(summonerName.value ?: "").collect {
             _uiState.value = UiState.Success(it)
         }
     }
@@ -59,7 +58,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     }
 
     fun setNickName(value: String) {
-        _nickName.value = value
+        _summonerName.value = value
     }
 
     fun getSummoner(name: String) {
