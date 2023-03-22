@@ -13,7 +13,6 @@ import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -33,6 +32,9 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _uiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
     val uiState: StateFlow<UiState<Summoner>> get() = _uiState
 
+    private val _matchHistories = MutableStateFlow<PagingData<MatchHistory>>(PagingData.empty())
+    val matchHistories = _matchHistories
+
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _uiState.value = UiState.Error(exception)
     }
@@ -43,8 +45,12 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
-    fun getMatchHistories(puuid: String): Flow<PagingData<MatchHistory>> {
-        return summonerMatchHistoryUseCase.invoke(puuid).cachedIn(viewModelScope)
+    fun getMatchHistories(puuid: String) {
+        launchCoroutineIO {
+            summonerMatchHistoryUseCase.invoke(puuid).cachedIn(viewModelScope).collect {
+                _matchHistories.value = it
+            }
+        }
     }
 
     private suspend fun getRemoteSummoner() {

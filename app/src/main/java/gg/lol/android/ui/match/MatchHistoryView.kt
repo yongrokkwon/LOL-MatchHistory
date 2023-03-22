@@ -54,6 +54,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import gg.lol.android.R
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
@@ -90,14 +91,14 @@ fun MatchHistoryView(
 
 @Composable
 fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
-    val matchHistories = viewModel.getMatchHistories(summoner.puuid).collectAsLazyPagingItems()
+    val matchHistories = viewModel.matchHistories.collectAsLazyPagingItems()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
         Header(viewModel, summoner)
-        MatchHistoryUpdateAndInGame(matchHistories)
+        MatchHistoryUpdateAndInGame(matchHistories, viewModel, summoner.puuid)
 //        SeasonInformation()
         TierInformation(summoner.histories)
         if (matchHistories.itemCount != 0) {
@@ -105,14 +106,11 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                 modifier = Modifier
             ) {
                 items(
-                    count = matchHistories.itemCount,
-                    key = { index ->
-                        val history = matchHistories[index]
-                        history?.metadata?.matchId ?: ""
-                    }
-                ) { index ->
-                    val match = matchHistories[index] ?: return@items
-                    MatchHistoryCard(match)
+                    items = matchHistories,
+                    key = { matchHistory -> matchHistory.metadata.matchId }
+                ) { matchHistory ->
+                    matchHistory ?: return@items
+                    MatchHistoryCard(matchHistory)
                 }
             }
         } else {
@@ -182,10 +180,15 @@ fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 }
 
 @Composable
-fun MatchHistoryUpdateAndInGame(matchHistories: LazyPagingItems<MatchHistory>) {
+fun MatchHistoryUpdateAndInGame(
+    matchHistories: LazyPagingItems<MatchHistory>,
+    viewModel: MatchHistoryViewModel,
+    puuid: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { viewModel.getMatchHistories(puuid) }
             .padding(start = 8.dp, end = 8.dp)
     ) {
         Button(
@@ -193,8 +196,7 @@ fun MatchHistoryUpdateAndInGame(matchHistories: LazyPagingItems<MatchHistory>) {
             shape = RoundedCornerShape(10),
             content = {
                 Text(
-                    modifier = Modifier.weight(1f)
-                        .clickable { matchHistories.retry() },
+                    modifier = Modifier.weight(1f),
                     text = stringResource(id = R.string.match_update),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
