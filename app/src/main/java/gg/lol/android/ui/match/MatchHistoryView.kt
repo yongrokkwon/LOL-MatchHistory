@@ -185,29 +185,25 @@ fun MatchHistoryUpdateAndInGame(
     viewModel: MatchHistoryViewModel,
     puuid: String
 ) {
-    Row(
+    Button(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { viewModel.getMatchHistories(puuid) }
-            .padding(start = 8.dp, end = 8.dp)
-    ) {
-        Button(
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
-            shape = RoundedCornerShape(10),
-            content = {
-                Text(
-                    modifier = Modifier.weight(1f),
-                    text = stringResource(id = R.string.match_update),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                        color = Color.White,
-                        fontSize = 12.sp
-                    )
+            .padding(start = 8.dp, end = 8.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+        shape = RoundedCornerShape(10),
+        content = {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = stringResource(id = R.string.match_update),
+                style = TextStyle(
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    fontSize = 12.sp
                 )
-            },
-            onClick = { /* TODO */ }
-        )
-    }
+            )
+        },
+        onClick = { viewModel.getMatchHistories(puuid) }
+    )
 }
 
 @Composable

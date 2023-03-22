@@ -23,13 +23,21 @@ class MatchHistoryPagingSource(
         if (puuid == null) throw NullPointerException("puuid can not be null")
         return try {
             val matchIds = matchService.getMatches(puuid, page, PAGE_COUNT)
-            val matchHistoryResponse = matchIds.map { matchService.getMatch(it) }
-            val result = matchHistoryResponse.map { matchHistoryMapper.mapFromLocal(it) }
-            LoadResult.Page(
-                data = result,
-                prevKey = if (page == STARTING_PAGE_INDEX) null else page - PAGE_COUNT,
-                nextKey = if (page == result.size) null else page + PAGE_COUNT
-            )
+            if (matchIds.isNotEmpty()) {
+                val matchHistoryResponse = matchIds.map { matchService.getMatch(it) }
+                val result = matchHistoryResponse.map { matchHistoryMapper.mapFromLocal(it) }
+                LoadResult.Page(
+                    data = result,
+                    prevKey = if (page == STARTING_PAGE_INDEX) null else page - PAGE_COUNT,
+                    nextKey = if (result.isEmpty()) null else page + PAGE_COUNT
+                )
+            } else {
+                LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = null
+                )
+            }
         } catch (exception: Exception) {
             exception.printStackTrace()
             LoadResult.Error(exception)
