@@ -11,12 +11,12 @@ object Config {
         const val VERSION_CODE = 1
         const val VERSION_NAME = "1.0.0"
         const val KR_URL = "https://kr.api.riotgames.com"
-        const val ASIA_URL = "https://kr.api.riotgames.com"
+        const val ASIA_URL = "https://asia.api.riotgames.com"
     }
 
     object Debug {
         const val KR_URL = "https://kr.api.riotgames.com"
-        const val ASIA_URL = "https://kr.api.riotgames.com"
+        const val ASIA_URL = "https://asia.api.riotgames.com"
     }
 
     object ComposeOption {

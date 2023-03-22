@@ -1,6 +1,6 @@
 package gg.op.lol.data.remote.api
 
-import gg.op.lol.remote.BuildConfig
+import gg.op.lol.BuildConfig
 import java.util.concurrent.TimeUnit
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,9 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceFactory {
 
-    fun create(isDebug: Boolean, baseUrl: String): SummonerService {
+    fun createSummonerService(isDebug: Boolean, baseUrl: String): SummonerService {
         val retrofit = createRetrofit(isDebug, baseUrl)
         return retrofit.create(SummonerService::class.java)
+    }
+
+    fun createMatchService(isDebug: Boolean, baseUrl: String): MatchService {
+        val retrofit = createRetrofit(isDebug, baseUrl)
+        return retrofit.create(MatchService::class.java)
     }
 
     private fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {

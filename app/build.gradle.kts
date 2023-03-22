@@ -39,7 +39,10 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
 
             buildConfigField("String", "KR_URL", "\"" + Config.Release.KR_URL + "\"")
             buildConfigField("String", "ASIA_URL", "\"" + Config.Release.ASIA_URL + "\"")
@@ -61,8 +64,6 @@ dependencies {
     implementation(project(Modules.presentation))
     implementation(project(Modules.domain))
     implementation(project(Modules.data))
-    implementation(project(Modules.remote))
-    implementation(project(Modules.local))
 
     implementation(AndroidX.FOUNDATION)
     implementation(AndroidX.FOUNDATION_LAYOUT)
@@ -77,6 +78,9 @@ dependencies {
     implementation(AndroidX.RUNTIME_LIVEDATA)
     implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
     implementation(AndroidX.LIFECYCLE_RUNTIME_KTX)
+
+//    implementation(AndroidX.PAGING_COMMON_KTX)
+    implementation(AndroidX.PAGING_COMPOSE)
 
     implementation(Library.COIL_COMPOSE)
 

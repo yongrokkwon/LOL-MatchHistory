@@ -29,6 +29,8 @@ object Versions {
     const val JUNIT_EXT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
     const val COMPOSE_UI = "1.3.3"
+    const val PAGING_COMPOSE = "1.0.0-alpha18"
+    const val PAGING_KTX = "3.2.0-alpha04"
 
     const val KOTLIN = "1.8.0"
     const val JAVAX_INJECT = "1"
@@ -82,6 +84,11 @@ object AndroidX {
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
     const val LIFECYCLE_RUNTIME_KTX =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE_VERSION}"
+    const val PAGING_COMPOSE = "androidx.paging:paging-compose:${Versions.PAGING_COMPOSE}"
+    const val PAGING_RUNTIME_KTX =
+        "androidx.paging:paging-runtime-ktx:${Versions.PAGING_KTX}"
+    const val PAGING_COMMON_KTX =
+        "androidx.paging:paging-common-ktx:${Versions.PAGING_KTX}"
 
     const val HILT_NAVIGATION_COMPOSE =
         "androidx.hilt:hilt-navigation-compose:${Versions.HILT_NAVIGATION_COMPOSE_VERSION}"

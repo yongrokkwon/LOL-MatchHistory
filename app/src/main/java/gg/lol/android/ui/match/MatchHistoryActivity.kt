@@ -38,7 +38,7 @@ import gg.lol.android.ui.theme.LOLGGTheme
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
-import gg.op.lol.domain.models.SummonerHistory
+import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
 
@@ -78,7 +78,7 @@ fun MatchHistoryRoot(viewModel: MatchHistoryViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data: SummonerHistory) {
+fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data: Summoner) {
     val context = LocalContext.current as Activity
     val navController = rememberNavController()
     val appBarBackground = viewModel.appbarBackground.collectAsState().value

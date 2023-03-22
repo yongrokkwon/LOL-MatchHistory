@@ -1,9 +1,12 @@
 package gg.op.lol.data
 
+import androidx.paging.PagingData
+import gg.op.lol.data.mapper.MatchHistoryEntityMapper
 import gg.op.lol.data.mapper.SummonerEntityMapper
-import gg.op.lol.data.mapper.SummonerHistoryMapper
+import gg.op.lol.data.mapper.SummonerHistoryEntityMapper
 import gg.op.lol.data.source.SummonerDataSourceFactory
-import gg.op.lol.domain.models.SummonerHistory
+import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.repository.SummonerRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,31 +17,49 @@ import kotlinx.coroutines.flow.flow
 class SummonerRepositoryImp @Inject constructor(
     private val summonerDataSourceFactory: SummonerDataSourceFactory,
     private val summonerEntityMapper: SummonerEntityMapper,
-    private val summonerHistoryMapper: SummonerHistoryMapper
+    private val summonerHistoryEntityMapper: SummonerHistoryEntityMapper,
+    private val matchHistoryEntityMapper: MatchHistoryEntityMapper
 ) : SummonerRepository {
-    override suspend fun getLocalSummonerByNickName(nickName: String): Flow<SummonerHistory> =
+    override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> =
         flow {
-            val summoner = summonerHistoryMapper.mapFromEntity(
+            val summoner = summonerHistoryEntityMapper.mapFromEntity(
                 summonerDataSourceFactory.getLocalDataSource().getSummonerHistory(nickName)
             )
             emit(summoner)
         }
 
-    override suspend fun getLocalSummoners(): Flow<List<SummonerHistory>> = flow {
+    override suspend fun getLocalSummoners(): Flow<List<Summoner>> = flow {
         val summoners = summonerDataSourceFactory.getLocalDataSource().getSummoners().map {
             summonerEntityMapper.mapFromEntity(it)
         }
 //        emit(summoners) TODO
     }
 
-    override suspend fun getRemoteSummoner(nickName: String): Flow<SummonerHistory> = flow {
+    override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {
         val remoteDataSource = summonerDataSourceFactory.getRemoteDataSource()
         val summonerInfo = remoteDataSource.getSummonerInfo(nickName)
         val summonerHistory = remoteDataSource.getSummonerHistory(summonerInfo.id)
-        val summoner = summonerHistoryMapper.mapFromEntity(summonerHistory).apply {
+        remoteDataSource.getMatchHistory(summonerInfo.puuid)
+        val summoner = summonerHistoryEntityMapper.mapFromEntity(summonerHistory).apply {
             summonerLevel = summonerInfo.summonerLevel
             summonerName = summonerInfo.name
+            puuid = summonerInfo.puuid
         }
         emit(summoner)
+    }
+
+//    override fun getRemoteSummonerMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+//        return flow {
+//            summonerDataSourceFactory.getRemoteDataSource().getMatchHistory(puuid)
+//                .collect { matchHistoryEntity ->
+//                    val matchHistory =
+//                        matchHistoryEntity.map { matchHistoryEntityMapper.mapFromEntity(it) }
+//                    emit(matchHistory)
+//                }
+//        }
+//    }
+
+    override fun getRemoteSummonerMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+        return summonerDataSourceFactory.getRemoteDataSource().getMatchHistory(puuid)
     }
 }

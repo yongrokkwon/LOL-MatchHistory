@@ -48,4 +48,8 @@ dependencies {
     implementation(Library.RETROFIT)
     implementation(Library.RETROFIT_GSON)
     implementation(Library.OKHTTP_LOGGING)
+
+    implementation(AndroidX.PAGING_COMMON_KTX)
+    implementation(CoroutinesDep.COROUTINE_CORE)
+    implementation(CoroutinesDep.COROUTINE_ANDROID)
 }

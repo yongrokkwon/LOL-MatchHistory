@@ -1,6 +1,7 @@
 package gg.lol.android.ui.match
 
 import android.app.Activity
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,8 +52,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import gg.lol.android.R
-import gg.lol.android.data.search.SearchHistory
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.LightGray
@@ -61,7 +63,8 @@ import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
-import gg.op.lol.domain.models.SummonerHistory
+import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
 
@@ -86,32 +89,40 @@ fun MatchHistoryView(
 }
 
 @Composable
-fun MatchHistoryList(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
+fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
+    val matchHistories = viewModel.getMatchHistories(summoner.puuid).collectAsLazyPagingItems()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        Header(viewModel, summonerHistory)
-        MatchHistoryUpdateAndInGame()
+        Header(viewModel, summoner)
+        MatchHistoryUpdateAndInGame(matchHistories)
 //        SeasonInformation()
-        TierInformation(summonerHistory.item)
-        if (false /* TODO */) {
-            Text(text = "No items to display")
-        } else {
+        TierInformation(summoner.histories)
+        if (matchHistories.itemCount != 0) {
             LazyColumn(
                 modifier = Modifier
             ) {
-                items(listOf("1", "2")) { item ->
-                    MatchHistoryCard(SearchHistory())
+                items(
+                    count = matchHistories.itemCount,
+                    key = { index ->
+                        val history = matchHistories[index]
+                        history?.metadata?.matchId ?: ""
+                    }
+                ) { index ->
+                    val match = matchHistories[index] ?: return@items
+                    MatchHistoryCard(match)
                 }
             }
+        } else {
+            Text(text = "No items to display")
         }
     }
 }
 
 @Composable
-fun Header(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
+fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     Box(
         modifier = Modifier
             .height(200.dp)
@@ -137,7 +148,7 @@ fun Header(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
                         .align(Alignment.BottomCenter)
                         .padding(start = 2.dp, end = 2.dp)
                         .background(color = Color.Gray),
-                    text = "${summonerHistory.summonerLevel}",
+                    text = "${summoner.summonerLevel}",
                     style = TextStyle(color = Color.White)
                 )
             }
@@ -148,7 +159,7 @@ fun Header(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
             ) {
                 Text(
                     modifier = Modifier,
-                    text = summonerHistory.summonerName,
+                    text = summoner.summonerName,
                     style = TextStyle(
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
@@ -171,7 +182,7 @@ fun Header(viewModel: MatchHistoryViewModel, summonerHistory: SummonerHistory) {
 }
 
 @Composable
-fun MatchHistoryUpdateAndInGame() {
+fun MatchHistoryUpdateAndInGame(matchHistories: LazyPagingItems<MatchHistory>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -182,7 +193,8 @@ fun MatchHistoryUpdateAndInGame() {
             shape = RoundedCornerShape(10),
             content = {
                 Text(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f)
+                        .clickable { matchHistories.retry() },
                     text = stringResource(id = R.string.match_update),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
@@ -237,16 +249,16 @@ fun SeasonInformation() {
 }
 
 @Composable
-fun TierInformation(summonerHistoryItems: List<SummonerHistory.Item>) {
+fun TierInformation(summonerHistoryItems: List<Summoner.Item>) {
     LazyRow {
-        items(summonerHistoryItems) {
+        items(items = summonerHistoryItems) {
             TierItem(it)
         }
     }
 }
 
 @Composable
-fun TierItem(item: SummonerHistory.Item) {
+fun TierItem(item: Summoner.Item) {
     val queueType = when (item.queueType.uppercase()) {
         QueueType.RANKED_SOLO_5X5.name -> stringResource(id = R.string.match_solo_rank)
         QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_free_rank)
@@ -335,7 +347,8 @@ fun TierItem(item: SummonerHistory.Item) {
 }
 
 @Composable
-fun MatchHistoryCard(item: SearchHistory) {
+fun MatchHistoryCard(item: MatchHistory) {
+    Log.d("##", "item: $item")
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically

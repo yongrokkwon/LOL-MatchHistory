@@ -1,6 +1,5 @@
 package gg.lol.android.ui.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +18,6 @@ class SearchViewModel @Inject internal constructor(
     fun insert(searchHistory: SearchHistory) {
         viewModelScope.launch {
 //            searchHistoryRepository.insertSearchHistory(searchHistory)
-            Log.d("###", "insert success")
         }
     }
 }

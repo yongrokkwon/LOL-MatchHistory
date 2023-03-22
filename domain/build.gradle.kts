@@ -11,6 +11,7 @@ java {
 dependencies {
     implementation(CoroutinesDep.COROUTINE_CORE)
     implementation(CoroutinesDep.COROUTINE_ANDROID)
+    implementation(AndroidX.PAGING_COMMON_KTX)
 
     implementation(JavaDep.JAVAX_INJECT)
 }

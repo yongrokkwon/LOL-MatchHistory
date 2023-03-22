@@ -51,6 +51,8 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
     implementation(AndroidX.LIFECYCLE_RUNTIME_KTX)
 
+    implementation(AndroidX.PAGING_RUNTIME_KTX)
+
 //    implementation(org.gradle.platform.base.Library.COIL_COMPOSE)
 
     implementation(Google.HILT_ANDROID)

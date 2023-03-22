@@ -3,19 +3,25 @@ package gg.op.lol.presentation.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
-import gg.op.lol.domain.models.SummonerHistory
+import gg.op.lol.domain.interactor.GetSummonerMatchHistoryUseCase
+import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.Summoner
 import gg.op.lol.presentation.UiState
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MatchHistoryViewModel @Inject internal constructor(
-    private val summonerInfoUseCase: GetSummonerInfoUseCase
+    private val summonerInfoUseCase: GetSummonerInfoUseCase,
+    private val summonerMatchHistoryUseCase: GetSummonerMatchHistoryUseCase
 ) : BaseViewModel() {
 
     private val _summonerName = MutableStateFlow("")
@@ -24,8 +30,8 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _appbarBackground = MutableStateFlow(Color.White)
     val appbarBackground: StateFlow<Color> get() = _appbarBackground
 
-    private val _uiState = MutableStateFlow<UiState<SummonerHistory>>(UiState.Loading)
-    val uiState: StateFlow<UiState<SummonerHistory>> get() = _uiState
+    private val _uiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
+    val uiState: StateFlow<UiState<Summoner>> get() = _uiState
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _uiState.value = UiState.Error(exception)
@@ -35,6 +41,10 @@ class MatchHistoryViewModel @Inject internal constructor(
         launchCoroutineIO {
             getRemoteSummoner()
         }
+    }
+
+    fun getMatchHistories(puuid: String): Flow<PagingData<MatchHistory>> {
+        return summonerMatchHistoryUseCase.invoke(puuid).cachedIn(viewModelScope)
     }
 
     private suspend fun getRemoteSummoner() {

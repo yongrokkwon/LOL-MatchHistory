@@ -1,11 +1,14 @@
 package gg.op.lol.data.source
 
+import androidx.paging.PagingData
 import gg.op.lol.data.models.SummonerEntity
 import gg.op.lol.data.models.SummonerHistoryEntity
 import gg.op.lol.data.models.SummonerInfoEntity
 import gg.op.lol.data.repository.SummonerDataSource
 import gg.op.lol.data.repository.SummonerLocal
+import gg.op.lol.domain.models.MatchHistory
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class SummonerLocalDataSource @Inject constructor(
     private val summonerLocal: SummonerLocal
@@ -17,13 +20,19 @@ class SummonerLocalDataSource @Inject constructor(
 
     override suspend fun getSummonerHistory(id: String): SummonerHistoryEntity {
         throw UnsupportedOperationException(
-            "Get SummonerByNickName is not supported for LocalDataSource."
+            "getSummonerByNickName is not supported for LocalDataSource."
         )
     }
 
     override suspend fun getSummonerInfo(nickName: String): SummonerInfoEntity {
         throw UnsupportedOperationException(
-            "Get getSummonerInfo is not supported for LocalDataSource."
+            "getSummonerInfo is not supported for LocalDataSource."
+        )
+    }
+
+    override fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+        throw UnsupportedOperationException(
+            "getMatchHistory is not supported for LocalDataSource."
         )
     }
 }
