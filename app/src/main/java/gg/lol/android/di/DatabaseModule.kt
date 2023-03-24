@@ -22,6 +22,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import gg.op.lol.data.local.dao.ChampionDao
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.database.LOLGGDatabase
 import javax.inject.Singleton
@@ -39,6 +40,11 @@ class DatabaseModule {
     @Provides
     fun provideSummonerDao(appDatabase: LOLGGDatabase): SummonerDao {
         return appDatabase.summonerDao()
+    }
+
+    @Provides
+    fun provideChampionDao(appDatabase: LOLGGDatabase): ChampionDao {
+        return appDatabase.championDao()
     }
 
 //    @Provides

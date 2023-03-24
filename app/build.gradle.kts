@@ -35,6 +35,7 @@ android {
 
             buildConfigField("String", "KR_URL", "\"" + Config.Debug.KR_URL + "\"")
             buildConfigField("String", "ASIA_URL", "\"" + Config.Debug.ASIA_URL + "\"")
+            buildConfigField("String", "DDRAGON_URL", "\"" + Config.Release.DDRAGON_URL + "\"")
         }
         getByName("release") {
             isMinifyEnabled = true
@@ -46,6 +47,7 @@ android {
 
             buildConfigField("String", "KR_URL", "\"" + Config.Release.KR_URL + "\"")
             buildConfigField("String", "ASIA_URL", "\"" + Config.Release.ASIA_URL + "\"")
+            buildConfigField("String", "DDRAGON_URL", "\"" + Config.Release.DDRAGON_URL + "\"")
         }
     }
     compileOptions {
