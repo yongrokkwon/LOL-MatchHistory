@@ -1,4 +1,4 @@
-package gg.op.lol.presentation.viewmodel
+package gg.lol.android.ui.match
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
@@ -10,7 +10,8 @@ import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
 import gg.op.lol.domain.interactor.GetSummonerMatchHistoryUseCase
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Summoner
-import gg.op.lol.presentation.UiState
+import gg.lol.android.ui.UiState
+import gg.lol.android.ui.BaseViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow

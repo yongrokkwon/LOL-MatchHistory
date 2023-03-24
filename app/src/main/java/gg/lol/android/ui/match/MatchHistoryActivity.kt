@@ -39,8 +39,7 @@ import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.Summoner
-import gg.op.lol.presentation.UiState
-import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
+import gg.lol.android.ui.UiState
 
 @AndroidEntryPoint
 class MatchHistoryActivity : ComponentActivity() {

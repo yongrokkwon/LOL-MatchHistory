@@ -1,4 +1,4 @@
-package gg.op.lol.presentation
+package gg.lol.android.ui
 
 sealed class UiState<out T> {
     object Loading : UiState<Nothing>()

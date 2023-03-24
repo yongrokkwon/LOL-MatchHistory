@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import gg.lol.android.data.search.SearchHistoryDao
 import gg.lol.android.data.summoner.Summoner
 import gg.lol.android.network.UserService
+import gg.lol.android.ui.match.MatchHistoryViewModel
 import gg.op.lol.data.repository.SearchHistoryRepository
 import gg.op.lol.data.repository.SummonerRepository
 import io.mockk.every
@@ -33,7 +34,7 @@ class MatchHistoryViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var userService: UserService
-    private lateinit var viewModel: gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
+    private lateinit var viewModel: MatchHistoryViewModel
 
     private val searchHistoryDao = mockk<SearchHistoryDao>()
     private val summonerDao = mockk<SummonerDao>()
@@ -52,7 +53,7 @@ class MatchHistoryViewModelTest {
     fun setUp() {
         mockkSetup()
         userService = mock(UserService::class.java)
-        viewModel = gg.op.lol.presentation.viewmodel.MatchHistoryViewModel(
+        viewModel = MatchHistoryViewModel(
             searchHistoryRepository,
             summonerRepository
         )

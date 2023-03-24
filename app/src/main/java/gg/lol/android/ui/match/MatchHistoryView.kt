@@ -66,8 +66,7 @@ import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Summoner
-import gg.op.lol.presentation.UiState
-import gg.op.lol.presentation.viewmodel.MatchHistoryViewModel
+import gg.lol.android.ui.UiState
 
 enum class QueueType { RANKED_SOLO_5X5, RANKED_FLEX_SR }
 

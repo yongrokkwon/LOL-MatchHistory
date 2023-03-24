@@ -1,4 +1,4 @@
-package gg.op.lol.presentation.viewmodel
+package gg.lol.android.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
