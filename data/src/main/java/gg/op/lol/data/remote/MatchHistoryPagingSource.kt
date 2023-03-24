@@ -1,6 +1,5 @@
 package gg.op.lol.data.remote
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import gg.op.lol.data.remote.api.MatchService
@@ -17,7 +16,6 @@ class MatchHistoryPagingSource(
 ) : PagingSource<Int, MatchHistory>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MatchHistory> {
-        Log.d("##", "load call")
         val page = params.key ?: STARTING_PAGE_INDEX
 
         if (puuid == null) throw NullPointerException("puuid can not be null")

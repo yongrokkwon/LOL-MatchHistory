@@ -11,17 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceFactory {
 
-    fun createSummonerService(isDebug: Boolean, baseUrl: String): SummonerService {
+    inline fun <reified T> createRetrofitService(isDebug: Boolean, baseUrl: String): T {
         val retrofit = createRetrofit(isDebug, baseUrl)
-        return retrofit.create(SummonerService::class.java)
+        return retrofit.create(T::class.java)
     }
 
-    fun createMatchService(isDebug: Boolean, baseUrl: String): MatchService {
-        val retrofit = createRetrofit(isDebug, baseUrl)
-        return retrofit.create(MatchService::class.java)
-    }
-
-    private fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {
+    fun createRetrofit(isDebug: Boolean, baseUrl: String): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(

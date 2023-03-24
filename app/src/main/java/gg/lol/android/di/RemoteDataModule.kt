@@ -25,12 +25,12 @@ object RemoteDataModule {
     @Provides
     @Singleton
     fun provideSummonerService(): SummonerService {
-        return ServiceFactory.createSummonerService(BuildConfig.DEBUG, BuildConfig.KR_URL)
+        return ServiceFactory.createRetrofitService(BuildConfig.DEBUG, BuildConfig.KR_URL)
     }
 
     @Provides
     @Singleton
     fun provideMatchService(): MatchService {
-        return ServiceFactory.createMatchService(BuildConfig.DEBUG, BuildConfig.ASIA_URL)
+        return ServiceFactory.createRetrofitService(BuildConfig.DEBUG, BuildConfig.ASIA_URL)
     }
 }
