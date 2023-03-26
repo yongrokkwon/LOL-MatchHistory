@@ -1,8 +1,8 @@
 package gg.lol.android.ui.match
 
 import android.app.Activity
-import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -55,7 +55,9 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.R
+import gg.lol.android.ui.UiState
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.LightGray
@@ -64,11 +66,37 @@ import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
+import gg.op.lol.domain.models.Champion
+import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.Rune
+import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
-import gg.lol.android.ui.UiState
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import kotlin.math.roundToInt
 
-enum class QueueType { RANKED_SOLO_5X5, RANKED_FLEX_SR }
+// TODO https://static.developer.riotgames.com/docs/lol/queues.json
+enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
+    NORMAL(R.string.match_normal, 400),
+    RANKED_SOLO_5X5(R.string.match_solo_rank, 420),
+    RANKED_FLEX_SR(R.string.match_flex_rank, 440),
+    ARAM(R.string.match_aram, 450),
+    CLASH(R.string.match_clash, 700),
+    AI_01(R.string.match_ai, 820),
+    AI_02(R.string.match_ai, 830),
+    AI_03(R.string.match_ai, 840),
+    AI_04(R.string.match_ai, 850),
+    URF(R.string.match_urf, 900),
+    PORO(R.string.match_poro, 920),
+    OFA(R.string.match_ofa, 1020),
+    TUTORIAL_01(R.string.match_tutorial, 2000),
+    TUTORIAL_02(R.string.match_tutorial, 2010),
+    TUTORIAL_03(R.string.match_tutorial, 2020),
+    ETC(R.string.match_etc, 0)
+}
 
 enum class Tier { CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON }
 
@@ -91,6 +119,11 @@ fun MatchHistoryView(
 @Composable
 fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     val matchHistories = viewModel.matchHistories.collectAsLazyPagingItems()
+    val champions = viewModel.champions
+    val spells = viewModel.spells
+    val runes = viewModel.runes
+    val items = viewModel.items
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -108,8 +141,9 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                     items = matchHistories,
                     key = { matchHistory -> matchHistory.metadata.matchId }
                 ) { matchHistory ->
-                    matchHistory ?: return@items
-                    MatchHistoryCard(matchHistory)
+                    matchHistory?.info?.participants?.find { it.puuid == summoner.puuid }?.let {
+                        MatchHistoryCard(matchHistory, it, champions, spells, runes, items)
+                    } ?: ErrorView()
                 }
             }
         } else {
@@ -258,7 +292,7 @@ fun TierInformation(summonerHistoryItems: List<Summoner.Item>) {
 fun TierItem(item: Summoner.Item) {
     val queueType = when (item.queueType.uppercase()) {
         QueueType.RANKED_SOLO_5X5.name -> stringResource(id = R.string.match_solo_rank)
-        QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_free_rank)
+        QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_flex_rank)
         else -> return
     }
     val tier = "${item.tier} ${item.rank}"
@@ -275,6 +309,10 @@ fun TierItem(item: Summoner.Item) {
             Tier.CHALLENGER.name -> R.drawable.challenger
             else -> R.drawable.unranked
         }
+    )
+    val winRate = calculateWinRate(
+        item.wins,
+        item.losses
     )
 //    Card(
 //        modifier = Modifier
@@ -326,8 +364,12 @@ fun TierItem(item: Summoner.Item) {
                 )
             )
             Text(
-                text = "${item.wins}승 ${item.losses}패 " +
-                    "(${calculateWinRate(item.wins, item.losses)}%)",
+                text = stringResource(
+                    id = R.string.match_match_history,
+                    item.wins,
+                    item.losses,
+                    winRate
+                ),
                 style = TextStyle(fontSize = 12.sp, color = SeasonInformationTextColor)
             )
         }
@@ -344,24 +386,51 @@ fun TierItem(item: Summoner.Item) {
 }
 
 @Composable
-fun MatchHistoryCard(item: MatchHistory) {
-    Log.d("##", "item: $item")
+fun ErrorView() {
+    Text("MatchHistory Load Error")
+}
+
+@Composable
+fun MatchHistoryCard(
+    matchHistory: MatchHistory,
+    item: MatchHistory.Info.Participant,
+    champions: List<Champion>,
+    spells: List<Spell>,
+    runes: List<Rune>,
+    items: List<Item>
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 2.dp, bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResultMatchHistory(
+            matchHistory,
+            item,
             Modifier
-                .background(color = Color.Red)
-                .weight(1.5f)
+                .background(
+                    color = if (item.win) {
+                        PrimaryColor
+                    } else {
+                        Color.Red
+                    }
+                )
                 .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
+                .weight(1.5f)
                 .align(Alignment.CenterVertically)
         )
         ResultInformation(
             Modifier
                 .weight(9f)
                 .padding(start = 8.dp, end = 8.dp)
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
+            matchHistory,
+            item,
+            champions,
+            spells,
+            runes,
+            items
         )
     }
 }
@@ -383,19 +452,41 @@ fun RoundImage(
 }
 
 @Composable
-fun ResultInformation(modifier: Modifier) {
+fun ResultInformation(
+    modifier: Modifier,
+    matchHistory: MatchHistory,
+    item: MatchHistory.Info.Participant,
+    champions: List<Champion>,
+    spells: List<Spell>,
+    runes: List<Rune>,
+    items: List<Item>
+) {
     Column(modifier) {
-        ResultInformationTop()
-        ResultInformationBottom()
+        ResultInformationTop(matchHistory, item, champions, spells, runes, items)
+        ResultInformationBottom(item, items)
     }
 }
 
 @Composable
-fun ResultMatchHistory(modifier: Modifier) {
+fun ResultMatchHistory(
+    matchHistory: MatchHistory,
+    item: MatchHistory.Info.Participant,
+    modifier: Modifier
+) {
+    val durationInSeconds = matchHistory.info.gameDuration
+    val minutes = durationInSeconds / 60
+    val seconds = durationInSeconds % 60
+
     Column(modifier) {
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "패",
+            text = stringResource(
+                id = if (item.win) {
+                    R.string.match_victory
+                } else {
+                    R.string.match_defeat
+                }
+            ),
             style = TextStyle(color = Color.White, textAlign = TextAlign.Center)
         )
         Divider(
@@ -404,23 +495,84 @@ fun ResultMatchHistory(modifier: Modifier) {
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "15:57",
+            text = stringResource(id = R.string.match_time, minutes, seconds),
             style = TextStyle(color = Color.White, textAlign = TextAlign.Center)
         )
     }
 }
 
 @Composable
-fun ResultInformationTop() {
+fun ResultInformationTop(
+    matchHistory: MatchHistory,
+    item: MatchHistory.Info.Participant,
+    champions: List<Champion>,
+    spells: List<Spell>,
+    runes: List<Rune>,
+    items: List<Item>
+) {
+    val champion = champions.find { it.key.toInt() == item.championId }
+    val spell01 = spells.find { it.key.toInt() == item.summoner1Id }
+    val spell02 = spells.find { it.key.toInt() == item.summoner2Id }
+    val rune1 = runes.find { it.id == item.perks.styles[0].style }
+    val rune2 = runes.find { it.id == item.perks.styles[1].style }
+    val queueStrRes = when (matchHistory.info.queueId) {
+        QueueType.NORMAL.queueId -> QueueType.NORMAL.resId
+        QueueType.RANKED_SOLO_5X5.queueId -> QueueType.RANKED_SOLO_5X5.resId
+        QueueType.RANKED_FLEX_SR.queueId -> QueueType.RANKED_FLEX_SR.resId
+        QueueType.ARAM.queueId -> QueueType.ARAM.resId
+        QueueType.CLASH.queueId -> QueueType.CLASH.resId
+        in QueueType.AI_01.queueId..QueueType.AI_04.queueId -> QueueType.AI_01.resId
+        QueueType.URF.queueId -> QueueType.URF.resId
+        QueueType.PORO.queueId -> QueueType.PORO.resId
+        QueueType.OFA.queueId -> QueueType.OFA.resId
+        in QueueType.TUTORIAL_01.queueId..QueueType.TUTORIAL_03.queueId -> {
+            QueueType.TUTORIAL_01.resId
+        }
+        else -> QueueType.ETC.resId
+    }
+    val dateTime = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(matchHistory.info.gameEndTimestamp),
+        ZoneId.systemDefault()
+    )
+    val gameEndTime = getTimeDiffDuration(dateTime)
+    val strTime = when {
+        gameEndTime.toMinutes() < 1 -> stringResource(R.string.match_just_now)
+        gameEndTime.toHours() < 1 -> stringResource(
+            R.string.match_minute,
+            gameEndTime.toHours().toInt()
+        )
+        gameEndTime.toDays() < 7 -> stringResource(R.string.match_day, gameEndTime.toDays().toInt())
+        else -> stringResource(
+            R.string.match_date,
+            dateTime.year,
+            dateTime.monthValue,
+            dateTime.dayOfMonth
+        )
+    }
+    val totalKills = matchHistory.info.teams.find {
+        it.teamId == item.teamId
+    }?.objectives?.champion?.kills ?: 0
+    val killInvolvementRate = calculateKillInvolvementRate(item.kills, item.assists, totalKills)
     Row(
         modifier = Modifier.fillMaxWidth()
 //            .fillMaxHeight()
     ) {
-        RoundImage(
-            imageRes = R.drawable.champion_leblanc,
-            imageSize = 50.dp,
-            cornerRadius = 10.dp
+        Image(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .size(50.dp),
+            painter = rememberAsyncImagePainter(
+                "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/" +
+                    champion?.imagePath
+            ),
+            contentDescription = null
         )
+//        RoundImage(
+//
+//            imageRes = R.drawable.champion_leblanc,
+//            imageSize = 50.dp,
+//            cornerRadius = 10.dp
+//        )
         Column(
             modifier = Modifier
 //                .fillMaxHeight()
@@ -433,19 +585,34 @@ fun ResultInformationTop() {
                     .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RoundImage(
-                    imageRes = R.drawable.summoner_spell_ignite,
-                    imageSize = 20.dp,
-                    cornerRadius = 5.dp
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .size(20.dp),
+                    painter = rememberAsyncImagePainter(
+                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
+                            spell01?.imagePath
+                    ),
+                    contentDescription = null
                 )
-                RoundImage(
-                    imageRes = R.drawable.summoner_rune_electrocute,
-                    imageSize = 20.dp,
-                    cornerRadius = 10.dp
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(20.dp),
+                    painter = rememberAsyncImagePainter(
+                        "https://ddragon.leagueoflegends.com/cdn/img/" +
+                            rune1?.icon
+                    ),
+                    contentDescription = null
                 )
                 Text(
                     modifier = Modifier.padding(start = 4.dp),
-                    text = "10/14/12",
+                    text = stringResource(
+                        id = R.string.match_kda,
+                        item.kills,
+                        item.deaths,
+                        item.assists
+                    ),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 14.sp,
@@ -455,7 +622,7 @@ fun ResultInformationTop() {
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "개인/2인 랭크",
+                    text = stringResource(id = queueStrRes),
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 11.sp,
@@ -470,24 +637,37 @@ fun ResultInformationTop() {
                     .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RoundImage(
-                    imageRes = R.drawable.summoner_spell_flash,
-                    imageSize = 20.dp,
-                    cornerRadius = 5.dp
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .size(20.dp),
+                    painter = rememberAsyncImagePainter(
+                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
+                            spell02?.imagePath
+                    ),
+                    contentDescription = null
                 )
-                RoundImage(
-                    imageRes = R.drawable.summoner_rune_sorcery,
-                    imageSize = 20.dp,
-                    cornerRadius = 10.dp
+                Image(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(20.dp),
+                    painter = rememberAsyncImagePainter(
+                        "https://ddragon.leagueoflegends.com/cdn/img/" +
+                            rune2?.icon
+                    ),
+                    contentDescription = null
                 )
                 Text(
                     modifier = Modifier,
-                    text = "킬 관여 58%",
+                    text = stringResource(
+                        id = R.string.match_kill_involvement_rate,
+                        killInvolvementRate
+                    ),
                     style = TextStyle(color = Color.Gray, fontSize = 11.sp)
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "1일전",
+                    text = strTime,
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 11.sp,
@@ -500,53 +680,95 @@ fun ResultInformationTop() {
 }
 
 @Composable
-fun ResultInformationBottom() {
+fun ResultInformationBottom(item: MatchHistory.Info.Participant, items: List<Item>) {
+    val item0 = items.find { it.id.toInt() == item.item0 }
+    val item1 = items.find { it.id.toInt() == item.item1 }
+    val item2 = items.find { it.id.toInt() == item.item2 }
+    val item3 = items.find { it.id.toInt() == item.item3 }
+    val item4 = items.find { it.id.toInt() == item.item4 }
+    val item5 = items.find { it.id.toInt() == item.item5 }
+    val item6 = items.find { it.id.toInt() == item.item6 }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item0?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item1?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item2?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item3?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item4?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.item_everfrost,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item5?.full
+                ),
+                contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
-            RoundImage(
-                imageRes = R.drawable.accessories_farsight_alteration,
-                imageSize = 20.dp,
-                cornerRadius = 5.dp
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp),
+                painter = rememberAsyncImagePainter(
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
+                        item6?.full
+                ),
+                contentDescription = null
             )
         }
         Text(
@@ -576,4 +798,18 @@ fun calculateWinRate(wins: Int, losses: Int): Int {
         return 0
     }
     return (wins.toDouble() / totalGames.toDouble() * 100).toInt()
+}
+
+fun calculateKillInvolvementRate(kills: Int, assists: Int, totalKills: Int): Int {
+    val killContribution = kills + assists
+    val killInvolvementRate = (killContribution.toDouble() / totalKills.toDouble()) * 100.0
+    return killInvolvementRate.roundToInt()
+}
+
+fun getTimeDiffDuration(dateTime: LocalDateTime): Duration {
+    val now = LocalDateTime.now()
+    val diff = Duration.between(dateTime, now)
+    dateTime.year
+
+    return diff
 }

@@ -70,8 +70,30 @@
     <string name="search_no_history">최근 검색 내역이 없습니다.</string>
 
     <string name="match_update">전적 갱신</string>
+    <string name="match_normal">일반</string>
     <string name="match_solo_rank">개인/2인 랭크</string>
-    <string name="match_free_rank">자유랭크</string>
+    <string name="match_flex_rank">자유랭크</string>
+    <string name="match_urf">모두 무작위 U.R.F</string>
+    <string name="match_ofa">단일모드</string>
+    <string name="match_ai">AI 상대 대전</string>
+    <string name="match_poro">포로</string>
+    <string name="match_tutorial">튜토리얼</string>
+    <string name="match_etc">기타</string>
+    <string name="match_clash">격전</string>
+    <string name="match_aram">무작위 총력전</string>
+    <string name="match_time">%1$d:%2$d</string>
+    <string name="match_kda">%1$d/%2$d/%3$d</string>
+    <string name="match_match_history">%1$d승 %2$d패 (%3$d%%)</string>
+    <string name="match_victory">승</string>
+    <string name="match_defeat">패</string>
+    <string name="match_solo">개인/2인 랭크</string>
+    <string name="match_free">자유 랭크</string>
+    <string name="match_just_now">방금전</string>
+    <string name="match_minute">%1$d분 전</string>
+    <string name="match_hour">%1$d시간 전</string>
+    <string name="match_day">%1$d일 전</string>
+    <string name="match_date">%1$2d.%2$2d.%3$2d</string>
+    <string name="match_kill_involvement_rate">킬 관여 %1$d%%</string>
 
     <string name="empty">Empty</string>
     <string name="title_data">data</string>

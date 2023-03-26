@@ -1,7 +1,6 @@
 package gg.op.lol.data
 
 import androidx.paging.PagingData
-import gg.op.lol.data.mapper.MatchHistoryEntityMapper
 import gg.op.lol.data.mapper.SummonerEntityMapper
 import gg.op.lol.data.mapper.SummonerHistoryEntityMapper
 import gg.op.lol.data.source.SummonerDataSourceFactory
@@ -17,8 +16,7 @@ import kotlinx.coroutines.flow.flow
 class SummonerRepositoryImp @Inject constructor(
     private val summonerDataSourceFactory: SummonerDataSourceFactory,
     private val summonerEntityMapper: SummonerEntityMapper,
-    private val summonerHistoryEntityMapper: SummonerHistoryEntityMapper,
-    private val matchHistoryEntityMapper: MatchHistoryEntityMapper
+    private val summonerHistoryEntityMapper: SummonerHistoryEntityMapper
 ) : SummonerRepository {
     override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> =
         flow {

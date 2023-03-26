@@ -23,6 +23,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import gg.op.lol.data.local.dao.ChampionDao
+import gg.op.lol.data.local.dao.ItemDao
+import gg.op.lol.data.local.dao.RuneDao
+import gg.op.lol.data.local.dao.SpellDao
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.database.LOLGGDatabase
 import javax.inject.Singleton
@@ -45,6 +48,21 @@ class DatabaseModule {
     @Provides
     fun provideChampionDao(appDatabase: LOLGGDatabase): ChampionDao {
         return appDatabase.championDao()
+    }
+
+    @Provides
+    fun provideSpellDao(appDatabase: LOLGGDatabase): SpellDao {
+        return appDatabase.spellDao()
+    }
+
+    @Provides
+    fun provideRuneDao(appDatabase: LOLGGDatabase): RuneDao {
+        return appDatabase.runeDao()
+    }
+
+    @Provides
+    fun provideItemDao(appDatabase: LOLGGDatabase): ItemDao {
+        return appDatabase.itemDao()
     }
 
 //    @Provides

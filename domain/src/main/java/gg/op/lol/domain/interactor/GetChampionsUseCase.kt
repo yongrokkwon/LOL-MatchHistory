@@ -12,5 +12,5 @@ class GetChampionsUseCase @Inject constructor(
 ) : GetChampionsBaseUseCase {
 
     override suspend operator fun invoke(params: Unit): Flow<List<Champion?>> =
-        dDragonRepository.getChampions()
+        dDragonRepository.getRemoteChampions()
 }

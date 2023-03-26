@@ -4,6 +4,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.op.lol.domain.interactor.GetChampionsUseCase
+import gg.op.lol.domain.interactor.GetItemUseCase
+import gg.op.lol.domain.interactor.GetRuneUseCase
+import gg.op.lol.domain.interactor.GetSpellUseCase
 import gg.op.lol.domain.models.Champion
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -13,7 +16,10 @@ import kotlinx.coroutines.flow.collect
 
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
-    private val getChampionsUseCase: GetChampionsUseCase
+    private val getChampionsUseCase: GetChampionsUseCase,
+    private val getSpellUseCase: GetSpellUseCase,
+    private val getRuneUseCase: GetRuneUseCase,
+    private val getItemUseCase: GetItemUseCase
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<Champion>>(UiState.Loading)
@@ -27,6 +33,9 @@ class MainViewModel @Inject internal constructor(
     init {
         launchCoroutineIO {
             getChampionsUseCase.invoke(Unit).collect()
+            getSpellUseCase.invoke(Unit).collect()
+            getRuneUseCase.invoke(Unit).collect()
+            getItemUseCase.invoke(Unit).collect()
         }
     }
 }
