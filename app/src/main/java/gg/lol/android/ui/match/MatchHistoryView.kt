@@ -24,14 +24,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -109,6 +106,13 @@ enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
 
 enum class Tier { CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON }
 
+enum class MultiKillType(@StringRes val id: Int) {
+    DOUBLE(R.string.match_double_kill),
+    TRIPLE(R.string.match_triple_kill),
+    QUAD(R.string.match_quadra_kill),
+    PENTA(R.string.match_penta_kill)
+}
+
 @Composable
 fun MatchHistoryView(
     viewModel: MatchHistoryViewModel = hiltViewModel(),
@@ -134,10 +138,12 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     val items = viewModel.items
 
     Column(
-        modifier = Modifier.fillMaxSize().background(color = Color.White)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.White)
     ) {
         Header(viewModel, summoner)
-        MatchHistoryUpdateAndInGame(matchHistories, viewModel, summoner.puuid)
+        MatchHistoryUpdate(matchHistories, viewModel, summoner.puuid)
 //        SeasonInformation()
         TierInformation(summoner.histories)
         if (matchHistories.itemCount != 0) {
@@ -162,27 +168,40 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 @Composable
 fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     Box(
-        modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
+        modifier = Modifier
+            .height(200.dp)
+            .padding(start = 8.dp, bottom = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight().align(Alignment.BottomStart)
+            modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.BottomStart)
         ) {
             Box(modifier = Modifier.align(Alignment.Bottom)) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(35.dp)).width(80.dp).height(80.dp),
-                    painter = painterResource(R.drawable.summoner_icon_test),
+                    modifier = Modifier.clip(RoundedCornerShape(35.dp))
+                        .width(80.dp)
+                        .height(80.dp),
+                    painter = rememberAsyncImagePainter(
+                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/" +
+                            summoner.profileIconId + ".png"
+                    ),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
                 Text(
                     modifier = Modifier.align(Alignment.BottomCenter)
-                        .padding(start = 2.dp, end = 2.dp).background(color = Color.Gray),
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(color = Color.Gray)
+                        .padding(start = 4.dp, end = 4.dp),
                     text = "${summoner.summonerLevel}",
                     style = TextStyle(color = Color.White)
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.Bottom).padding(start = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.Bottom)
+                    .padding(start = 8.dp)
             ) {
                 Text(
                     modifier = Modifier,
@@ -193,29 +212,21 @@ fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                         fontSize = 22.sp
                     )
                 )
-//                Text(
-//                    modifier = Modifier, text = "T1[Faker]", style = TextStyle(
-//                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp
-//                    )
-//                )
-//                Text(
-//                    modifier = Modifier, text = "래더 랭킹 514위", style = TextStyle(
-//                        color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 12.sp
-//                    )
-//                )
             }
         }
     }
 }
 
 @Composable
-fun MatchHistoryUpdateAndInGame(
+fun MatchHistoryUpdate(
     matchHistories: LazyPagingItems<MatchHistory>,
     viewModel: MatchHistoryViewModel,
     puuid: String
 ) {
     Button(
-        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp),
         colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
         shape = RoundedCornerShape(10),
         content = {
@@ -308,29 +319,30 @@ fun TierItem(item: Summoner.Item) {
         item.wins,
         item.losses
     )
-//    Card(
-//        modifier = Modifier
-//            .padding(4.dp)
-//            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
-//            .fillMaxWidth(),
-//        colors = CardDefaults.cardColors(containerColor = Color.White),
-//    ) {
     Row(
-        modifier = Modifier.padding(8.dp)
-            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp)).fillMaxWidth()
-            .background(color = Color.White).height(100.dp)
+        modifier = Modifier
+            .padding(8.dp)
+            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .height(100.dp)
     ) {
         Image(
             painter = tierImage,
             contentDescription = null,
-            modifier = Modifier.size(100.dp)
-//                    .fillMaxHeight()
+            modifier = Modifier
+                .size(100.dp)
+                .padding(8.dp)
         )
         Column(
-            modifier = Modifier.align(Alignment.CenterVertically).padding(top = 8.dp, bottom = 8.dp)
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
         ) {
             Text(
-                modifier = Modifier.background(color = BackgroundPrimaryColor).padding(2.dp),
+                modifier = Modifier
+                    .background(color = BackgroundPrimaryColor)
+                    .padding(2.dp),
                 text = queueType,
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
@@ -360,15 +372,6 @@ fun TierItem(item: Summoner.Item) {
                 style = TextStyle(fontSize = 12.sp, color = SeasonInformationTextColor)
             )
         }
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = null
-            )
-        }
     }
 }
 
@@ -387,23 +390,31 @@ fun MatchHistoryCard(
     items: List<Item>
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 2.dp, bottom = 2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 2.dp, bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResultMatchHistory(
             matchHistory,
             participant,
-            Modifier.background(
-                color = if (participant.win) {
-                    PrimaryColor
-                } else {
-                    Color.Red
-                }
-            ).padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp).weight(1.5f)
+            Modifier
+                .background(
+                    color = if (participant.win) {
+                        PrimaryColor
+                    } else {
+                        Color.Red
+                    }
+                )
+                .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
+                .weight(1.5f)
                 .align(Alignment.CenterVertically)
         )
         ResultInformation(
-            Modifier.weight(9f).padding(start = 8.dp, end = 8.dp).align(Alignment.CenterVertically),
+            Modifier
+                .weight(9f)
+                .padding(start = 8.dp, end = 8.dp)
+                .align(Alignment.CenterVertically),
             matchHistory,
             participant,
             champions,
@@ -422,7 +433,9 @@ fun RoundImage(
     contentDescription: String? = null
 ) {
     Image(
-        modifier = Modifier.clip(RoundedCornerShape(cornerRadius)).size(imageSize),
+        modifier = Modifier
+            .clip(RoundedCornerShape(cornerRadius))
+            .size(imageSize),
         painter = painterResource(id = imageRes),
         contentDescription = contentDescription
     )
@@ -491,6 +504,7 @@ fun ResultInformationTop(
     val spell01 = spells.find { it.key.toInt() == participant.summoner1Id }
     val spell02 = spells.find { it.key.toInt() == participant.summoner2Id }
     val rune1 = runes.find { it.id == participant.perks.styles[0].style }
+        ?.bodies?.find { it.id == participant.perks.styles[0].selections[0].perk }
     val rune2 = runes.find { it.id == participant.perks.styles[1].style }
     val queueStrRes = when (matchHistory.info.queueId) {
         QueueType.NORMAL.queueId -> QueueType.NORMAL.resId
@@ -536,7 +550,9 @@ fun ResultInformationTop(
 //            .fillMaxHeight()
     ) {
         Image(
-            modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(50.dp),
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .size(50.dp),
             painter = rememberAsyncImagePainter(
                 "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/" + champion?.imagePath
             ),
@@ -554,11 +570,16 @@ fun ResultInformationTop(
                 .align(Alignment.CenterVertically)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 25.dp)
+                    .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(5.dp))
+                        .size(20.dp)
+                        .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
                             spell01?.imagePath
@@ -566,7 +587,10 @@ fun ResultInformationTop(
                     contentDescription = null
                 )
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(20.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(20.dp)
+                        .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/img/" + rune1?.icon
                     ),
@@ -598,11 +622,16 @@ fun ResultInformationTop(
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 25.dp)
+                    .padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .size(20.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
                             spell02?.imagePath
@@ -610,14 +639,17 @@ fun ResultInformationTop(
                     contentDescription = null
                 )
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(20.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(20.dp)
+                        .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/img/" + rune2?.icon
                     ),
                     contentDescription = null
                 )
                 Text(
-                    modifier = Modifier,
+                    modifier = Modifier.padding(start = 4.dp),
                     text = stringResource(
                         id = R.string.match_kill_involvement_rate,
                         killInvolvementRate
@@ -648,11 +680,16 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
     val item5 = items.find { it.id.toInt() == participant.item5 }
     val item6 = items.find { it.id.toInt() == participant.item6 }
     Box(
-        modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item0?.full
                 ),
@@ -660,7 +697,10 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item1?.full
                 ),
@@ -668,7 +708,10 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item2?.full
                 ),
@@ -676,7 +719,10 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item3?.full
                 ),
@@ -684,7 +730,10 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item4?.full
                 ),
@@ -692,7 +741,10 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item5?.full
                 ),
@@ -700,24 +752,38 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(5.dp))
+                    .size(20.dp)
+                    .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item6?.full
                 ),
                 contentDescription = null
             )
         }
-        Text(
-            modifier = Modifier.align(Alignment.CenterEnd)
-                .background(color = MultiKillBackgroundColor).padding(
-                    top = 2.dp,
-                    bottom = 2.dp,
-                    start = 4.dp,
-                    end = 4.dp
-                ),
-            text = "더블킬",
-            style = TextStyle(fontSize = 10.sp, color = Color.Red)
-        )
+
+        val multiKillType = when {
+            participant.doubleKills != 0 -> MultiKillType.DOUBLE
+            participant.tripleKills != 0 -> MultiKillType.TRIPLE
+            participant.quadraKills != 0 -> MultiKillType.QUAD
+            participant.pentaKills != 0 -> MultiKillType.PENTA
+            else -> null
+        }
+        multiKillType?.let {
+            Text(
+                modifier = Modifier.align(Alignment.CenterEnd)
+                    .background(color = MultiKillBackgroundColor)
+                    .padding(
+                        top = 2.dp,
+                        bottom = 2.dp,
+                        start = 4.dp,
+                        end = 4.dp
+                    ),
+                text = stringResource(id = it.id),
+                style = TextStyle(fontSize = 10.sp, color = Color.Red)
+            )
+        }
     }
 }
 

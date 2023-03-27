@@ -42,6 +42,7 @@ class SummonerRepositoryImp @Inject constructor(
             summonerLevel = summonerInfo.summonerLevel
             summonerName = summonerInfo.name
             puuid = summonerInfo.puuid
+            profileIconId = summonerInfo.profileIconId
         }
         emit(summoner)
     }

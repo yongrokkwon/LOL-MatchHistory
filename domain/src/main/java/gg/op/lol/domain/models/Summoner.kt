@@ -4,6 +4,7 @@ data class Summoner(
     var summonerLevel: Int = 0,
     var summonerName: String = "",
     var puuid: String = "",
+    var profileIconId: Int = 0,
     val histories: List<Item>
 ) {
     data class Item(

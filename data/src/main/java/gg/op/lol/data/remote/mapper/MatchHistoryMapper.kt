@@ -52,7 +52,11 @@ class MatchHistoryMapper @Inject constructor() :
                         championId = participant.championId,
                         summoner1Id = participant.summoner1Id,
                         summoner2Id = participant.summoner2Id,
-                        teamId = participant.teamId
+                        teamId = participant.teamId,
+                        doubleKills = participant.doubleKills,
+                        tripleKills = participant.tripleKills,
+                        quadraKills = participant.quadraKills,
+                        pentaKills = participant.pentaKills
                     )
                 },
                 platformId = type.info.platformId,

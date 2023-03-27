@@ -81,7 +81,7 @@
     <string name="match_clash">격전</string>
     <string name="match_aram">무작위 총력전</string>
     <string name="match_time">%1$d:%2$d</string>
-    <string name="match_kda">%1$d/%2$d/%3$d</string>
+    <string name="match_kda">%1$d / %2$d / %3$d</string>
     <string name="match_match_history">%1$d승 %2$d패 (%3$d%%)</string>
     <string name="match_victory">승</string>
     <string name="match_defeat">패</string>
@@ -93,7 +93,11 @@
     <string name="match_day">%1$d일 전</string>
     <string name="match_date">%1$2d.%2$2d.%3$2d</string>
     <string name="match_kill_involvement_rate">킬 관여 %1$d%%</string>
+    <string name="match_double_kill">더블킬</string>
+    <string name="match_triple_kill">트리플킬</string>
+    <string name="match_quadra_kill">쿼드라킬</string>
+    <string name="match_penta_kill">펜타킬</string>
 
-    <string name="empty">Empty</string>
+    <string name="empty" />
     <string name="title_data">data</string>
 </resources>
