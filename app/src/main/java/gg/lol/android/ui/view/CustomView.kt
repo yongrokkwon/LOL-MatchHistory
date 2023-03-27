@@ -49,7 +49,7 @@ fun LoadingIndicator() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.3f)),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()

@@ -147,7 +147,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                 }
             }
         } else {
-            Text(text = "No items to display")
+            LoadingView()
         }
     }
 }
