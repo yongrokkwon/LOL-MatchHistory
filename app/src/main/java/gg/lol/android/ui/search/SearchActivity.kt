@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.data.search.SearchHistory
-import gg.lol.android.ui.theme.LOLGGTheme
+import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 
 @AndroidEntryPoint
 class SearchActivity : ComponentActivity() {
@@ -20,7 +20,7 @@ class SearchActivity : ComponentActivity() {
         viewModel.insert(SearchHistory(nickname = "hide on bush2"))
         viewModel.insert(SearchHistory(nickname = "hide on bush3"))
         setContent {
-            LOLGGTheme {
+            LOLMatchHistoryTheme {
                 SearchView(viewModel)
             }
         }

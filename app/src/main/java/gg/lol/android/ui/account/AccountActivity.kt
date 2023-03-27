@@ -31,7 +31,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.R
-import gg.lol.android.ui.theme.LOLGGTheme
+import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 
 // TODO sealed class refactor
 const val ROUTE_LOGIN = "LOGIN"
@@ -47,7 +47,7 @@ class AccountActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LOLGGTheme {
+            LOLMatchHistoryTheme {
                 AccountView(viewModel)
             }
         }

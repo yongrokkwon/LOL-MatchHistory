@@ -27,7 +27,7 @@ import gg.op.lol.data.local.dao.ItemDao
 import gg.op.lol.data.local.dao.RuneDao
 import gg.op.lol.data.local.dao.SpellDao
 import gg.op.lol.data.local.dao.SummonerDao
-import gg.op.lol.data.local.database.LOLGGDatabase
+import gg.op.lol.data.local.database.LOLMatchHistoryDatabase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -36,37 +36,34 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideLOLGGDatabase(@ApplicationContext context: Context): LOLGGDatabase {
-        return LOLGGDatabase.getInstance(context)
+    fun provideLOLMatchHistoryDatabase(
+        @ApplicationContext context: Context
+    ): LOLMatchHistoryDatabase {
+        return LOLMatchHistoryDatabase.getInstance(context)
     }
 
     @Provides
-    fun provideSummonerDao(appDatabase: LOLGGDatabase): SummonerDao {
+    fun provideSummonerDao(appDatabase: LOLMatchHistoryDatabase): SummonerDao {
         return appDatabase.summonerDao()
     }
 
     @Provides
-    fun provideChampionDao(appDatabase: LOLGGDatabase): ChampionDao {
+    fun provideChampionDao(appDatabase: LOLMatchHistoryDatabase): ChampionDao {
         return appDatabase.championDao()
     }
 
     @Provides
-    fun provideSpellDao(appDatabase: LOLGGDatabase): SpellDao {
+    fun provideSpellDao(appDatabase: LOLMatchHistoryDatabase): SpellDao {
         return appDatabase.spellDao()
     }
 
     @Provides
-    fun provideRuneDao(appDatabase: LOLGGDatabase): RuneDao {
+    fun provideRuneDao(appDatabase: LOLMatchHistoryDatabase): RuneDao {
         return appDatabase.runeDao()
     }
 
     @Provides
-    fun provideItemDao(appDatabase: LOLGGDatabase): ItemDao {
+    fun provideItemDao(appDatabase: LOLMatchHistoryDatabase): ItemDao {
         return appDatabase.itemDao()
     }
-
-//    @Provides
-//    fun provideSearchHistoryDao(appDatabase: LOLGGDatabase): SearchHistoryDao {
-//        return appDatabase.searchHistoryDao()
-//    }
 }

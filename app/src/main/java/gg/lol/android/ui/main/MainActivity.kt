@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.ui.MainScreen
-import gg.lol.android.ui.theme.LOLGGTheme
+import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LOLGGTheme {
+            LOLMatchHistoryTheme {
                 MainView(viewModel)
             }
         }

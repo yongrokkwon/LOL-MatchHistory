@@ -28,7 +28,7 @@ import gg.lol.android.iconpack.Home
 import gg.lol.android.iconpack.Setting
 
 // TODO selaed class refactor
-object LOLGGRoute {
+object LOLMatchHistoryRoute {
     const val HOME = "홈"
     const val CHAMPION = "챔피언"
     const val ESPORTS = "이스포츠"
@@ -38,47 +38,51 @@ object LOLGGRoute {
     const val SIGNUP = "회원가입"
 }
 
-sealed class LOLGGTopLevelDestination(
+sealed class LOLMatchHistoryTopLevelDestination(
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
     val iconTextId: Int
 ) {
-    object Home : LOLGGTopLevelDestination(
-        route = LOLGGRoute.HOME,
+    object Home : LOLMatchHistoryTopLevelDestination(
+        route = LOLMatchHistoryRoute.HOME,
         selectedIcon = IconPack.Home,
         unselectedIcon = IconPack.Home,
         iconTextId = R.string.home
     )
-    object Champion : LOLGGTopLevelDestination(
-        route = LOLGGRoute.CHAMPION,
+
+    object Champion : LOLMatchHistoryTopLevelDestination(
+        route = LOLMatchHistoryRoute.CHAMPION,
         selectedIcon = IconPack.Champion,
         unselectedIcon = IconPack.Champion,
         iconTextId = R.string.champion
     )
-    object Esports : LOLGGTopLevelDestination(
-        route = LOLGGRoute.ESPORTS,
+
+    object Esports : LOLMatchHistoryTopLevelDestination(
+        route = LOLMatchHistoryRoute.ESPORTS,
         selectedIcon = IconPack.Esports,
         unselectedIcon = IconPack.Esports,
         iconTextId = R.string.esports
     )
-    object Community : LOLGGTopLevelDestination(
-        route = LOLGGRoute.COMMUNITY,
+
+    object Community : LOLMatchHistoryTopLevelDestination(
+        route = LOLMatchHistoryRoute.COMMUNITY,
         selectedIcon = IconPack.Community,
         unselectedIcon = IconPack.Community,
         iconTextId = R.string.community
     )
-    object Setting : LOLGGTopLevelDestination(
-        route = LOLGGRoute.SETTING,
+
+    object Setting : LOLMatchHistoryTopLevelDestination(
+        route = LOLMatchHistoryRoute.SETTING,
         selectedIcon = IconPack.Setting,
         unselectedIcon = IconPack.Setting,
         iconTextId = R.string.setting
     )
 }
 
-class LOLGGNavigationActions(private val navController: NavHostController) {
+class LOLMatchHistoryNavigationActions(private val navController: NavHostController) {
 
-    fun navigateTo(destination: LOLGGTopLevelDestination) {
+    fun navigateTo(destination: LOLMatchHistoryTopLevelDestination) {
         navController.navigate(destination.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
@@ -96,9 +100,9 @@ class LOLGGNavigationActions(private val navController: NavHostController) {
 }
 
 val TOP_LEVEL_DESTINATIONS = listOf(
-    LOLGGTopLevelDestination.Home,
-    LOLGGTopLevelDestination.Champion,
-    LOLGGTopLevelDestination.Esports,
-    LOLGGTopLevelDestination.Community,
-    LOLGGTopLevelDestination.Setting
+    LOLMatchHistoryTopLevelDestination.Home,
+    LOLMatchHistoryTopLevelDestination.Champion,
+    LOLMatchHistoryTopLevelDestination.Esports,
+    LOLMatchHistoryTopLevelDestination.Community,
+    LOLMatchHistoryTopLevelDestination.Setting
 )

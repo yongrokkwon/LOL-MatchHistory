@@ -16,7 +16,7 @@ import gg.op.lol.data.models.RuneEntity
 import gg.op.lol.data.models.SpellEntity
 import gg.op.lol.data.models.SummonerEntity
 
-const val DATABASE_NAME = "lolgg-db"
+const val DATABASE_NAME = "LOL-MatchHistory-DB"
 
 @Database(
     entities = [
@@ -30,7 +30,7 @@ const val DATABASE_NAME = "lolgg-db"
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class LOLGGDatabase : RoomDatabase() {
+abstract class LOLMatchHistoryDatabase : RoomDatabase() {
     abstract fun summonerDao(): SummonerDao
     abstract fun championDao(): ChampionDao
     abstract fun spellDao(): SpellDao
@@ -41,16 +41,16 @@ abstract class LOLGGDatabase : RoomDatabase() {
 
         // For Singleton instantiation
         @Volatile
-        private var instance: LOLGGDatabase? = null
+        private var instance: LOLMatchHistoryDatabase? = null
 
-        fun getInstance(context: Context): LOLGGDatabase {
+        fun getInstance(context: Context): LOLMatchHistoryDatabase {
             return instance ?: synchronized(this) {
                 instance ?: buildDatabase(context).also { instance = it }
             }
         }
 
-        private fun buildDatabase(context: Context): LOLGGDatabase {
-            return Room.databaseBuilder(context, LOLGGDatabase::class.java, DATABASE_NAME)
+        private fun buildDatabase(context: Context): LOLMatchHistoryDatabase {
+            return Room.databaseBuilder(context, LOLMatchHistoryDatabase::class.java, DATABASE_NAME)
                 .build()
         }
     }

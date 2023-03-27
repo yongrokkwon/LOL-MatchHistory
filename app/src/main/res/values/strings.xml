@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LOLGG</string>
+    <string name="app_name">LOL-MatchHistory</string>
 
     <string name="home">홈</string>
     <string name="champion">챔피언</string>
@@ -42,7 +42,7 @@
     <string name="login_hint_password">비밀번호</string>
     <string name="login_status">로그인 상태 유지하기</string>
     <string name="login_pw_find">비밀번호를 잊으셨나요?</string>
-    <string name="login_signup">LOLGG에 처음이세요? 회원가입하기</string>
+    <string name="login_signup">처음이세요? 회원가입하기</string>
     <string name="login_signup_link">회원가입하기</string>
 
     <string name="signup">회원가입</string>
@@ -53,12 +53,11 @@
     <string name="signup_info">기본정보입력</string>
     <string name="signup_info_guide">회원가입을 위해서 이메일 인증이 진행되며, 인증이 완료되기 전까지 회원가입이 완료가 되지 않습니다.</string>
     <string name="signup_info_email_hint">이메일 주소</string>
-    <string name="signup_info_nickname_guide">개인정보를 기입하여 발생될 수 있는 피해는 LOLGG가 일절 책임지지 않습니다</string>
     <string name="signup_info_button">가입하기</string>
 
     <string name="email_guide_title">이메일 인증 안내</string>
     <string name="email_guide_info_01">%s(으)로 인증 메일이 발송되었습니다.</string>
-    <string name="email_guide_info_02">메일을 1시간 이내에 확인한 후 인증 링크를 클릭해야 LOLGG 회원가입을 완료하실 수 있습니다.</string>
+    <string name="email_guide_info_02">메일을 1시간 이내에 확인한 후 인증 링크를 클릭해야 회원가입을 완료하실 수 있습니다.</string>
     <string name="email_guide_info_03">메일을 받지 못하셨나요? 다시보내기</string>
     <string name="email_guide_info_03_link">다시보내기</string>
     <string name="email_guide_info_04">이메일 인증을 완료하셨나요? 로그인 하러 가기</string>

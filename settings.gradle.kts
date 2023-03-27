@@ -12,7 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "LOLGG"
+rootProject.name = "LOL-MatchHistory"
 include(":app")
 include(":data")
 include(":domain")

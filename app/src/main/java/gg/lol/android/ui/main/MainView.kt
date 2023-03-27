@@ -29,8 +29,8 @@ import gg.lol.android.ui.community.CommunityScreen
 import gg.lol.android.ui.esports.EsportsScreen
 import gg.lol.android.ui.home.HomeScreen
 import gg.lol.android.ui.main.MainViewModel
-import gg.lol.android.ui.navigation.LOLGGNavigationActions
-import gg.lol.android.ui.navigation.LOLGGRoute
+import gg.lol.android.ui.navigation.LOLMatchHistoryNavigationActions
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.navigation.TOP_LEVEL_DESTINATIONS
 import gg.lol.android.ui.search.SearchScreen
 import gg.lol.android.ui.setting.SettingScreen
@@ -39,9 +39,9 @@ import gg.lol.android.ui.theme.ColorBackground
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
-    val navigationActions = remember { LOLGGNavigationActions(navController) }
+    val navigationActions = remember { LOLMatchHistoryNavigationActions(navController) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val selectedDestination = navBackStackEntry?.destination?.route ?: LOLGGRoute.HOME
+    val selectedDestination = navBackStackEntry?.destination?.route ?: LOLMatchHistoryRoute.HOME
 
     Column(
         modifier = Modifier
@@ -54,14 +54,16 @@ fun MainScreen(viewModel: MainViewModel) {
             containerColor = Color.White,
             contentColor = Color.White
         ) {
-            TOP_LEVEL_DESTINATIONS.forEach { lolggDestination ->
+            TOP_LEVEL_DESTINATIONS.forEach { lolMatchHistoryDestination ->
                 NavigationBarItem(
-                    selected = selectedDestination == LOLGGRoute.HOME,
-                    onClick = { navigationActions.navigateTo(lolggDestination) },
+                    selected = selectedDestination == LOLMatchHistoryRoute.HOME,
+                    onClick = { navigationActions.navigateTo(lolMatchHistoryDestination) },
                     icon = {
                         Icon(
-                            imageVector = lolggDestination.selectedIcon,
-                            contentDescription = stringResource(id = lolggDestination.iconTextId),
+                            imageVector = lolMatchHistoryDestination.selectedIcon,
+                            contentDescription = stringResource(
+                                id = lolMatchHistoryDestination.iconTextId
+                            ),
                             modifier = Modifier
                                 .background(color = Color.White)
                                 .size(18.dp, 18.dp)
@@ -76,7 +78,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     ),
                     label = {
                         Text(
-                            text = stringResource(id = lolggDestination.iconTextId),
+                            text = stringResource(id = lolMatchHistoryDestination.iconTextId),
                             fontSize = 11.sp
                         )
                     },
@@ -95,14 +97,14 @@ fun NavHost(
 ) = NavHost(
     modifier = modifier,
     navController = navController,
-    startDestination = LOLGGRoute.HOME
+    startDestination = LOLMatchHistoryRoute.HOME
 ) {
-    composable(LOLGGRoute.HOME) {
+    composable(LOLMatchHistoryRoute.HOME) {
         HomeScreen(navController, viewModel)
     }
-    composable(LOLGGRoute.CHAMPION) { ChampionScreen() }
-    composable(LOLGGRoute.ESPORTS) { EsportsScreen() }
-    composable(LOLGGRoute.COMMUNITY) { CommunityScreen() }
-    composable(LOLGGRoute.SETTING) { SettingScreen() }
-    composable(LOLGGRoute.SEARCH) { SearchScreen() }
+    composable(LOLMatchHistoryRoute.CHAMPION) { ChampionScreen() }
+    composable(LOLMatchHistoryRoute.ESPORTS) { EsportsScreen() }
+    composable(LOLMatchHistoryRoute.COMMUNITY) { CommunityScreen() }
+    composable(LOLMatchHistoryRoute.SETTING) { SettingScreen() }
+    composable(LOLMatchHistoryRoute.SEARCH) { SearchScreen() }
 }

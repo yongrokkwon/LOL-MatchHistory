@@ -153,11 +153,6 @@ fun InfoInputScreen(
             ),
             singleLine = true
         )
-        Text(
-            modifier = Modifier.padding(top = 4.dp),
-            text = stringResource(id = R.string.signup_info_nickname_guide),
-            style = GUIDE_STYLE
-        )
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
