@@ -1,4 +1,4 @@
-package gg.op.lol.data.repository
+package gg.op.lol.data.repository.summoner
 
 import gg.op.lol.data.local.models.SummonerEntity
 

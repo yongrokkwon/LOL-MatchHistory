@@ -1,4 +1,4 @@
-package gg.op.lol.data
+package gg.op.lol.data.repository.ddragon
 
 import gg.op.lol.data.mapper.ChampionEntityMapper
 import gg.op.lol.data.mapper.ChampionResponseMapper

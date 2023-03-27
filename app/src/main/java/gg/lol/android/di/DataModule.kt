@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import gg.op.lol.data.DDragonRepositoryImp
-import gg.op.lol.data.SummonerRepositoryImp
+import gg.op.lol.data.repository.ddragon.DDragonRepositoryImp
+import gg.op.lol.data.repository.summoner.SummonerRepositoryImp
 import gg.op.lol.domain.repository.DDragonRepository
 import gg.op.lol.domain.repository.SummonerRepository
 import javax.inject.Singleton

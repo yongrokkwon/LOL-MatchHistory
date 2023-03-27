@@ -11,7 +11,7 @@ import gg.op.lol.data.remote.api.DDragonService
 import gg.op.lol.data.remote.api.MatchService
 import gg.op.lol.data.remote.api.ServiceFactory
 import gg.op.lol.data.remote.api.SummonerService
-import gg.op.lol.data.repository.SummonerRemote
+import gg.op.lol.data.repository.summoner.SummonerRemote
 import gg.op.lol.data.repository.ddragon.DDragonRemote
 import javax.inject.Singleton
 

@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import gg.op.lol.data.local.DDragonLocalImp
 import gg.op.lol.data.local.SummonerLocalImp
-import gg.op.lol.data.repository.SummonerLocal
+import gg.op.lol.data.repository.summoner.SummonerLocal
 import gg.op.lol.data.repository.ddragon.DDragonLocal
 import javax.inject.Singleton
 

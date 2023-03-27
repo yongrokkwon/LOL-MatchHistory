@@ -2,7 +2,7 @@ package gg.op.lol.data.local
 
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.models.SummonerEntity
-import gg.op.lol.data.repository.SummonerLocal
+import gg.op.lol.data.repository.summoner.SummonerLocal
 import javax.inject.Inject
 
 class SummonerLocalImp @Inject constructor(

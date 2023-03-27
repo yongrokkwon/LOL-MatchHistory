@@ -1,9 +1,9 @@
-package gg.op.lol.data
+package gg.op.lol.data.repository.summoner
 
 import androidx.paging.PagingData
 import gg.op.lol.data.mapper.SummonerEntityMapper
 import gg.op.lol.data.mapper.SummonerHistoryResponseMapper
-import gg.op.lol.data.source.SummonerDataSourceFactory
+import gg.op.lol.data.source.summoner.SummonerDataSourceFactory
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.repository.SummonerRepository

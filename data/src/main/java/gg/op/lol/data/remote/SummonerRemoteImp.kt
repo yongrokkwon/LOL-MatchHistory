@@ -8,7 +8,7 @@ import gg.op.lol.data.remote.api.SummonerService
 import gg.op.lol.data.remote.mapper.MatchHistoryMapper
 import gg.op.lol.data.remote.models.SummonerHistoryResponse
 import gg.op.lol.data.remote.models.SummonerInfoResponse
-import gg.op.lol.data.repository.SummonerRemote
+import gg.op.lol.data.repository.summoner.SummonerRemote
 import gg.op.lol.domain.models.MatchHistory
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

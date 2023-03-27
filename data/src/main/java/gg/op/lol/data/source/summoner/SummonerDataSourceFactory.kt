@@ -1,6 +1,6 @@
-package gg.op.lol.data.source
+package gg.op.lol.data.source.summoner
 
-import gg.op.lol.data.repository.SummonerDataSource
+import gg.op.lol.data.repository.summoner.SummonerDataSource
 import javax.inject.Inject
 
 open class SummonerDataSourceFactory @Inject constructor(
