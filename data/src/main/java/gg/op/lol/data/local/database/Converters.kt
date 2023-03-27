@@ -2,7 +2,7 @@ package gg.op.lol.data.local.database
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import gg.op.lol.data.models.RuneEntity
+import gg.op.lol.data.local.models.RuneEntity
 
 class Converters {
 

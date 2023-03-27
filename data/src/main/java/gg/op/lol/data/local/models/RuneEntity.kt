@@ -1,4 +1,4 @@
-package gg.op.lol.data.models
+package gg.op.lol.data.local.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

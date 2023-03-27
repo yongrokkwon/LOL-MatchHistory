@@ -1,6 +1,6 @@
 package gg.op.lol.data.mapper
 
-import gg.op.lol.data.models.ItemEntity
+import gg.op.lol.data.local.models.ItemEntity
 import gg.op.lol.domain.models.Item
 import javax.inject.Inject
 

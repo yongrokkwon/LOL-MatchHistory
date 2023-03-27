@@ -1,9 +1,13 @@
-package gg.op.lol.data.models
+package gg.op.lol.domain.models
 
-data class SummonerHistoryEntity(
-    val item: List<Item>
+data class Summoner(
+    val summonerLevel: Int,
+    val summonerName: String,
+    val puuid: String,
+    val profileIconId: Int,
+    val histories: List<Body>
 ) {
-    data class Item(
+    data class Body(
         val freshBlood: Boolean,
         val hotStreak: Boolean,
         val inactive: Boolean,

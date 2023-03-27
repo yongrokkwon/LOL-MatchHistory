@@ -11,10 +11,10 @@ import gg.op.lol.data.local.dao.RuneDao
 import gg.op.lol.data.local.dao.SpellDao
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.models.ChampionEntity
-import gg.op.lol.data.models.ItemEntity
-import gg.op.lol.data.models.RuneEntity
-import gg.op.lol.data.models.SpellEntity
-import gg.op.lol.data.models.SummonerEntity
+import gg.op.lol.data.local.models.ItemEntity
+import gg.op.lol.data.local.models.RuneEntity
+import gg.op.lol.data.local.models.SpellEntity
+import gg.op.lol.data.local.models.SummonerEntity
 
 const val DATABASE_NAME = "LOL-MatchHistory-DB"
 

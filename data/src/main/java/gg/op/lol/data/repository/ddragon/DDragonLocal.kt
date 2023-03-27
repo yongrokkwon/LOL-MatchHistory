@@ -1,9 +1,9 @@
 package gg.op.lol.data.repository.ddragon
 
 import gg.op.lol.data.local.models.ChampionEntity
-import gg.op.lol.data.models.ItemEntity
-import gg.op.lol.data.models.RuneEntity
-import gg.op.lol.data.models.SpellEntity
+import gg.op.lol.data.local.models.ItemEntity
+import gg.op.lol.data.local.models.RuneEntity
+import gg.op.lol.data.local.models.SpellEntity
 
 interface DDragonLocal {
     fun getChampion(key: String): ChampionEntity?

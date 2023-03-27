@@ -1,6 +1,6 @@
 package gg.op.lol.data.repository
 
-import gg.op.lol.data.models.SummonerEntity
+import gg.op.lol.data.local.models.SummonerEntity
 
 interface SummonerLocal {
     fun getSummoners(): List<SummonerEntity>

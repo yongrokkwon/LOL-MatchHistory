@@ -1,6 +1,6 @@
 package gg.op.lol.data.mapper
 
-import gg.op.lol.data.models.SummonerEntity
+import gg.op.lol.data.local.models.SummonerEntity
 import gg.op.lol.domain.models.SummonerLocal
 import javax.inject.Inject
 

@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import gg.op.lol.data.models.SummonerEntity
+import gg.op.lol.data.local.models.SummonerEntity
 
 @Dao
 interface SummonerDao {

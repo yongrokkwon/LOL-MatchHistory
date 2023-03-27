@@ -3,7 +3,7 @@ package gg.op.lol.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import gg.op.lol.data.models.RuneEntity
+import gg.op.lol.data.local.models.RuneEntity
 
 @Dao
 interface RuneDao {

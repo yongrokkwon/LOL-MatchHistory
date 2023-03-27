@@ -12,5 +12,5 @@ interface SummonerService {
     @GET("/lol/league/v4/entries/by-summoner/{encryptedSummonerId}")
     suspend fun getSummonerHistory(
         @Path("encryptedSummonerId") encryptedSummonerId: String
-    ): SummonerHistoryResponse
+    ): List<SummonerHistoryResponse>
 }

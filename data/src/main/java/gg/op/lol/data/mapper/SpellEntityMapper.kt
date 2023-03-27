@@ -1,6 +1,6 @@
 package gg.op.lol.data.mapper
 
-import gg.op.lol.data.models.SpellEntity
+import gg.op.lol.data.local.models.SpellEntity
 import gg.op.lol.domain.models.Spell
 import javax.inject.Inject
 

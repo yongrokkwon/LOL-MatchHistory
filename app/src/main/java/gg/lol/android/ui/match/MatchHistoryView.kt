@@ -285,16 +285,16 @@ fun SeasonInformation() {
 }
 
 @Composable
-fun TierInformation(summonerHistoryItems: List<Summoner.Item>) {
+fun TierInformation(summonerHistoryBodies: List<Summoner.Body>) {
     LazyRow {
-        items(items = summonerHistoryItems) {
+        items(items = summonerHistoryBodies) {
             TierItem(it)
         }
     }
 }
 
 @Composable
-fun TierItem(item: Summoner.Item) {
+fun TierItem(item: Summoner.Body) {
     val queueType = when (item.queueType.uppercase()) {
         QueueType.RANKED_SOLO_5X5.name -> stringResource(id = R.string.match_solo_rank)
         QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_flex_rank)

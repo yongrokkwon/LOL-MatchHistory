@@ -1,7 +1,7 @@
 package gg.op.lol.data.local
 
 import gg.op.lol.data.local.dao.SummonerDao
-import gg.op.lol.data.models.SummonerEntity
+import gg.op.lol.data.local.models.SummonerEntity
 import gg.op.lol.data.repository.SummonerLocal
 import javax.inject.Inject
 

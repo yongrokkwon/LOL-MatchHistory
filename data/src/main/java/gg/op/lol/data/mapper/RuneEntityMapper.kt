@@ -1,6 +1,6 @@
 package gg.op.lol.data.mapper
 
-import gg.op.lol.data.models.RuneEntity
+import gg.op.lol.data.local.models.RuneEntity
 import gg.op.lol.domain.models.Rune
 import javax.inject.Inject
 
