@@ -80,22 +80,31 @@ import kotlin.math.roundToInt
 
 // TODO https://static.developer.riotgames.com/docs/lol/queues.json
 enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
-    NORMAL(R.string.match_normal, 400),
-    RANKED_SOLO_5X5(R.string.match_solo_rank, 420),
-    RANKED_FLEX_SR(R.string.match_flex_rank, 440),
-    ARAM(R.string.match_aram, 450),
-    CLASH(R.string.match_clash, 700),
-    AI_01(R.string.match_ai, 820),
-    AI_02(R.string.match_ai, 830),
-    AI_03(R.string.match_ai, 840),
-    AI_04(R.string.match_ai, 850),
-    URF(R.string.match_urf, 900),
-    PORO(R.string.match_poro, 920),
-    OFA(R.string.match_ofa, 1020),
-    TUTORIAL_01(R.string.match_tutorial, 2000),
-    TUTORIAL_02(R.string.match_tutorial, 2010),
-    TUTORIAL_03(R.string.match_tutorial, 2020),
-    ETC(R.string.match_etc, 0)
+    NORMAL(R.string.match_normal, 400), RANKED_SOLO_5X5(
+        R.string.match_solo_rank,
+        420
+    ),
+    RANKED_FLEX_SR(R.string.match_flex_rank, 440), ARAM(
+        R.string.match_aram,
+        450
+    ),
+    CLASH(R.string.match_clash, 700), AI_01(R.string.match_ai, 820), AI_02(
+        R.string.match_ai,
+        830
+    ),
+    AI_03(R.string.match_ai, 840), AI_04(R.string.match_ai, 850), URF(
+        R.string.match_urf,
+        900
+    ),
+    PORO(R.string.match_poro, 920), OFA(
+        R.string.match_ofa,
+        1020
+    ),
+    TUTORIAL_01(R.string.match_tutorial, 2000), TUTORIAL_02(
+        R.string.match_tutorial,
+        2010
+    ),
+    TUTORIAL_03(R.string.match_tutorial, 2020), ETC(R.string.match_etc, 0)
 }
 
 enum class Tier { CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON }
@@ -125,9 +134,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     val items = viewModel.items
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
+        modifier = Modifier.fillMaxSize().background(color = Color.White)
     ) {
         Header(viewModel, summoner)
         MatchHistoryUpdateAndInGame(matchHistories, viewModel, summoner.puuid)
@@ -155,38 +162,27 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 @Composable
 fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
     Box(
-        modifier = Modifier
-            .height(200.dp)
-            .padding(start = 8.dp, bottom = 8.dp)
+        modifier = Modifier.height(200.dp).padding(start = 8.dp, bottom = 8.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxHeight()
-                .align(Alignment.BottomStart)
+            modifier = Modifier.fillMaxHeight().align(Alignment.BottomStart)
         ) {
             Box(modifier = Modifier.align(Alignment.Bottom)) {
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(35.dp))
-                        .width(80.dp)
-                        .height(80.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(35.dp)).width(80.dp).height(80.dp),
                     painter = painterResource(R.drawable.summoner_icon_test),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(start = 2.dp, end = 2.dp)
-                        .background(color = Color.Gray),
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                        .padding(start = 2.dp, end = 2.dp).background(color = Color.Gray),
                     text = "${summoner.summonerLevel}",
                     style = TextStyle(color = Color.White)
                 )
             }
             Column(
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .padding(start = 8.dp)
+                modifier = Modifier.align(Alignment.Bottom).padding(start = 8.dp)
             ) {
                 Text(
                     modifier = Modifier,
@@ -219,9 +215,7 @@ fun MatchHistoryUpdateAndInGame(
     puuid: String
 ) {
     Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
         colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
         shape = RoundedCornerShape(10),
         content = {
@@ -322,12 +316,9 @@ fun TierItem(item: Summoner.Item) {
 //        colors = CardDefaults.cardColors(containerColor = Color.White),
 //    ) {
     Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp))
-            .fillMaxWidth()
-            .background(color = Color.White)
-            .height(100.dp)
+        modifier = Modifier.padding(8.dp)
+            .border(width = 2.dp, color = LightGray, RoundedCornerShape(4.dp)).fillMaxWidth()
+            .background(color = Color.White).height(100.dp)
     ) {
         Image(
             painter = tierImage,
@@ -336,14 +327,10 @@ fun TierItem(item: Summoner.Item) {
 //                    .fillMaxHeight()
         )
         Column(
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(top = 8.dp, bottom = 8.dp)
+            modifier = Modifier.align(Alignment.CenterVertically).padding(top = 8.dp, bottom = 8.dp)
         ) {
             Text(
-                modifier = Modifier
-                    .background(color = BackgroundPrimaryColor)
-                    .padding(2.dp),
+                modifier = Modifier.background(color = BackgroundPrimaryColor).padding(2.dp),
                 text = queueType,
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
@@ -393,40 +380,32 @@ fun ErrorView() {
 @Composable
 fun MatchHistoryCard(
     matchHistory: MatchHistory,
-    item: MatchHistory.Info.Participant,
+    participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
     spells: List<Spell>,
     runes: List<Rune>,
     items: List<Item>
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 2.dp, bottom = 2.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 2.dp, bottom = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ResultMatchHistory(
             matchHistory,
-            item,
-            Modifier
-                .background(
-                    color = if (item.win) {
-                        PrimaryColor
-                    } else {
-                        Color.Red
-                    }
-                )
-                .padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp)
-                .weight(1.5f)
+            participant,
+            Modifier.background(
+                color = if (participant.win) {
+                    PrimaryColor
+                } else {
+                    Color.Red
+                }
+            ).padding(top = 24.dp, bottom = 24.dp, start = 4.dp, end = 4.dp).weight(1.5f)
                 .align(Alignment.CenterVertically)
         )
         ResultInformation(
-            Modifier
-                .weight(9f)
-                .padding(start = 8.dp, end = 8.dp)
-                .align(Alignment.CenterVertically),
+            Modifier.weight(9f).padding(start = 8.dp, end = 8.dp).align(Alignment.CenterVertically),
             matchHistory,
-            item,
+            participant,
             champions,
             spells,
             runes,
@@ -443,9 +422,7 @@ fun RoundImage(
     contentDescription: String? = null
 ) {
     Image(
-        modifier = Modifier
-            .clip(RoundedCornerShape(cornerRadius))
-            .size(imageSize),
+        modifier = Modifier.clip(RoundedCornerShape(cornerRadius)).size(imageSize),
         painter = painterResource(id = imageRes),
         contentDescription = contentDescription
     )
@@ -455,22 +432,22 @@ fun RoundImage(
 fun ResultInformation(
     modifier: Modifier,
     matchHistory: MatchHistory,
-    item: MatchHistory.Info.Participant,
+    participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
     spells: List<Spell>,
     runes: List<Rune>,
     items: List<Item>
 ) {
     Column(modifier) {
-        ResultInformationTop(matchHistory, item, champions, spells, runes, items)
-        ResultInformationBottom(item, items)
+        ResultInformationTop(matchHistory, participant, champions, spells, runes, items)
+        ResultInformationBottom(participant, items)
     }
 }
 
 @Composable
 fun ResultMatchHistory(
     matchHistory: MatchHistory,
-    item: MatchHistory.Info.Participant,
+    participant: MatchHistory.Info.Participant,
     modifier: Modifier
 ) {
     val durationInSeconds = matchHistory.info.gameDuration
@@ -481,7 +458,7 @@ fun ResultMatchHistory(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(
-                id = if (item.win) {
+                id = if (participant.win) {
                     R.string.match_victory
                 } else {
                     R.string.match_defeat
@@ -504,17 +481,17 @@ fun ResultMatchHistory(
 @Composable
 fun ResultInformationTop(
     matchHistory: MatchHistory,
-    item: MatchHistory.Info.Participant,
+    participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
     spells: List<Spell>,
     runes: List<Rune>,
     items: List<Item>
 ) {
-    val champion = champions.find { it.key.toInt() == item.championId }
-    val spell01 = spells.find { it.key.toInt() == item.summoner1Id }
-    val spell02 = spells.find { it.key.toInt() == item.summoner2Id }
-    val rune1 = runes.find { it.id == item.perks.styles[0].style }
-    val rune2 = runes.find { it.id == item.perks.styles[1].style }
+    val champion = champions.find { it.key.toInt() == participant.championId }
+    val spell01 = spells.find { it.key.toInt() == participant.summoner1Id }
+    val spell02 = spells.find { it.key.toInt() == participant.summoner2Id }
+    val rune1 = runes.find { it.id == participant.perks.styles[0].style }
+    val rune2 = runes.find { it.id == participant.perks.styles[1].style }
     val queueStrRes = when (matchHistory.info.queueId) {
         QueueType.NORMAL.queueId -> QueueType.NORMAL.resId
         QueueType.RANKED_SOLO_5X5.queueId -> QueueType.RANKED_SOLO_5X5.resId
@@ -550,20 +527,18 @@ fun ResultInformationTop(
         )
     }
     val totalKills = matchHistory.info.teams.find {
-        it.teamId == item.teamId
+        it.teamId == participant.teamId
     }?.objectives?.champion?.kills ?: 0
-    val killInvolvementRate = calculateKillInvolvementRate(item.kills, item.assists, totalKills)
+    val killInvolvementRate =
+        calculateKillInvolvementRate(participant.kills, participant.assists, totalKills)
     Row(
         modifier = Modifier.fillMaxWidth()
 //            .fillMaxHeight()
     ) {
         Image(
-            modifier = Modifier
-                .clip(RoundedCornerShape(10.dp))
-                .size(50.dp),
+            modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(50.dp),
             painter = rememberAsyncImagePainter(
-                "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/" +
-                    champion?.imagePath
+                "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/" + champion?.imagePath
             ),
             contentDescription = null
         )
@@ -579,16 +554,11 @@ fun ResultInformationTop(
                 .align(Alignment.CenterVertically)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 25.dp)
-                    .padding(start = 4.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(5.dp))
-                        .size(20.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
                             spell01?.imagePath
@@ -596,12 +566,9 @@ fun ResultInformationTop(
                     contentDescription = null
                 )
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
-                        .size(20.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(20.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/img/" +
-                            rune1?.icon
+                        "https://ddragon.leagueoflegends.com/cdn/img/" + rune1?.icon
                     ),
                     contentDescription = null
                 )
@@ -609,9 +576,9 @@ fun ResultInformationTop(
                     modifier = Modifier.padding(start = 4.dp),
                     text = stringResource(
                         id = R.string.match_kda,
-                        item.kills,
-                        item.deaths,
-                        item.assists
+                        participant.kills,
+                        participant.deaths,
+                        participant.assists
                     ),
                     style = TextStyle(
                         color = Color.Black,
@@ -631,16 +598,11 @@ fun ResultInformationTop(
                 )
             }
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 25.dp)
-                    .padding(start = 4.dp),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 25.dp).padding(start = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(5.dp))
-                        .size(20.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                     painter = rememberAsyncImagePainter(
                         "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
                             spell02?.imagePath
@@ -648,12 +610,9 @@ fun ResultInformationTop(
                     contentDescription = null
                 )
                 Image(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
-                        .size(20.dp),
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(20.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/img/" +
-                            rune2?.icon
+                        "https://ddragon.leagueoflegends.com/cdn/img/" + rune2?.icon
                     ),
                     contentDescription = null
                 )
@@ -680,102 +639,77 @@ fun ResultInformationTop(
 }
 
 @Composable
-fun ResultInformationBottom(item: MatchHistory.Info.Participant, items: List<Item>) {
-    val item0 = items.find { it.id.toInt() == item.item0 }
-    val item1 = items.find { it.id.toInt() == item.item1 }
-    val item2 = items.find { it.id.toInt() == item.item2 }
-    val item3 = items.find { it.id.toInt() == item.item3 }
-    val item4 = items.find { it.id.toInt() == item.item4 }
-    val item5 = items.find { it.id.toInt() == item.item5 }
-    val item6 = items.find { it.id.toInt() == item.item6 }
+fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: List<Item>) {
+    val item0 = items.find { it.id.toInt() == participant.item0 }
+    val item1 = items.find { it.id.toInt() == participant.item1 }
+    val item2 = items.find { it.id.toInt() == participant.item2 }
+    val item3 = items.find { it.id.toInt() == participant.item3 }
+    val item4 = items.find { it.id.toInt() == participant.item4 }
+    val item5 = items.find { it.id.toInt() == participant.item5 }
+    val item6 = items.find { it.id.toInt() == participant.item6 }
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp)
+        modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item0?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item0?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item1?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item1?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item2?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item2?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item3?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item3?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item4?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item4?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item5?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item5?.full
                 ),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.size(4.dp))
             Image(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .size(20.dp),
+                modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(20.dp),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" +
-                        item6?.full
+                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item6?.full
                 ),
                 contentDescription = null
             )
         }
         Text(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .background(color = MultiKillBackgroundColor)
-                .padding(
+            modifier = Modifier.align(Alignment.CenterEnd)
+                .background(color = MultiKillBackgroundColor).padding(
                     top = 2.dp,
                     bottom = 2.dp,
                     start = 4.dp,
