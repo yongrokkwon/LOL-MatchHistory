@@ -552,6 +552,10 @@ fun ResultInformationTop(
         gameEndTime.toMinutes() < 1 -> stringResource(R.string.match_just_now)
         gameEndTime.toHours() < 1 -> stringResource(
             R.string.match_minute,
+            gameEndTime.toMinutes().toInt()
+        )
+        gameEndTime.toHours() < 24 -> stringResource(
+            R.string.match_hour,
             gameEndTime.toHours().toInt()
         )
         gameEndTime.toDays() < 7 -> stringResource(R.string.match_day, gameEndTime.toDays().toInt())
