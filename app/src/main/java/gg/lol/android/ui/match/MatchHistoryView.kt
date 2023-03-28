@@ -723,7 +723,7 @@ fun ResultInformationBottom(
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
-                        "img/item/" + item0?.full
+                        "/img/item/" + item0?.full
                 ),
                 contentDescription = null
             )
@@ -759,7 +759,7 @@ fun ResultInformationBottom(
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
                     BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
-                        "img/item/" + item3?.full
+                        "/img/item/" + item3?.full
                 ),
                 contentDescription = null
             )
