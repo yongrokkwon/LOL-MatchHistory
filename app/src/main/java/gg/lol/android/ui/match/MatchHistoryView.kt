@@ -619,7 +619,7 @@ fun ResultInformationTop(
                         .size(20.dp)
                         .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/img/" + rune1?.icon
+                        BuildConfig.DDRAGON_URL + "/cdn/img/" + rune1?.icon
                     ),
                     contentDescription = null
                 )
@@ -671,7 +671,7 @@ fun ResultInformationTop(
                         .size(20.dp)
                         .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/img/" + rune2?.icon
+                        BuildConfig.DDRAGON_URL + "/cdn/img/" + rune2?.icon
                     ),
                     contentDescription = null
                 )
