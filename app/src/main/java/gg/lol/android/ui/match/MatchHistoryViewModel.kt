@@ -81,6 +81,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     }
 
     fun getMatchHistories(puuid: String) {
+        _matchHistories.value = PagingData.empty()
         launchCoroutineIO {
             summonerMatchHistoryUseCase.invoke(puuid).cachedIn(viewModelScope).collect {
                 _matchHistories.value = it
