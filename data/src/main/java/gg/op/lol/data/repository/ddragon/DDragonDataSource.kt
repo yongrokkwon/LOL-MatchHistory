@@ -11,12 +11,17 @@ import gg.op.lol.data.remote.models.SpellResponse
 
 interface DDragonDataSource {
     // Remote
-    suspend fun getRemoteChampions(): ChampionResponse
-    suspend fun getRemoteSpells(): SpellResponse
-    suspend fun getRemoteRunes(): List<RuneResponse>
-    suspend fun getRemoteItems(): ItemResponse
+    suspend fun getRemoteChampions(version: String): ChampionResponse
+    suspend fun getRemoteSpells(version: String): SpellResponse
+    suspend fun getRemoteRunes(version: String): List<RuneResponse>
+    suspend fun getRemoteItems(version: String): ItemResponse
+    suspend fun getVersions(): List<String>
 
     // Local
+    fun deleteAllChampion()
+    fun deleteAllSpell()
+    fun deleteAllRune()
+    fun deleteAllItem()
     fun insertChampion(championEntity: ChampionEntity)
     fun insertSpell(spellEntity: SpellEntity)
     fun insertRune(runeEntity: RuneEntity)

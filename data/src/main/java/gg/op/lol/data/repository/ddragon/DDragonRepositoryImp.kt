@@ -32,68 +32,49 @@ class DDragonRepositoryImp @Inject constructor(
     private val itemResponseMapper: ItemResponseMapper,
     private val itemEntityMapper: ItemEntityMapper
 ) : DDragonRepository {
-    override suspend fun getRemoteChampions(): Flow<List<Champion?>> = flow {
-        val local = ddragonDataSourceFactory.getLocalDataSource()
-        val remote = ddragonDataSourceFactory.getRemoteDataSource()
-        val localChampions = local.getLocalChampions()
-        if (localChampions.isEmpty()) {
-            val remoteChampions = remote.getRemoteChampions()
-            val result = remoteChampions.data.map {
-                championResponseMapper.mapFromEntity(it.value)
-            }
-            insertLocalChampion(result, local)
-            emit(result)
-        } else {
-            val result = localChampions.map { championEntityMapper.mapFromEntity(it) }
-            emit(result)
-        }
+    override suspend fun getVersion(): Flow<String> = flow {
+        val latestVersion = ddragonDataSourceFactory.getRemoteDataSource().getVersions().first()
+        emit(latestVersion)
     }
 
-    override suspend fun getRemoteSpells(): Flow<List<Spell?>> = flow {
+    override suspend fun getRemoteChampions(version: String): List<Champion> {
         val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
-        val localChampions = local.getLocalSpells()
-        if (localChampions.isEmpty()) {
-            val remoteChampions = remote.getRemoteSpells()
-            val result = remoteChampions.data.map {
-                spellResponseMapper.mapFromEntity(it.value)
-            }
-            insertLocalSpell(result, local)
-            emit(result)
-        } else {
-            val result = localChampions.map { spellEntityMapper.mapFromEntity(it) }
-            emit(result)
-        }
+        val championResponse = remote.getRemoteChampions(version)
+        val result = championResponse.data.map { championResponseMapper.mapFromEntity(it.value) }
+        local.deleteAllChampion()
+        insertLocalChampion(result, local)
+        return result
     }
 
-    override suspend fun getRemoteRunes(): Flow<List<Rune?>> = flow {
+    override suspend fun getRemoteSpells(version: String): List<Spell> {
         val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
-        val localRunes = local.getLocalRunes()
-        if (localRunes.isEmpty()) {
-            val remoteRunes = remote.getRemoteRunes()
-            val result = remoteRunes.map { runeResponseMapper.mapFromEntity(it) }
-            insertLocalRune(result, local)
-            emit(result)
-        } else {
-            val result = localRunes.map { runeEntityMapper.mapFromEntity(it) }
-            emit(result)
-        }
+        val remoteChampions = remote.getRemoteSpells(version)
+        val result = remoteChampions.data.map { spellResponseMapper.mapFromEntity(it.value) }
+        local.deleteAllSpell()
+        insertLocalSpell(result, local)
+        return result
     }
 
-    override suspend fun getRemoteItems(): Flow<List<Item?>> = flow {
+    override suspend fun getRemoteRunes(version: String): List<Rune> {
         val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
-        val localItems = local.getLocalItems()
-        if (localItems.isEmpty()) {
-            val remoteItems = remote.getRemoteItems()
-            val result = remoteItems.data.map { itemResponseMapper.mapFromEntity(it.value, it.key) }
-            insertLocalItem(result, local)
-            emit(result)
-        } else {
-            val result = localItems.map { itemEntityMapper.mapFromEntity(it) }
-            emit(result)
-        }
+        val remoteRunes = remote.getRemoteRunes(version)
+        val result = remoteRunes.map { runeResponseMapper.mapFromEntity(it) }
+        local.deleteAllRune()
+        insertLocalRune(result, local)
+        return result
+    }
+
+    override suspend fun getRemoteItems(version: String): List<Item> {
+        val local = ddragonDataSourceFactory.getLocalDataSource()
+        val remote = ddragonDataSourceFactory.getRemoteDataSource()
+        val remoteItems = remote.getRemoteItems(version)
+        val result = remoteItems.data.map { itemResponseMapper.mapFromEntity(it.value, it.key) }
+        local.deleteAllItem()
+        insertLocalItem(result, local)
+        return result
     }
 
     override fun getLocalSpells(): Flow<List<Spell>> = flow {

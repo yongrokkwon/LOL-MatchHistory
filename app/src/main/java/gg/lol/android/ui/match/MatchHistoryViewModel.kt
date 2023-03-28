@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
+import gg.op.lol.domain.interactor.GetLatestVersionUseCase
 import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
 import gg.op.lol.domain.interactor.GetLocalItemUseCase
 import gg.op.lol.domain.interactor.GetLocalRunesUseCase
@@ -33,7 +34,8 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val localChampionsUseCase: GetLocalChampionsUseCase,
     private val spellUseCase: GetLocalSpellsUseCase,
     private val runeUseCase: GetLocalRunesUseCase,
-    private val itemUseCase: GetLocalItemUseCase
+    private val itemUseCase: GetLocalItemUseCase,
+    private val latestVersionUseCase: GetLatestVersionUseCase
 ) : BaseViewModel() {
 
     private val _summonerName = MutableStateFlow("")
@@ -47,6 +49,9 @@ class MatchHistoryViewModel @Inject internal constructor(
 
     private val _matchHistories = MutableStateFlow<PagingData<MatchHistory>>(PagingData.empty())
     val matchHistories: StateFlow<PagingData<MatchHistory>> = _matchHistories
+
+    private val _latestVersion = MutableStateFlow("")
+    val latestVersion: StateFlow<String> = _latestVersion
 
     private val _champions = arrayListOf<Champion>()
     val champions: List<Champion> = _champions
@@ -66,6 +71,7 @@ class MatchHistoryViewModel @Inject internal constructor(
 
     init {
         launchCoroutineIO {
+            getLatestVersion()
             getRemoteSummoner()
             loadChampions()
             loadSpell()
@@ -79,6 +85,12 @@ class MatchHistoryViewModel @Inject internal constructor(
             summonerMatchHistoryUseCase.invoke(puuid).cachedIn(viewModelScope).collect {
                 _matchHistories.value = it
             }
+        }
+    }
+
+    private suspend fun getLatestVersion() {
+        latestVersionUseCase.invoke(Unit).collect {
+            _latestVersion.value = it
         }
     }
 

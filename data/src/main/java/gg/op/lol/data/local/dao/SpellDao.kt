@@ -15,4 +15,7 @@ interface SpellDao {
 
     @Query("SELECT * FROM spell")
     fun getAll(): List<SpellEntity>
+
+    @Query("DELETE FROM champion")
+    fun deleteAll()
 }

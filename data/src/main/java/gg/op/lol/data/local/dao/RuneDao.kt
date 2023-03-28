@@ -15,4 +15,7 @@ interface RuneDao {
 
     @Query("SELECT * FROM rune")
     fun getAll(): List<RuneEntity>
+
+    @Query("DELETE FROM champion")
+    fun deleteAll()
 }

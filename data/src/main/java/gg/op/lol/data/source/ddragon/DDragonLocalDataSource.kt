@@ -16,27 +16,33 @@ class DDragonLocalDataSource @Inject constructor(
     private val ddragonLocal: DDragonLocal
 ) : DDragonDataSource {
 
-    override suspend fun getRemoteChampions(): ChampionResponse {
+    override suspend fun getRemoteChampions(version: String): ChampionResponse {
         throw UnsupportedOperationException(
             "getChampions is not supported for LocalDataSource."
         )
     }
 
-    override suspend fun getRemoteSpells(): SpellResponse {
+    override suspend fun getRemoteSpells(version: String): SpellResponse {
         throw UnsupportedOperationException(
             "getRemoteSpells is not supported for LocalDataSource."
         )
     }
 
-    override suspend fun getRemoteRunes(): List<RuneResponse> {
+    override suspend fun getRemoteRunes(version: String): List<RuneResponse> {
         throw UnsupportedOperationException(
             "getRemoteRunes is not supported for LocalDataSource."
         )
     }
 
-    override suspend fun getRemoteItems(): ItemResponse {
+    override suspend fun getRemoteItems(version: String): ItemResponse {
         throw UnsupportedOperationException(
             "getRemoteItems is not supported for LocalDataSource."
+        )
+    }
+
+    override suspend fun getVersions(): List<String> {
+        throw UnsupportedOperationException(
+            "getVersions is not supported for LocalDataSource."
         )
     }
 
@@ -74,5 +80,21 @@ class DDragonLocalDataSource @Inject constructor(
 
     override fun getLocalSpells(): List<SpellEntity> {
         return ddragonLocal.getSpells()
+    }
+
+    override fun deleteAllChampion() {
+        ddragonLocal.deleteAllChampion()
+    }
+
+    override fun deleteAllSpell() {
+        ddragonLocal.deleteAllSpell()
+    }
+
+    override fun deleteAllRune() {
+        ddragonLocal.deleteAllRune()
+    }
+
+    override fun deleteAllItem() {
+        ddragonLocal.deleteAllItem()
     }
 }

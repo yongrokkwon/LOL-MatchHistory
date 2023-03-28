@@ -14,6 +14,10 @@ interface DDragonLocal {
     fun insertSpell(spellEntity: SpellEntity)
     fun insertRune(runeEntity: RuneEntity)
     fun insertItem(itemEntity: ItemEntity)
+    fun deleteAllChampion()
+    fun deleteAllSpell()
+    fun deleteAllRune()
+    fun deleteAllItem()
 
     fun getSpells(): List<SpellEntity>
 }

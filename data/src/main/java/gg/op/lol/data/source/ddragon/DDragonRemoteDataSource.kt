@@ -16,10 +16,19 @@ class DDragonRemoteDataSource @Inject constructor(
     private val ddragonRemote: DDragonRemote
 ) : DDragonDataSource {
 
-    override suspend fun getRemoteChampions(): ChampionResponse = ddragonRemote.getChampions()
-    override suspend fun getRemoteSpells(): SpellResponse = ddragonRemote.getSpells()
-    override suspend fun getRemoteRunes(): List<RuneResponse> = ddragonRemote.getRunes()
-    override suspend fun getRemoteItems(): ItemResponse = ddragonRemote.getItems()
+    override suspend fun getRemoteChampions(version: String): ChampionResponse =
+        ddragonRemote.getChampions(version)
+
+    override suspend fun getRemoteSpells(version: String): SpellResponse =
+        ddragonRemote.getSpells(version)
+
+    override suspend fun getRemoteRunes(version: String): List<RuneResponse> =
+        ddragonRemote.getRunes(version)
+
+    override suspend fun getRemoteItems(version: String): ItemResponse =
+        ddragonRemote.getItems(version)
+
+    override suspend fun getVersions(): List<String> = ddragonRemote.getVersions()
 
     override fun insertRune(runeEntity: RuneEntity) {
         throw UnsupportedOperationException(
@@ -72,6 +81,30 @@ class DDragonRemoteDataSource @Inject constructor(
     override fun insertChampion(championEntity: ChampionEntity) {
         throw UnsupportedOperationException(
             "insertChampion is not supported for RemoteDataSource."
+        )
+    }
+
+    override fun deleteAllChampion() {
+        throw UnsupportedOperationException(
+            "deleteAllChampion is not supported for RemoteDataSource."
+        )
+    }
+
+    override fun deleteAllSpell() {
+        throw UnsupportedOperationException(
+            "deleteAllSpell is not supported for RemoteDataSource."
+        )
+    }
+
+    override fun deleteAllRune() {
+        throw UnsupportedOperationException(
+            "deleteAllRune is not supported for RemoteDataSource."
+        )
+    }
+
+    override fun deleteAllItem() {
+        throw UnsupportedOperationException(
+            "deleteAllItem is not supported for RemoteDataSource."
         )
     }
 }

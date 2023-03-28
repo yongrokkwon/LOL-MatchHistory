@@ -8,10 +8,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface DDragonRepository {
     // Remote
-    suspend fun getRemoteChampions(): Flow<List<Champion?>>
-    suspend fun getRemoteSpells(): Flow<List<Spell?>>
-    suspend fun getRemoteRunes(): Flow<List<Rune?>>
-    suspend fun getRemoteItems(): Flow<List<Item?>>
+    suspend fun getRemoteChampions(version: String): List<Champion>
+    suspend fun getRemoteSpells(version: String): List<Spell>
+    suspend fun getRemoteRunes(version: String): List<Rune>
+    suspend fun getRemoteItems(version: String): List<Item>
+    suspend fun getVersion(): Flow<String>
 
     // Local
     fun getLocalChampions(): Flow<List<Champion>>

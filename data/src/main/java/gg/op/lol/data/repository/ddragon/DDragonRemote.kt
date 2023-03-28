@@ -6,8 +6,9 @@ import gg.op.lol.data.remote.models.RuneResponse
 import gg.op.lol.data.remote.models.SpellResponse
 
 interface DDragonRemote {
-    suspend fun getChampions(): ChampionResponse
-    suspend fun getSpells(): SpellResponse
-    suspend fun getRunes(): List<RuneResponse>
-    suspend fun getItems(): ItemResponse
+    suspend fun getChampions(version: String): ChampionResponse
+    suspend fun getSpells(version: String): SpellResponse
+    suspend fun getRunes(version: String): List<RuneResponse>
+    suspend fun getItems(version: String): ItemResponse
+    suspend fun getVersions(): List<String>
 }

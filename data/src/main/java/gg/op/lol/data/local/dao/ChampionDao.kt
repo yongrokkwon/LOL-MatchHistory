@@ -15,4 +15,7 @@ interface ChampionDao {
 
     @Query("SELECT * FROM champion")
     fun getAll(): List<ChampionEntity>
+
+    @Query("DELETE FROM champion")
+    fun deleteAll()
 }

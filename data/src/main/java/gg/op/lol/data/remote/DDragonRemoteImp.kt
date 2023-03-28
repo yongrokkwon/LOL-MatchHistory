@@ -12,8 +12,15 @@ class DDragonRemoteImp @Inject constructor(
     private val ddragonService: DDragonService
 ) : DDragonRemote {
 
-    override suspend fun getChampions(): ChampionResponse = ddragonService.getChampions()
-    override suspend fun getSpells(): SpellResponse = ddragonService.getSpells()
-    override suspend fun getItems(): ItemResponse = ddragonService.getItems()
-    override suspend fun getRunes(): List<RuneResponse> = ddragonService.getRunes()
+    override suspend fun getChampions(version: String): ChampionResponse =
+        ddragonService.getChampions(version)
+
+    override suspend fun getSpells(version: String): SpellResponse =
+        ddragonService.getSpells(version)
+
+    override suspend fun getItems(version: String): ItemResponse = ddragonService.getItems(version)
+    override suspend fun getRunes(version: String): List<RuneResponse> =
+        ddragonService.getRunes(version)
+
+    override suspend fun getVersions(): List<String> = ddragonService.getVersions()
 }

@@ -39,4 +39,20 @@ class DDragonLocalImp @Inject constructor(
     override fun insertChampion(championEntity: ChampionEntity) {
         championDao.insert(championEntity)
     }
+
+    override fun deleteAllChampion() {
+        championDao.deleteAll()
+    }
+
+    override fun deleteAllSpell() {
+        spellDao.deleteAll()
+    }
+
+    override fun deleteAllRune() {
+        runeDao.deleteAll()
+    }
+
+    override fun deleteAllItem() {
+        itemDao.deleteAll()
+    }
 }

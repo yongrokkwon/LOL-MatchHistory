@@ -15,4 +15,7 @@ interface ItemDao {
 
     @Query("SELECT * FROM item")
     fun getAll(): List<ItemEntity>
+
+    @Query("DELETE FROM champion")
+    fun deleteAll()
 }

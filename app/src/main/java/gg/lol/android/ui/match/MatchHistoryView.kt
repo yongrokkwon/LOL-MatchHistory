@@ -53,6 +53,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.rememberAsyncImagePainter
+import gg.lol.android.BuildConfig
 import gg.lol.android.R
 import gg.lol.android.ui.UiState
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
@@ -131,6 +132,7 @@ fun MatchHistoryView(
 
 @Composable
 fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
+    val latestVersion = viewModel.latestVersion.collectAsState().value
     val matchHistories = viewModel.matchHistories.collectAsLazyPagingItems()
     val champions = viewModel.champions
     val spells = viewModel.spells
@@ -142,7 +144,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        Header(viewModel, summoner)
+        Header(latestVersion, summoner)
         MatchHistoryUpdate(matchHistories, viewModel, summoner.puuid)
 //        SeasonInformation()
         TierInformation(summoner.histories)
@@ -155,7 +157,15 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                     key = { matchHistory -> matchHistory.metadata.matchId }
                 ) { matchHistory ->
                     matchHistory?.info?.participants?.find { it.puuid == summoner.puuid }?.let {
-                        MatchHistoryCard(matchHistory, it, champions, spells, runes, items)
+                        MatchHistoryCard(
+                            latestVersion,
+                            matchHistory,
+                            it,
+                            champions,
+                            spells,
+                            runes,
+                            items
+                        )
                     } ?: ErrorView()
                 }
             }
@@ -166,7 +176,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 }
 
 @Composable
-fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
+fun Header(latestVersion: String, summoner: Summoner) {
     Box(
         modifier = Modifier
             .height(200.dp)
@@ -183,8 +193,8 @@ fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                         .width(80.dp)
                         .height(80.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/profileicon/" +
-                            summoner.profileIconId + ".png"
+                        BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                            "/img/profileicon/" + summoner.profileIconId + ".png"
                     ),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
@@ -382,6 +392,7 @@ fun ErrorView() {
 
 @Composable
 fun MatchHistoryCard(
+    latestVersion: String,
     matchHistory: MatchHistory,
     participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
@@ -415,6 +426,7 @@ fun MatchHistoryCard(
                 .weight(9f)
                 .padding(start = 8.dp, end = 8.dp)
                 .align(Alignment.CenterVertically),
+            latestVersion,
             matchHistory,
             participant,
             champions,
@@ -444,6 +456,7 @@ fun RoundImage(
 @Composable
 fun ResultInformation(
     modifier: Modifier,
+    latestVersion: String,
     matchHistory: MatchHistory,
     participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
@@ -452,8 +465,16 @@ fun ResultInformation(
     items: List<Item>
 ) {
     Column(modifier) {
-        ResultInformationTop(matchHistory, participant, champions, spells, runes, items)
-        ResultInformationBottom(participant, items)
+        ResultInformationTop(
+            latestVersion,
+            matchHistory,
+            participant,
+            champions,
+            spells,
+            runes,
+            items
+        )
+        ResultInformationBottom(latestVersion, participant, items)
     }
 }
 
@@ -493,6 +514,7 @@ fun ResultMatchHistory(
 
 @Composable
 fun ResultInformationTop(
+    latestVersion: String,
     matchHistory: MatchHistory,
     participant: MatchHistory.Info.Participant,
     champions: List<Champion>,
@@ -554,7 +576,8 @@ fun ResultInformationTop(
                 .clip(RoundedCornerShape(10.dp))
                 .size(50.dp),
             painter = rememberAsyncImagePainter(
-                "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/" + champion?.imagePath
+                BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                    "/img/champion/" + champion?.imagePath
             ),
             contentDescription = null
         )
@@ -581,8 +604,8 @@ fun ResultInformationTop(
                         .size(20.dp)
                         .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
-                            spell01?.imagePath
+                        BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                            "/img/spell/" + spell01?.imagePath
                     ),
                     contentDescription = null
                 )
@@ -633,8 +656,8 @@ fun ResultInformationTop(
                         .clip(RoundedCornerShape(5.dp))
                         .size(20.dp),
                     painter = rememberAsyncImagePainter(
-                        "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/spell/" +
-                            spell02?.imagePath
+                        BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                            "/img/spell/" + spell02?.imagePath
                     ),
                     contentDescription = null
                 )
@@ -671,7 +694,11 @@ fun ResultInformationTop(
 }
 
 @Composable
-fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: List<Item>) {
+fun ResultInformationBottom(
+    latestVersion: String,
+    participant: MatchHistory.Info.Participant,
+    items: List<Item>
+) {
     val item0 = items.find { it.id.toInt() == participant.item0 }
     val item1 = items.find { it.id.toInt() == participant.item1 }
     val item2 = items.find { it.id.toInt() == participant.item2 }
@@ -691,7 +718,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item0?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "img/item/" + item0?.full
                 ),
                 contentDescription = null
             )
@@ -702,7 +730,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item1?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/item/" + item1?.full
                 ),
                 contentDescription = null
             )
@@ -713,7 +742,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item2?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/item/" + item2?.full
                 ),
                 contentDescription = null
             )
@@ -724,7 +754,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item3?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "img/item/" + item3?.full
                 ),
                 contentDescription = null
             )
@@ -735,7 +766,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item4?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/item/" + item4?.full
                 ),
                 contentDescription = null
             )
@@ -746,7 +778,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item5?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/item/" + item5?.full
                 ),
                 contentDescription = null
             )
@@ -757,7 +790,8 @@ fun ResultInformationBottom(participant: MatchHistory.Info.Participant, items: L
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    "https://ddragon.leagueoflegends.com/cdn/13.6.1/img/item/" + item6?.full
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/item/" + item6?.full
                 ),
                 contentDescription = null
             )

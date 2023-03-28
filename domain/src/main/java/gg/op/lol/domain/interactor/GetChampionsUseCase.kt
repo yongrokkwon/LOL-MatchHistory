@@ -3,14 +3,19 @@ package gg.op.lol.domain.interactor
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
 
-typealias GetChampionsBaseUseCase = BaseUseCase<Unit, Flow<List<Champion?>>>
+typealias GetChampionsBaseUseCase = BaseUseCase<Pair<String, String>, List<Champion>>
 
 class GetChampionsUseCase @Inject constructor(
-    private val dDragonRepository: DDragonRepository
+    private val ddragonRepository: DDragonRepository
 ) : GetChampionsBaseUseCase {
 
-    override suspend operator fun invoke(params: Unit): Flow<List<Champion?>> =
-        dDragonRepository.getRemoteChampions()
+    override suspend fun invoke(params: Pair<String, String>): List<Champion> {
+        val currentVersion = params.first
+        val latestVersion = params.second
+        if (currentVersion != latestVersion) {
+            return ddragonRepository.getRemoteChampions(latestVersion)
+        }
+        return emptyList()
+    }
 }
