@@ -15,10 +15,12 @@ import gg.op.lol.domain.interactor.GetLocalRunesUseCase
 import gg.op.lol.domain.interactor.GetLocalSpellsUseCase
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
 import gg.op.lol.domain.interactor.GetSummonerMatchHistoryUseCase
+import gg.op.lol.domain.interactor.InsertSearchHistoryUseCase
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Rune
+import gg.op.lol.domain.models.SearchHistory
 import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
 import javax.inject.Inject
@@ -35,7 +37,8 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val spellUseCase: GetLocalSpellsUseCase,
     private val runeUseCase: GetLocalRunesUseCase,
     private val itemUseCase: GetLocalItemUseCase,
-    private val latestVersionUseCase: GetLatestVersionUseCase
+    private val latestVersionUseCase: GetLatestVersionUseCase,
+    private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase
 ) : BaseViewModel() {
 
     private val _summonerName = MutableStateFlow("")
@@ -80,6 +83,12 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
+    fun insertSearchHistory(searchHistory: SearchHistory) {
+        launchCoroutineIO {
+            insertSearchHistoryUseCase.invoke(searchHistory)
+        }
+    }
+
     fun getMatchHistories(puuid: String) {
         _matchHistories.value = PagingData.empty()
         launchCoroutineIO {
@@ -99,6 +108,7 @@ class MatchHistoryViewModel @Inject internal constructor(
         summonerInfoUseCase.invoke(summonerName.value).collect {
             _uiState.value = UiState.Success(it)
             getMatchHistories(it.puuid)
+            insertSearchHistory(SearchHistory(it.summonerName, it.profileIconId))
         }
     }
 

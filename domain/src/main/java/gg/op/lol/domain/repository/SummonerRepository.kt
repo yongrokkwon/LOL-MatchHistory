@@ -12,5 +12,4 @@ interface SummonerRepository {
 
     // Local
     suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner>
-    suspend fun getLocalSummoners(): Flow<List<Summoner>>
 }

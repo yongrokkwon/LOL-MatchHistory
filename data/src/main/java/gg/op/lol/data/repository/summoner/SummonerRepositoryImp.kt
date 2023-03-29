@@ -1,7 +1,7 @@
 package gg.op.lol.data.repository.summoner
 
 import androidx.paging.PagingData
-import gg.op.lol.data.mapper.SummonerEntityMapper
+import gg.op.lol.data.mapper.SearchHistoryEntityMapper
 import gg.op.lol.data.mapper.SummonerHistoryResponseMapper
 import gg.op.lol.data.source.summoner.SummonerDataSourceFactory
 import gg.op.lol.domain.models.MatchHistory
@@ -12,10 +12,11 @@ import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
+// TODO
 @Singleton
 class SummonerRepositoryImp @Inject constructor(
     private val summonerDataSourceFactory: SummonerDataSourceFactory,
-    private val summonerEntityMapper: SummonerEntityMapper,
+    private val searchHistoryEntityMapper: SearchHistoryEntityMapper,
     private val summonerHistoryEntityMapper: SummonerHistoryResponseMapper
 ) : SummonerRepository {
     // TODO
@@ -23,13 +24,6 @@ class SummonerRepositoryImp @Inject constructor(
         throw UnsupportedOperationException(
             "getLocalSummonerByNickName TODO"
         )
-    }
-
-    override suspend fun getLocalSummoners(): Flow<List<Summoner>> = flow {
-        val summoners = summonerDataSourceFactory.getLocalDataSource().getSummoners().map {
-            summonerEntityMapper.mapFromEntity(it)
-        }
-//        emit(summoners) TODO
     }
 
     override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {

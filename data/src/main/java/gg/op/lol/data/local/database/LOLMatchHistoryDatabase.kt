@@ -8,11 +8,13 @@ import androidx.room.TypeConverters
 import gg.op.lol.data.local.dao.ChampionDao
 import gg.op.lol.data.local.dao.ItemDao
 import gg.op.lol.data.local.dao.RuneDao
+import gg.op.lol.data.local.dao.SearchHistoryDao
 import gg.op.lol.data.local.dao.SpellDao
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.models.ChampionEntity
 import gg.op.lol.data.local.models.ItemEntity
 import gg.op.lol.data.local.models.RuneEntity
+import gg.op.lol.data.local.models.SearchHistoryEntity
 import gg.op.lol.data.local.models.SpellEntity
 import gg.op.lol.data.local.models.SummonerEntity
 
@@ -24,7 +26,8 @@ const val DATABASE_NAME = "LOL-MatchHistory-DB"
         ChampionEntity::class,
         SpellEntity::class,
         RuneEntity::class,
-        ItemEntity::class
+        ItemEntity::class,
+        SearchHistoryEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -36,6 +39,7 @@ abstract class LOLMatchHistoryDatabase : RoomDatabase() {
     abstract fun spellDao(): SpellDao
     abstract fun itemDao(): ItemDao
     abstract fun runeDao(): RuneDao
+    abstract fun searchHistoryDao(): SearchHistoryDao
 
     companion object {
 

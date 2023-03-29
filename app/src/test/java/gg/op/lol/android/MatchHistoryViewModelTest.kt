@@ -3,7 +3,7 @@ package gg.op.lol.android
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import gg.lol.android.data.search.SearchHistoryDao
+import gg.op.lol.data.local.dao.SearchHistoryDao
 import gg.lol.android.data.summoner.Summoner
 import gg.lol.android.network.UserService
 import gg.lol.android.ui.match.MatchHistoryViewModel

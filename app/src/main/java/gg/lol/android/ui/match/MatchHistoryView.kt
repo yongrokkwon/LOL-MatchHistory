@@ -166,7 +166,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                             runes,
                             items
                         )
-                    } ?: ErrorView()
+                    } ?: MatchHistoryErrorView()
                 }
             }
         } else {
@@ -386,7 +386,7 @@ fun TierItem(item: Summoner.Body) {
 }
 
 @Composable
-fun ErrorView() {
+fun MatchHistoryErrorView() {
     Text("MatchHistory Load Error")
 }
 
@@ -573,7 +573,6 @@ fun ResultInformationTop(
         calculateKillInvolvementRate(participant.kills, participant.assists, totalKills)
     Row(
         modifier = Modifier.fillMaxWidth()
-//            .fillMaxHeight()
     ) {
         Image(
             modifier = Modifier
@@ -585,15 +584,8 @@ fun ResultInformationTop(
             ),
             contentDescription = null
         )
-//        RoundImage(
-//
-//            imageRes = R.drawable.champion_leblanc,
-//            imageSize = 50.dp,
-//            cornerRadius = 10.dp
-//        )
         Column(
             modifier = Modifier
-//                .fillMaxHeight()
                 .align(Alignment.CenterVertically)
         ) {
             Row(

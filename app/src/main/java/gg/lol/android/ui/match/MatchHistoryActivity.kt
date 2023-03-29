@@ -33,13 +33,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import gg.lol.android.ui.UiState
 import gg.lol.android.ui.account.ROUTE_LOGIN
 import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.Summoner
-import gg.lol.android.ui.UiState
 
 @AndroidEntryPoint
 class MatchHistoryActivity : ComponentActivity() {

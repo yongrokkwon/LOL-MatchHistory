@@ -1,20 +1,19 @@
-package gg.lol.android.data.search
+package gg.op.lol.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import gg.op.lol.data.local.models.SearchHistoryEntity
 
 @Dao
 interface SearchHistoryDao {
-    // TODO Naming
     @Query("SELECT * FROM search_history")
-    fun getSearchHistory(): Flow<List<SearchHistory>>
+    fun getSearchHistory(): List<SearchHistoryEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearchHistory(searchHistory: SearchHistory)
+    fun insertSearchHistory(searchHistory: SearchHistoryEntity)
 
     @Query("DELETE FROM search_history")
-    suspend fun clearSearchHistory()
+    fun clearSearchHistory()
 }

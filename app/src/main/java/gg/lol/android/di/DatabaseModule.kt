@@ -25,6 +25,7 @@ import dagger.hilt.components.SingletonComponent
 import gg.op.lol.data.local.dao.ChampionDao
 import gg.op.lol.data.local.dao.ItemDao
 import gg.op.lol.data.local.dao.RuneDao
+import gg.op.lol.data.local.dao.SearchHistoryDao
 import gg.op.lol.data.local.dao.SpellDao
 import gg.op.lol.data.local.dao.SummonerDao
 import gg.op.lol.data.local.database.LOLMatchHistoryDatabase
@@ -65,5 +66,10 @@ class DatabaseModule {
     @Provides
     fun provideItemDao(appDatabase: LOLMatchHistoryDatabase): ItemDao {
         return appDatabase.itemDao()
+    }
+
+    @Provides
+    fun provideSearchHistoryDao(appDatabase: LOLMatchHistoryDatabase): SearchHistoryDao {
+        return appDatabase.searchHistoryDao()
     }
 }

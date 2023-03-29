@@ -28,14 +28,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -50,18 +49,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
+import gg.lol.android.BuildConfig
 import gg.lol.android.R
+import gg.lol.android.ui.UiState
 import gg.lol.android.ui.match.MatchHistoryActivity
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
+import gg.lol.android.ui.view.LoadingView
+import gg.op.lol.domain.models.SearchHistory
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-//    val searchHistories = viewModel.searchHistories.observeAsState().value ?: emptyList()
+    val latestVersion = viewModel.latestVersion.collectAsState().value
+    when (val uiState = viewModel.searchHistories.collectAsState().value) {
+        is UiState.Success -> SearchView(uiState.data, latestVersion)
+        is UiState.Loading -> LoadingView()
+        is UiState.Error -> SearchHistoryErrorView()
+    }
+}
+
+@Composable
+fun SearchHistoryErrorView() {
+    Text("SearchHistoryErrorView Load Error")
+}
+
+@Composable
+fun SearchView(data: List<SearchHistory>, latestVersion: String) {
     val context = LocalContext.current as Activity
     val searchWord = remember { mutableStateOf("") }
 
@@ -69,10 +86,15 @@ fun SearchScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().background(color = Color.White).padding(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.White)
+                .padding(8.dp)
         ) {
             Icon(
-                modifier = Modifier.align(Alignment.CenterVertically).padding(end = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(end = 8.dp)
                     .clickable { context.finish() },
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = null
@@ -80,18 +102,22 @@ fun SearchScreen(
             BasicTextField(
                 value = searchWord.value,
                 onValueChange = { searchWord.value = it },
-                modifier = Modifier.fillMaxWidth().height(50.dp).border(
-                    width = 1.dp,
-                    color = Color.LightGray,
-                    shape = RoundedCornerShape(6.dp)
-                ).onKeyEvent {
-                    searchWord.value = searchWord.value.replace("\n", "")
-                    if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                        startMatchHistoryActivity(context, searchWord.value)
-                        return@onKeyEvent true
-                    }
-                    return@onKeyEvent false
-                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .onKeyEvent {
+                        searchWord.value = searchWord.value.replace("\n", "")
+                        if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+                            startMatchHistoryActivity(context, searchWord.value)
+                            return@onKeyEvent true
+                        }
+                        return@onKeyEvent false
+                    },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
@@ -126,11 +152,16 @@ fun SearchScreen(
         }
 
         Column(
-            modifier = Modifier.padding(top = 8.dp).fillMaxSize().background(color = Color.White)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .fillMaxSize()
+                .background(color = Color.White)
                 .padding(8.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
@@ -146,66 +177,66 @@ fun SearchScreen(
                     textAlign = TextAlign.End
                 )
             }
-            if (/*searchHistories.isEmpty()*/ false /*TODO*/) {
-                Text(text = "No items to display")
-            } else {
+            if (data.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(listOf("asd")) { item ->
-                        Row(
-                            modifier = Modifier.padding(top = 8.dp).clickable {
-                                context.startActivity(
-                                    Intent(
-                                        context,
-                                        MatchHistoryActivity::class.java
-                                    ).apply {
-                                        putExtra(
-                                            MatchHistoryActivity.EXTRA_NICKNAME,
-                                            "hide on bush" /*TODO*/
-                                        )
-                                    }
-                                )
-                            }
-                        ) {
-                            Image(
-                                modifier = Modifier.clip(RoundedCornerShape(12.dp))
-                                    .padding(end = 0.dp).size(40.dp),
-                                painter = painterResource(R.drawable.summoner_icon_test), // TODO
-                                contentScale = ContentScale.Crop,
-                                contentDescription = null
-                            )
-                            Column(
-                                modifier = Modifier.padding(start = 4.dp).weight(1f)
-                            ) {
-                                Text(text = "hide on bush" /*TODO*/, fontWeight = FontWeight.Bold)
-                                Row() {
-                                    // TODO
-                                    Image(
-                                        modifier = Modifier.size(20.dp),
-                                        painter = painterResource(
-                                            id = R.drawable.search_challenger
-                                        ),
-                                        contentDescription = null,
-                                        contentScale = ContentScale.FillBounds
-                                    )
-                                    Text(text = "C1")
-                                }
-                            }
-                            Row(
-                                modifier = Modifier.align(Alignment.CenterVertically),
-                                horizontalArrangement = Arrangement.End
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.FavoriteBorder,
-                                    contentDescription = null
-                                ) // TODO Favorite Check
-                                Icon(imageVector = Icons.Filled.Close, contentDescription = null)
-                            }
-                        }
+                    items(data) {
+                        SearchHistoryItemView(context, it, latestVersion)
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun SearchHistoryItemView(context: Context, item: SearchHistory, latestVersion: String) {
+    Row(
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .clickable { startMatchHistoryActivity(context, item.nickname) }
+    ) {
+        Image(
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .padding(end = 0.dp)
+                .size(40.dp),
+            painter = rememberAsyncImagePainter(
+                BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                    "/img/profileicon/" + item.icon + ".png"
+            ),
+            contentScale = ContentScale.Crop,
+            contentDescription = null
+        )
+        Column(
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .weight(1f)
+        ) {
+            Text(text = item.nickname, fontWeight = FontWeight.Bold)
+            Row() {
+                // TODO
+                Image(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(
+                        id = R.drawable.search_challenger
+                    ),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds
+                )
+                Text(text = "C1")
+            }
+        }
+        Row(
+            modifier = Modifier.align(Alignment.CenterVertically),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Icon(
+                imageVector = Icons.Filled.FavoriteBorder,
+                contentDescription = null
+            ) // TODO Favorite Check
+            Icon(imageVector = Icons.Filled.Close, contentDescription = null)
         }
     }
 }
