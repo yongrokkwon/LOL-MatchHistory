@@ -18,7 +18,7 @@ class SearchHistoryEntityMapper @Inject constructor() : Mapper<SearchHistoryEnti
         return SearchHistoryEntity(
             nickname = type.nickname,
             icon = type.icon,
-            tier = type.tier.javaClass.name,
+            tier = type.tier.javaClass.simpleName,
             rank = type.tier.rank
         )
     }
