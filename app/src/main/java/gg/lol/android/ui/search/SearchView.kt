@@ -112,7 +112,7 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
                 onValueChange = { searchWord.value = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(40.dp)
                     .border(
                         width = 1.dp,
                         color = Color.LightGray,
@@ -141,14 +141,19 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            modifier = Modifier.size(30.dp),
+                            modifier = Modifier.size(30.dp)
+                                .padding(start = 8.dp, end = 0.dp),
                             imageVector = Icons.Default.Search,
                             contentDescription = null
                         )
-                        Box(Modifier.weight(1f)) {
+                        Box(
+                            Modifier.weight(1f)
+                                .padding(start = 4.dp)
+                        ) {
                             if (searchWord.value.isEmpty()) {
                                 Text(
-                                    stringResource(id = R.string.search_hint),
+                                    modifier = Modifier,
+                                    text = stringResource(id = R.string.search_hint),
                                     style = SearchHint
                                 )
                             }
@@ -217,7 +222,7 @@ fun SearchHistoryItemView(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
                     .padding(end = 0.dp)
-                    .size(40.dp),
+                    .size(50.dp),
                 painter = rememberAsyncImagePainter(
                     BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
                         "/img/profileicon/" + item.icon + ".png"
@@ -228,6 +233,7 @@ fun SearchHistoryItemView(
             Column(
                 modifier = Modifier
                     .padding(start = 4.dp)
+                    .align(Alignment.CenterVertically)
             ) {
                 Text(text = item.nickname, fontWeight = FontWeight.Bold)
                 Row {
