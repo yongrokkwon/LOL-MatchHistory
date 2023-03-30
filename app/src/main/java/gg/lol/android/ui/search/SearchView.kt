@@ -42,11 +42,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import coil.compose.rememberAsyncImagePainter
@@ -61,6 +63,8 @@ import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.SearchHistory
+
+const val MAX_SEARCH_SIZE = 16
 
 @Composable
 fun SearchScreen(
@@ -109,10 +113,10 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
             )
             BasicTextField(
                 value = searchWord.value,
-                onValueChange = { searchWord.value = it },
+                onValueChange = { if (it.length < MAX_SEARCH_SIZE) searchWord.value = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(40.dp)
                     .border(
                         width = 1.dp,
                         color = Color.LightGray,
@@ -141,14 +145,19 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            modifier = Modifier.size(30.dp),
+                            modifier = Modifier.size(30.dp)
+                                .padding(start = 8.dp, end = 0.dp),
                             imageVector = Icons.Default.Search,
                             contentDescription = null
                         )
-                        Box(Modifier.weight(1f)) {
+                        Box(
+                            Modifier.weight(1f)
+                                .padding(start = 4.dp)
+                        ) {
                             if (searchWord.value.isEmpty()) {
                                 Text(
-                                    stringResource(id = R.string.search_hint),
+                                    modifier = Modifier,
+                                    text = stringResource(id = R.string.search_hint),
                                     style = SearchHint
                                 )
                             }
@@ -217,7 +226,7 @@ fun SearchHistoryItemView(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
                     .padding(end = 0.dp)
-                    .size(40.dp),
+                    .size(50.dp),
                 painter = rememberAsyncImagePainter(
                     BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
                         "/img/profileicon/" + item.icon + ".png"
@@ -228,6 +237,7 @@ fun SearchHistoryItemView(
             Column(
                 modifier = Modifier
                     .padding(start = 4.dp)
+                    .align(Alignment.CenterVertically)
             ) {
                 Text(text = item.nickname, fontWeight = FontWeight.Bold)
                 Row {
@@ -237,7 +247,7 @@ fun SearchHistoryItemView(
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
                     )
-                    Text(text = item.tier.toSummaryName())
+                    Text(text = item.tier.toSummaryName(), style = TextStyle(fontSize = 15.sp))
                 }
             }
         }
