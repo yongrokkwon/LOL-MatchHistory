@@ -1,9 +1,11 @@
 package gg.lol.android.ui.search
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.exception.RoomDatabaseException
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
+import gg.op.lol.domain.interactor.DeleteAndReloadSearchHistoryUseCase
 import gg.op.lol.domain.interactor.GetSearchHistoryUseCase
 import gg.op.lol.domain.models.SearchHistory
 import javax.inject.Inject
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 @HiltViewModel
 class SearchViewModel @Inject internal constructor(
-    private val searchHistoryUseCase: GetSearchHistoryUseCase,
+    private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
+    private val deleteSearchHistoryUseCase: DeleteAndReloadSearchHistoryUseCase,
     private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
 
@@ -32,10 +35,21 @@ class SearchViewModel @Inject internal constructor(
         loadSearchHistories()
     }
 
-    private fun loadSearchHistories() {
+    fun loadSearchHistories() {
         launchCoroutineIO {
-            searchHistoryUseCase.invoke(Unit).collect {
-                _searchHistories.value = UiState.Success(it)
+            _searchHistories.value = UiState.Success(getSearchHistoryUseCase.invoke(Unit))
+        }
+    }
+
+    fun deleteAndReloadHistory(params: List<SearchHistory>) {
+        launchCoroutineIO {
+            val result = deleteSearchHistoryUseCase.invoke(params)
+            val isDeleted = result.first
+            val histories = result.second
+            _searchHistories.value = if (isDeleted) {
+                UiState.Success(histories)
+            } else {
+                UiState.Error(RoomDatabaseException("Database Error"))
             }
         }
     }

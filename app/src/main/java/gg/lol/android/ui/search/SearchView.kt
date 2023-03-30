@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
@@ -58,6 +58,7 @@ import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
 import gg.lol.android.ui.view.LoadingView
+import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.op.lol.domain.models.SearchHistory
 
 @Composable
@@ -66,9 +67,15 @@ fun SearchScreen(
 ) {
     val latestVersion = viewModel.latestVersion.collectAsState().value
     when (val uiState = viewModel.searchHistories.collectAsState().value) {
-        is UiState.Success -> SearchView(uiState.data, latestVersion)
+        is UiState.Success -> SearchView(viewModel, uiState.data, latestVersion)
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
+    }
+    OnLifecycleEvent { owner, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> viewModel.loadSearchHistories()
+            else -> Unit
+        }
     }
 }
 
@@ -78,7 +85,7 @@ fun SearchHistoryErrorView() {
 }
 
 @Composable
-fun SearchView(data: List<SearchHistory>, latestVersion: String) {
+fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVersion: String) {
     val context = LocalContext.current as Activity
     val searchWord = remember { mutableStateOf("") }
 
@@ -171,7 +178,7 @@ fun SearchView(data: List<SearchHistory>, latestVersion: String) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.clickable { viewModel.deleteAndReloadHistory(data) },
                     text = stringResource(id = R.string.search_all_delete),
                     style = GUIDE_STYLE,
                     textAlign = TextAlign.End
@@ -182,7 +189,7 @@ fun SearchView(data: List<SearchHistory>, latestVersion: String) {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(data) {
-                        SearchHistoryItemView(context, it, latestVersion)
+                        SearchHistoryItemView(context, viewModel, it, latestVersion)
                     }
                 }
             }
@@ -191,52 +198,68 @@ fun SearchView(data: List<SearchHistory>, latestVersion: String) {
 }
 
 @Composable
-fun SearchHistoryItemView(context: Context, item: SearchHistory, latestVersion: String) {
+fun SearchHistoryItemView(
+    context: Context,
+    viewModel: SearchViewModel,
+    item: SearchHistory,
+    latestVersion: String
+) {
     Row(
         modifier = Modifier
             .padding(top = 8.dp)
-            .clickable { startMatchHistoryActivity(context, item.nickname) }
     ) {
-        Image(
-            modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .padding(end = 0.dp)
-                .size(40.dp),
-            painter = rememberAsyncImagePainter(
-                BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
-                    "/img/profileicon/" + item.icon + ".png"
-            ),
-            contentScale = ContentScale.Crop,
-            contentDescription = null
-        )
-        Column(
-            modifier = Modifier
-                .padding(start = 4.dp)
+        Row(
+            modifier = Modifier.clickable { startMatchHistoryActivity(context, item.nickname) }
                 .weight(1f)
         ) {
-            Text(text = item.nickname, fontWeight = FontWeight.Bold)
-            Row() {
-                // TODO
-                Image(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(
-                        id = R.drawable.search_challenger
-                    ),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds
-                )
-                Text(text = "C1")
+            Image(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(12.dp))
+                    .padding(end = 0.dp)
+                    .size(40.dp),
+                painter = rememberAsyncImagePainter(
+                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                        "/img/profileicon/" + item.icon + ".png"
+                ),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+            Column(
+                modifier = Modifier
+                    .padding(start = 4.dp)
+            ) {
+                Text(text = item.nickname, fontWeight = FontWeight.Bold)
+                Row {
+                    // TODO
+                    Image(
+                        modifier = Modifier.size(20.dp),
+                        painter = painterResource(
+                            id = R.drawable.search_challenger
+                        ),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds
+                    )
+                    Text(text = "C1")
+                }
             }
         }
-        Row(
+        Box(
             modifier = Modifier.align(Alignment.CenterVertically),
-            horizontalArrangement = Arrangement.End
+            contentAlignment = Alignment.CenterEnd
         ) {
-            Icon(
-                imageVector = Icons.Filled.FavoriteBorder,
-                contentDescription = null
-            ) // TODO Favorite Check
-            Icon(imageVector = Icons.Filled.Close, contentDescription = null)
+            Row {
+                Icon(
+                    imageVector = Icons.Filled.FavoriteBorder,
+                    contentDescription = null
+                ) // TODO Favorite Check
+                Icon(
+                    modifier = Modifier.clickable {
+                        viewModel.deleteAndReloadHistory(listOf(item))
+                    },
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = null
+                )
+            }
         }
     }
 }

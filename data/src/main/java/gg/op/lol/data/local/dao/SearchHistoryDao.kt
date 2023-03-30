@@ -1,6 +1,7 @@
 package gg.op.lol.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,6 +15,6 @@ interface SearchHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchHistory(searchHistory: SearchHistoryEntity)
 
-    @Query("DELETE FROM search_history")
-    fun clearSearchHistory()
+    @Delete
+    fun delete(searchHistory: List<SearchHistoryEntity>): Int
 }

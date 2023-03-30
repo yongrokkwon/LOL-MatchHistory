@@ -6,7 +6,6 @@ import gg.op.lol.domain.models.SearchHistory
 import gg.op.lol.domain.repository.SearchHistoryRepository
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.flow
 
 @Singleton
 class SearchHistoryRepositoryImp @Inject constructor(
@@ -14,11 +13,16 @@ class SearchHistoryRepositoryImp @Inject constructor(
     private val searchHistoryEntityMapper: SearchHistoryEntityMapper
 ) : SearchHistoryRepository {
 
-    override fun getSearchHistories() = flow {
+    override fun getSearchHistories(): List<SearchHistory> {
         val result = searchHistoryDao.getSearchHistory().map {
             searchHistoryEntityMapper.mapFromEntity(it)
         }
-        emit(result)
+        return result
+    }
+
+    override fun deleteSearchHistory(searchHistory: List<SearchHistory>): Boolean {
+        val entities = searchHistory.map { searchHistoryEntityMapper.mapToEntity(it) }
+        return searchHistoryDao.delete(entities) == searchHistory.size
     }
 
     override fun insertSearchHistory(searchHistory: SearchHistory) {
