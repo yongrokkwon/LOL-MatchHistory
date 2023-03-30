@@ -23,6 +23,7 @@ import gg.op.lol.domain.models.Rune
 import gg.op.lol.domain.models.SearchHistory
 import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.Tier
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -108,7 +109,13 @@ class MatchHistoryViewModel @Inject internal constructor(
         summonerInfoUseCase.invoke(summonerName.value).collect {
             _uiState.value = UiState.Success(it)
             getMatchHistories(it.puuid)
-            insertSearchHistory(SearchHistory(it.summonerName, it.profileIconId))
+            insertSearchHistory(
+                SearchHistory(
+                    it.summonerName,
+                    it.profileIconId,
+                    Tier.valueOf(it.histories.first().tier, it.histories.first().rank)
+                )
+            )
         }
     }
 

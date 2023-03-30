@@ -59,6 +59,7 @@ import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
+import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.SearchHistory
 
 @Composable
@@ -230,16 +231,13 @@ fun SearchHistoryItemView(
             ) {
                 Text(text = item.nickname, fontWeight = FontWeight.Bold)
                 Row {
-                    // TODO
                     Image(
                         modifier = Modifier.size(20.dp),
-                        painter = painterResource(
-                            id = R.drawable.search_challenger
-                        ),
+                        painter = painterResource(id = item.tier.toDrawable()),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds
                     )
-                    Text(text = "C1")
+                    Text(text = item.tier.toSummaryName())
                 }
             }
         }

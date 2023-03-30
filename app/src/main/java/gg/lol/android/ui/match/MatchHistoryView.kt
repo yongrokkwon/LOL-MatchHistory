@@ -64,12 +64,14 @@ import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
+import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Rune
 import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.Tier
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
@@ -83,7 +85,7 @@ enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
         420
     ),
     RANKED_FLEX_SR(R.string.match_flex_rank, 440), ARAM(
-        R.string.match_aram,
+        R.string.match_flex_rank,
         450
     ),
     CLASH(R.string.match_clash, 700), AI_01(R.string.match_ai, 820), AI_02(
@@ -104,8 +106,6 @@ enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
     ),
     TUTORIAL_03(R.string.match_tutorial, 2020), ETC(R.string.match_etc, 0)
 }
-
-enum class Tier { CHALLENGER, GRANDMASTER, MASTER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE, IRON }
 
 enum class MultiKillType(@StringRes val id: Int) {
     DOUBLE(R.string.match_double_kill),
@@ -189,7 +189,8 @@ fun Header(latestVersion: String, summoner: Summoner) {
         ) {
             Box(modifier = Modifier.align(Alignment.Bottom)) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(35.dp))
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(35.dp))
                         .width(80.dp)
                         .height(80.dp),
                     painter = rememberAsyncImagePainter(
@@ -200,7 +201,8 @@ fun Header(latestVersion: String, summoner: Summoner) {
                     contentScale = ContentScale.Crop
                 )
                 Text(
-                    modifier = Modifier.align(Alignment.BottomCenter)
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
                         .clip(RoundedCornerShape(50.dp))
                         .background(color = Color.Gray)
                         .padding(start = 4.dp, end = 4.dp),
@@ -310,25 +312,8 @@ fun TierItem(item: Summoner.Body) {
         QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_flex_rank)
         else -> return
     }
-    val tier = "${item.tier} ${item.rank}"
-    val tierImage = painterResource(
-        id = when (item.tier) {
-            Tier.IRON.name -> R.drawable.iron
-            Tier.BRONZE.name -> R.drawable.bronze
-            Tier.SILVER.name -> R.drawable.silver
-            Tier.GOLD.name -> R.drawable.gold
-            Tier.PLATINUM.name -> R.drawable.platinum
-            Tier.DIAMOND.name -> R.drawable.diamond
-            Tier.MASTER.name -> R.drawable.master
-            Tier.GRANDMASTER.name -> R.drawable.grandmaster
-            Tier.CHALLENGER.name -> R.drawable.challenger
-            else -> R.drawable.unranked
-        }
-    )
-    val winRate = calculateWinRate(
-        item.wins,
-        item.losses
-    )
+    val tier = Tier.valueOf(item.tier, item.rank)
+    val winRate = calculateWinRate(item.wins, item.losses)
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -338,7 +323,7 @@ fun TierItem(item: Summoner.Body) {
             .height(100.dp)
     ) {
         Image(
-            painter = tierImage,
+            painter = painterResource(id = tier.toDrawable()),
             contentDescription = null,
             modifier = Modifier
                 .size(100.dp)
@@ -357,7 +342,7 @@ fun TierItem(item: Summoner.Body) {
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
             Text(
-                text = tier,
+                text = tier.toName(),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
@@ -596,7 +581,8 @@ fun ResultInformationTop(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(5.dp))
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
                         .size(20.dp)
                         .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
@@ -802,7 +788,8 @@ fun ResultInformationBottom(
         }
         multiKillType?.let {
             Text(
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
                     .background(color = MultiKillBackgroundColor)
                     .padding(
                         top = 2.dp,

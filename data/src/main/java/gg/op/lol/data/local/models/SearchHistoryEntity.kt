@@ -8,7 +8,11 @@ import androidx.room.PrimaryKey
 data class SearchHistoryEntity(
     @PrimaryKey
     @ColumnInfo(name = "nickname")
-    val nickname: String = "",
+    val nickname: String,
     @ColumnInfo(name = "icon")
-    val icon: Int = 0
+    val icon: Int,
+    @ColumnInfo(name = "tier")
+    val tier: String,
+    @ColumnInfo(name = "rank")
+    val rank: String
 )

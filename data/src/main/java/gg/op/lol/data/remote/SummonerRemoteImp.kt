@@ -53,7 +53,7 @@ class SummonerRemoteImp @Inject constructor(
                         leagueId = "",
                         leaguePoints = 0,
                         losses = 0,
-                        queueType = "RANKED_FLEX_SR",
+                        queueType = if (i == 0) "RANKED_SOLO_5X5" else "RANKED_FLEX_SR",
                         rank = "",
                         summonerId = "",
                         summonerName = "",
