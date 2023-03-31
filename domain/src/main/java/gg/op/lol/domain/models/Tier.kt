@@ -32,6 +32,7 @@ sealed class Tier(val rank: String) {
     }
 
     companion object {
+        // TODO
         fun valueOf(tier: String, rank: String): Tier {
             return when (tier) {
                 "CHALLENGER" -> CHALLENGER(rank)

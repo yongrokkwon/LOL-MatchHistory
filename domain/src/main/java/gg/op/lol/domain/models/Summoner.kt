@@ -14,7 +14,7 @@ data class Summoner(
         val leagueId: String,
         val leaguePoints: Int,
         val losses: Int,
-        val queueType: String,
+        val queueType: QueueType,
         val rank: String,
         val summonerId: String,
         val summonerName: String,

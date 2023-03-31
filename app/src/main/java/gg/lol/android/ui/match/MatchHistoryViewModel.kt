@@ -8,7 +8,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
-import gg.op.lol.domain.interactor.GetLatestVersionUseCase
+import gg.lol.android.util.PreferencesHelper
 import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
 import gg.op.lol.domain.interactor.GetLocalItemUseCase
 import gg.op.lol.domain.interactor.GetLocalRunesUseCase
@@ -38,8 +38,8 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val spellUseCase: GetLocalSpellsUseCase,
     private val runeUseCase: GetLocalRunesUseCase,
     private val itemUseCase: GetLocalItemUseCase,
-    private val latestVersionUseCase: GetLatestVersionUseCase,
-    private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase
+    private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase,
+    private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
 
     private val _summonerName = MutableStateFlow("")
@@ -70,6 +70,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     val items: List<Item> = _items
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        exception.printStackTrace()
         _uiState.value = UiState.Error(exception)
     }
 
@@ -99,14 +100,13 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
-    private suspend fun getLatestVersion() {
-        latestVersionUseCase.invoke(Unit).collect {
-            _latestVersion.value = it
-        }
+    private fun getLatestVersion() {
+//        _latestVersion.value = preferencesHelper.currentVersion
     }
 
     private suspend fun getRemoteSummoner() {
         summonerInfoUseCase.invoke(summonerName.value).collect {
+            println("## 6")
             _uiState.value = UiState.Success(it)
             getMatchHistories(it.puuid)
             insertSearchHistory(

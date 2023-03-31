@@ -64,10 +64,12 @@ import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.NetworkError
+import gg.lol.android.util.QueueTypeExtensions.toName
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.QueueType
 import gg.op.lol.domain.models.Rune
 import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
@@ -77,35 +79,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlin.math.roundToInt
-
-// TODO https://static.developer.riotgames.com/docs/lol/queues.json
-enum class QueueType(@StringRes val resId: Int, val queueId: Int) {
-    NORMAL(R.string.match_normal, 400), RANKED_SOLO_5X5(
-        R.string.match_solo_rank,
-        420
-    ),
-    RANKED_FLEX_SR(R.string.match_flex_rank, 440), ARAM(
-        R.string.match_flex_rank,
-        450
-    ),
-    CLASH(R.string.match_clash, 700), AI_01(R.string.match_ai, 820), AI_02(
-        R.string.match_ai,
-        830
-    ),
-    AI_03(R.string.match_ai, 840), AI_04(R.string.match_ai, 850), URF(
-        R.string.match_urf,
-        900
-    ),
-    PORO(R.string.match_poro, 920), OFA(
-        R.string.match_ofa,
-        1020
-    ),
-    TUTORIAL_01(R.string.match_tutorial, 2000), TUTORIAL_02(
-        R.string.match_tutorial,
-        2010
-    ),
-    TUTORIAL_03(R.string.match_tutorial, 2020), ETC(R.string.match_etc, 0)
-}
 
 enum class MultiKillType(@StringRes val id: Int) {
     DOUBLE(R.string.match_double_kill),
@@ -122,10 +95,11 @@ fun MatchHistoryView(
     val context = LocalContext.current as Activity
 
     when (val state = viewModel.uiState.collectAsState().value) {
-        is UiState.Success -> {
-            MatchHistoryList(viewModel, state.data)
+        is UiState.Success -> MatchHistoryList(viewModel, state.data)
+        is UiState.Error -> {
+            state.error?.printStackTrace()
+            NetworkError(modifier = Modifier.clickable { context.finish() })
         }
-        is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
         is UiState.Loading -> LoadingView()
     }
 }
@@ -307,11 +281,7 @@ fun TierInformation(summonerHistoryBodies: List<Summoner.Body>) {
 
 @Composable
 fun TierItem(item: Summoner.Body) {
-    val queueType = when (item.queueType.uppercase()) {
-        QueueType.RANKED_SOLO_5X5.name -> stringResource(id = R.string.match_solo_rank)
-        QueueType.RANKED_FLEX_SR.name -> stringResource(id = R.string.match_flex_rank)
-        else -> return
-    }
+    val queueTypeNameRes = item.queueType.toName()
     val tier = Tier.valueOf(item.tier, item.rank)
     val winRate = calculateWinRate(item.wins, item.losses)
     Row(
@@ -338,7 +308,7 @@ fun TierItem(item: Summoner.Body) {
                 modifier = Modifier
                     .background(color = BackgroundPrimaryColor)
                     .padding(2.dp),
-                text = queueType,
+                text = stringResource(id = queueTypeNameRes),
                 style = TextStyle(color = ButtonTextColor, fontSize = 12.sp)
             )
             Text(
@@ -513,21 +483,8 @@ fun ResultInformationTop(
     val rune1 = runes.find { it.id == participant.perks.styles[0].style }
         ?.bodies?.find { it.id == participant.perks.styles[0].selections[0].perk }
     val rune2 = runes.find { it.id == participant.perks.styles[1].style }
-    val queueStrRes = when (matchHistory.info.queueId) {
-        QueueType.NORMAL.queueId -> QueueType.NORMAL.resId
-        QueueType.RANKED_SOLO_5X5.queueId -> QueueType.RANKED_SOLO_5X5.resId
-        QueueType.RANKED_FLEX_SR.queueId -> QueueType.RANKED_FLEX_SR.resId
-        QueueType.ARAM.queueId -> QueueType.ARAM.resId
-        QueueType.CLASH.queueId -> QueueType.CLASH.resId
-        in QueueType.AI_01.queueId..QueueType.AI_04.queueId -> QueueType.AI_01.resId
-        QueueType.URF.queueId -> QueueType.URF.resId
-        QueueType.PORO.queueId -> QueueType.PORO.resId
-        QueueType.OFA.queueId -> QueueType.OFA.resId
-        in QueueType.TUTORIAL_01.queueId..QueueType.TUTORIAL_03.queueId -> {
-            QueueType.TUTORIAL_01.resId
-        }
-        else -> QueueType.ETC.resId
-    }
+    val queueTypeRes = QueueType.fromQueueId(matchHistory.info.queueId)?.toName()
+        ?: QueueType.ETC.toName()
     val dateTime = LocalDateTime.ofInstant(
         Instant.ofEpochMilli(matchHistory.info.gameEndTimestamp),
         ZoneId.systemDefault()
@@ -618,7 +575,7 @@ fun ResultInformationTop(
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = queueStrRes),
+                    text = stringResource(id = queueTypeRes),
                     style = TextStyle(
                         color = Color.Gray,
                         fontSize = 11.sp,

@@ -1,6 +1,7 @@
 package gg.op.lol.data.mapper
 
 import gg.op.lol.data.remote.models.SummonerHistoryResponse
+import gg.op.lol.domain.models.QueueType
 import gg.op.lol.domain.models.Summoner
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ class SummonerHistoryResponseMapper @Inject constructor() :
             leagueId = type.leagueId,
             leaguePoints = type.leaguePoints,
             losses = type.losses,
-            queueType = type.queueType,
+            queueType = QueueType.fromName(type.queueType) ?: QueueType.ETC,
             rank = type.rank,
             summonerId = type.summonerId,
             summonerName = type.summonerName,
@@ -32,7 +33,7 @@ class SummonerHistoryResponseMapper @Inject constructor() :
             leagueId = type.leagueId,
             leaguePoints = type.leaguePoints,
             losses = type.losses,
-            queueType = type.queueType,
+            queueType = type.queueType.name,
             rank = type.rank,
             summonerId = type.summonerId,
             summonerName = type.summonerName,
