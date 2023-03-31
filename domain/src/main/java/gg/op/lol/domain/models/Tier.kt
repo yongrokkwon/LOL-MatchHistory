@@ -20,10 +20,10 @@ sealed class Tier(val rank: String) {
 
     fun toSummaryName(): String {
         return when (this) {
-            is MASTER -> "M1"
-            is GRANDMASTER -> "GM1"
-            is CHALLENGER -> "C1"
-            else -> "${this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest()}$rank"
+            is MASTER -> "M 1"
+            is GRANDMASTER -> "GM 1"
+            is CHALLENGER -> "C 1"
+            else -> "${this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest()} $rank"
         }
     }
 
