@@ -775,6 +775,7 @@ fun calculateWinRate(wins: Int, losses: Int): Int {
 }
 
 fun calculateKillInvolvementRate(kills: Int, assists: Int, totalKills: Int): Int {
+    if (totalKills == 0) return 0
     val killContribution = kills + assists
     val killInvolvementRate = (killContribution.toDouble() / totalKills.toDouble()) * 100.0
     return killInvolvementRate.roundToInt()
