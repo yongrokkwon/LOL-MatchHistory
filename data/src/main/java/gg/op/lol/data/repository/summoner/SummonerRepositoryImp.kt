@@ -29,15 +29,15 @@ class SummonerRepositoryImp @Inject constructor(
     override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {
         val remoteDataSource = summonerDataSourceFactory.getRemoteDataSource()
         val summonerInfo = remoteDataSource.getSummonerInfo(nickName)
-        val summonerHistory = remoteDataSource.getSummonerHistory(summonerInfo.id)
-        summonerHistory.map { summonerHistoryEntityMapper.mapFromEntity(it) }
+        val summonerBodies = remoteDataSource.getSummonerHistory(summonerInfo.id)
+            .map { summonerHistoryEntityMapper.mapFromEntity(it) }
             .sortedBy { it.queueType }
         val summoner = Summoner(
             summonerLevel = summonerInfo.summonerLevel,
             summonerName = summonerInfo.name,
             puuid = summonerInfo.puuid,
             profileIconId = summonerInfo.profileIconId,
-            histories = summonerHistory.map { summonerHistoryEntityMapper.mapFromEntity(it) }
+            histories = summonerBodies
         )
         emit(summoner)
     }

@@ -45,9 +45,9 @@ dependencies {
     implementation(AndroidX.ROOM_KTX)
     kapt(AndroidX.ROOM_COMPILER)
 
-    implementation(Library.RETROFIT)
-    implementation(Library.RETROFIT_GSON)
-    implementation(Library.OKHTTP_LOGGING)
+    implementation(OtherLibrary.RETROFIT)
+    implementation(OtherLibrary.RETROFIT_GSON)
+    implementation(OtherLibrary.OKHTTP_LOGGING)
 
     implementation(CoroutinesDep.COROUTINE_CORE)
     implementation(JavaDep.JAVAX_INJECT)
@@ -55,4 +55,8 @@ dependencies {
 
     implementation(CoroutinesDep.COROUTINE_CORE)
     implementation(CoroutinesDep.COROUTINE_ANDROID)
+    debugImplementation(OtherLibrary.FLIPPER)
+    debugImplementation(OtherLibrary.FLIPPER_SOLOADER)
+    releaseImplementation(OtherLibrary.FLIPPER_NOOP)
+    debugImplementation(OtherLibrary.FLIPPER_NETWORK)
 }

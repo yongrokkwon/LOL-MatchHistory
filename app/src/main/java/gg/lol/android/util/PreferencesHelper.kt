@@ -7,7 +7,7 @@ import javax.inject.Inject
 open class PreferencesHelper @Inject constructor(context: Context) {
 
     companion object {
-        private const val PREF_PACKAGE_NAME = "gg.lol.android.preferences"
+        const val PREF_PACKAGE_NAME = "gg.lol.android.preferences"
         private const val PREF_KEY_CURRENT_VERSION = "PREF_KEY_CURRENT_VERSION"
         private const val PREF_KEY_LATEST_VERSION = "PREF_KEY_LATEST_VERSION"
     }

@@ -1,5 +1,7 @@
 package gg.op.lol.data.remote.api
 
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import gg.op.lol.BuildConfig
 import java.util.concurrent.TimeUnit
 import okhttp3.Interceptor
@@ -10,6 +12,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceFactory {
+
+    val FLIPPER_NETWORK_PLUGIN = NetworkFlipperPlugin()
 
     inline fun <reified T> createRetrofitService(isDebug: Boolean, baseUrl: String): T {
         val retrofit = createRetrofit(isDebug, baseUrl)
@@ -33,6 +37,7 @@ object ServiceFactory {
         return OkHttpClient.Builder()
             .addInterceptor(headerInterceptor)
             .addInterceptor(httpLoggingInterceptor)
+            .addNetworkInterceptor(FlipperOkhttpInterceptor(FLIPPER_NETWORK_PLUGIN))
             .connectTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(OK_HTTP_TIMEOUT, TimeUnit.SECONDS)
             .build()

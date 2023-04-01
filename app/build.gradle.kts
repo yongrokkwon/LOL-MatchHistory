@@ -83,7 +83,7 @@ dependencies {
 //    implementation(AndroidX.PAGING_COMMON_KTX)
     implementation(AndroidX.PAGING_COMPOSE)
 
-    implementation(Library.COIL_COMPOSE)
+    implementation(OtherLibrary.COIL_COMPOSE)
 
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
@@ -98,8 +98,16 @@ dependencies {
     implementation(AndroidX.ROOM_KTX)
     kapt(AndroidX.ROOM_COMPILER)
 
-    implementation(Library.RETROFIT)
-    implementation(Library.RETROFIT_GSON)
+    implementation(OtherLibrary.RETROFIT)
+    implementation(OtherLibrary.RETROFIT_GSON)
+
+    debugImplementation(OtherLibrary.LEAKCANARY)
+
+    debugImplementation(OtherLibrary.FLIPPER)
+    debugImplementation(OtherLibrary.FLIPPER_NETWORK)
+    debugImplementation(OtherLibrary.FLIPPER_SOLOADER)
+    debugImplementation(OtherLibrary.FLIPPER_LEAKCANARY)
+    releaseImplementation(OtherLibrary.FLIPPER_NOOP)
 
     androidTestImplementation(AndroidTest.JUNIT_EXT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)

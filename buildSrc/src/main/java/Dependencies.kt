@@ -15,6 +15,9 @@ object Versions {
 
     const val ROOM_VERSION = "2.4.3"
     const val RETROFIT_VERSION = "2.9.0"
+    const val FILPPER = "0.187.1"
+    const val SOLOADER = "0.10.5"
+    const val LEAK_CARNARY = "2.8.1"
 
     const val CORE_TEST_VERSION = "1.5.0"
     const val RUNNER_VERSION = "1.5.2"
@@ -107,7 +110,14 @@ object Google {
         "androidx.hilt:hilt-compiler:${Versions.HILT_COMPILER_VERSION}"
 }
 
-object Library {
+object OtherLibrary {
+    const val FLIPPER = "com.facebook.flipper:flipper:${Versions.FILPPER}"
+    const val FLIPPER_SOLOADER = "com.facebook.soloader:soloader:${Versions.SOLOADER}"
+    const val FLIPPER_NOOP = "com.facebook.flipper:flipper-noop:${Versions.FILPPER}"
+    const val FLIPPER_NETWORK = "com.facebook.flipper:flipper-network-plugin:${Versions.FILPPER}"
+    const val FLIPPER_LEAKCANARY = "com.facebook.flipper:flipper-leakcanary2-plugin:${Versions.FILPPER}"
+    const val LEAKCANARY = "com.squareup.leakcanary:leakcanary-android:${Versions.LEAK_CARNARY}"
+
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT_VERSION}"
     const val RETROFIT_GSON =
         "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT_VERSION}"
