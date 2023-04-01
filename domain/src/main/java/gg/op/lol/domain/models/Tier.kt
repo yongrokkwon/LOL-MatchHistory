@@ -1,5 +1,6 @@
 package gg.op.lol.domain.models
 
+import gg.op.lol.domain.romanToArabic
 import java.util.Locale
 
 sealed class Tier(val rank: String) {
@@ -15,15 +16,17 @@ sealed class Tier(val rank: String) {
     object UNRANK : Tier("")
 
     fun toName(): String {
-        return "${this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest()} $rank"
+        return this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest() + " " +
+            rank.romanToArabic()
     }
 
     fun toSummaryName(): String {
         return when (this) {
-            is MASTER -> "M 1"
-            is GRANDMASTER -> "GM 1"
-            is CHALLENGER -> "C 1"
-            else -> "${this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest()} $rank"
+            is MASTER -> "M1"
+            is GRANDMASTER -> "GM1"
+            is CHALLENGER -> "C1"
+            else -> this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest() + " " +
+                rank.romanToArabic()
         }
     }
 

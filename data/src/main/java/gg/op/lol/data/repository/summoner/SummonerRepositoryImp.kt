@@ -31,7 +31,7 @@ class SummonerRepositoryImp @Inject constructor(
         val summonerInfo = remoteDataSource.getSummonerInfo(nickName)
         val summonerBodies = remoteDataSource.getSummonerHistory(summonerInfo.id)
             .map { summonerHistoryEntityMapper.mapFromEntity(it) }
-            .sortedBy { it.queueType }
+            .sortedBy { it.queueType.queueId }
         val summoner = Summoner(
             summonerLevel = summonerInfo.summonerLevel,
             summonerName = summonerInfo.name,

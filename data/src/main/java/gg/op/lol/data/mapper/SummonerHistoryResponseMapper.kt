@@ -1,5 +1,6 @@
 package gg.op.lol.data.mapper
 
+import gg.op.lol.data.enumValueOrNull
 import gg.op.lol.data.remote.models.SummonerHistoryResponse
 import gg.op.lol.domain.models.QueueType
 import gg.op.lol.domain.models.Summoner
@@ -15,7 +16,7 @@ class SummonerHistoryResponseMapper @Inject constructor() :
             leagueId = type.leagueId,
             leaguePoints = type.leaguePoints,
             losses = type.losses,
-            queueType = QueueType.fromName(type.queueType) ?: QueueType.ETC,
+            queueType = enumValueOrNull(type.queueType) ?: QueueType.RANKED_SOLO_5X5,
             rank = type.rank,
             summonerId = type.summonerId,
             summonerName = type.summonerName,

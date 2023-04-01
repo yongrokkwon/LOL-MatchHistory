@@ -10,6 +10,8 @@ import gg.op.lol.data.remote.models.SummonerHistoryResponse
 import gg.op.lol.data.remote.models.SummonerInfoResponse
 import gg.op.lol.data.repository.summoner.SummonerRemote
 import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.QueueType
+import gg.op.lol.domain.models.Tier
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
@@ -43,26 +45,41 @@ class SummonerRemoteImp @Inject constructor(
 
     private fun updateUnRank(list: List<SummonerHistoryResponse>): List<SummonerHistoryResponse> {
         val result = ArrayList<SummonerHistoryResponse>()
-        for (i in 0 until 2) {
-            result.add(
-                list.getOrElse(i) {
-                    SummonerHistoryResponse(
-                        freshBlood = false,
-                        hotStreak = false,
-                        inactive = false,
-                        leagueId = "",
-                        leaguePoints = 0,
-                        losses = 0,
-                        queueType = if (i == 0) "RANKED_SOLO_5X5" else "RANKED_FLEX_SR",
-                        rank = "",
-                        summonerId = "",
-                        summonerName = "",
-                        tier = "Unranked",
-                        veteran = false,
-                        wins = 0
-                    )
+        val element = SummonerHistoryResponse(
+            freshBlood = false,
+            hotStreak = false,
+            inactive = false,
+            leagueId = "",
+            leaguePoints = 0,
+            losses = 0,
+            queueType = "",
+            rank = "",
+            summonerId = "",
+            summonerName = "",
+            tier = Tier.UNRANK.javaClass.simpleName,
+            veteran = false,
+            wins = 0
+        )
+        when (list.size) {
+            0 -> {
+                result.add(element.copy(queueType = QueueType.RANKED_SOLO_5X5.name))
+                result.add(element.copy(queueType = QueueType.RANKED_FLEX_SR.name))
+            }
+            1 -> {
+                val type = list.first()
+                val otherType = if (type.queueType == QueueType.RANKED_FLEX_SR.name) {
+                    QueueType.RANKED_SOLO_5X5
+                } else {
+                    QueueType.RANKED_FLEX_SR
                 }
-            )
+                result.add(type)
+                result.add(element.copy(queueType = otherType.name))
+            }
+            2 -> {
+                if (list[0] != list[1]) {
+                    result.addAll(list)
+                }
+            }
         }
         return result
     }

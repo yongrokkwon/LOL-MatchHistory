@@ -15,9 +15,8 @@ enum class QueueType(val queueId: Int) {
     ETC(0);
 
     companion object {
-        private val map = QueueType.values().associateBy(QueueType::name)
-        fun fromName(name: String) = map[name]
-        fun fromQueueId(queueId: Int) = values().find { it.queueId == queueId }
+        private val map = QueueType.values().associateBy(QueueType::queueId)
+        fun fromQueueId(queueId: Int) = map[queueId]
     }
 //    fun valueOf(queueId: Int): QueueType {
 //        return when (this.queueId) {
