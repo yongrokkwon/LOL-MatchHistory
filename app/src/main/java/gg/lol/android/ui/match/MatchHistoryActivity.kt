@@ -102,7 +102,7 @@ fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data:
             navigationIcon = {
                 IconButton(
                     onClick = {
-                        if (viewModel.screenCloseCheck) {
+                        if (viewModel.screenCloseCheck.value) {
                             context.finish()
                         } else {
                             if (navController.backQueue.size == 2) {
@@ -114,7 +114,7 @@ fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data:
                         viewModel.setScreenCloseCheck(false)
                     }
                 ) {
-                    if (viewModel.screenCloseCheck) {
+                    if (viewModel.screenCloseCheck.value) {
                         Icon(Icons.Filled.Close, null)
                     } else {
                         Icon(Icons.Filled.ArrowBack, null)

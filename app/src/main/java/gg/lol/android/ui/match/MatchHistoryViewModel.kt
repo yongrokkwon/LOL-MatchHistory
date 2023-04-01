@@ -1,5 +1,6 @@
 package gg.lol.android.ui.match
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
@@ -69,6 +70,9 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _items = arrayListOf<Item>()
     val items: List<Item> = _items
 
+    private val _screenCloseCheck = mutableStateOf(false)
+    val screenCloseCheck: State<Boolean> get() = _screenCloseCheck
+
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         exception.printStackTrace()
         _uiState.value = UiState.Error(exception)
@@ -101,12 +105,11 @@ class MatchHistoryViewModel @Inject internal constructor(
     }
 
     private fun getLatestVersion() {
-//        _latestVersion.value = preferencesHelper.currentVersion
+        _latestVersion.value = preferencesHelper.currentVersion
     }
 
     private suspend fun getRemoteSummoner() {
         summonerInfoUseCase.invoke(summonerName.value).collect {
-            println("## 6")
             _uiState.value = UiState.Success(it)
             getMatchHistories(it.puuid)
             insertSearchHistory(
@@ -147,14 +150,8 @@ class MatchHistoryViewModel @Inject internal constructor(
         _appbarBackground.value = value
     }
 
-    private val _screenCloseCheck = mutableStateOf(false)
-    val screenCloseCheck get() = _screenCloseCheck.value
-
-//    private val _summonerResponse = MutableLiveData<SummonerResponse>()
-//    val summonerResponse: LiveData<SummonerResponse> get() = _summonerResponse
-
     fun setScreenCloseCheck(value: Boolean) {
-        this._screenCloseCheck.value = value
+        _screenCloseCheck.value = value
     }
 
     fun setNickName(value: String) {
