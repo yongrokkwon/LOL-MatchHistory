@@ -202,7 +202,7 @@ fun SearchView(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(data) {
+                items(data.sortedByDescending { it.lastSearchedAt }) {
                     SearchHistoryItemView(context, viewModel, it, latestVersion)
                 }
             }
