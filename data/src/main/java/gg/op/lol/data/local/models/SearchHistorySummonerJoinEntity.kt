@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "summoner")
-data class SummonerEntity(
+@Entity(tableName = "search_history")
+data class SearchHistorySummonerJoinEntity(
     @PrimaryKey
     @ColumnInfo(name = "summoner_name")
     val summonerName: String,
@@ -15,6 +15,8 @@ data class SummonerEntity(
     val tier: String,
     @ColumnInfo(name = "rank")
     val rank: String,
+    @ColumnInfo(name = "last_searched_at")
+    val lastSearchedAt: Long,
     @ColumnInfo(name = "favorite")
     val isFavorite: Boolean = false,
     @ColumnInfo(name = "my_summoner")

@@ -5,7 +5,7 @@ data class Summoner(
     val profileIconId: Int,
     val summonerLevel: Int = 0,
     val puuid: String = "",
-    val histories: List<TierHistory> = listOf(),
+    val histories: List<TierHistory>,
 
     val isFavorite: Boolean = false,
     val mySummoner: Boolean = false

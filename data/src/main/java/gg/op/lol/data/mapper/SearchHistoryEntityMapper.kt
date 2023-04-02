@@ -8,18 +8,20 @@ import javax.inject.Inject
 class SearchHistoryEntityMapper @Inject constructor() : Mapper<SearchHistoryEntity, SearchHistory> {
     override fun mapFromEntity(type: SearchHistoryEntity): SearchHistory {
         return SearchHistory(
-            nickname = type.nickname,
-            icon = type.icon,
-            tier = Tier.valueOf(type.tier, type.rank)
+            summonerName = type.summonerName,
+            profileIconId = type.profileIconId,
+            tier = Tier.valueOf(type.tier, type.rank),
+            lastSearchedAt = type.lastSearchedAt
         )
     }
 
     override fun mapToEntity(type: SearchHistory): SearchHistoryEntity {
         return SearchHistoryEntity(
-            nickname = type.nickname,
-            icon = type.icon,
+            summonerName = type.summonerName,
+            profileIconId = type.profileIconId,
             tier = type.tier.javaClass.simpleName,
-            rank = type.tier.rank
+            rank = type.tier.rank,
+            lastSearchedAt = type.lastSearchedAt
         )
     }
 }

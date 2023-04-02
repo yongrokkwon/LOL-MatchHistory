@@ -16,7 +16,7 @@ interface SummonerDao {
     @Query("SELECT * FROM summoner")
     fun getSummoners(): List<SummonerEntity>
 
-    @Query("SELECT * FROM summoner WHERE summonerName = :summonerName")
+    @Query("SELECT * FROM summoner WHERE summoner_name = :summonerName")
     fun getSummonerByNickName(summonerName: String): SummonerEntity?
 
     @Delete

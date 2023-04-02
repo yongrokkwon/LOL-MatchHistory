@@ -25,7 +25,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -59,10 +58,11 @@ import gg.lol.android.ui.match.MatchHistoryActivity
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
+import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.lol.android.util.TierExtensions.toDrawable
-import gg.op.lol.domain.models.SearchHistory
+import gg.op.lol.domain.models.SearchHistorySummonerJoin
 
 const val MAX_SEARCH_SIZE = 16
 
@@ -71,7 +71,7 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val latestVersion = viewModel.latestVersion.collectAsState().value
-    when (val uiState = viewModel.searchHistories.collectAsState().value) {
+    when (val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> SearchView(viewModel, uiState.data, latestVersion)
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
@@ -90,7 +90,11 @@ fun SearchHistoryErrorView() {
 }
 
 @Composable
-fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVersion: String) {
+fun SearchView(
+    viewModel: SearchViewModel,
+    data: List<SearchHistorySummonerJoin>,
+    latestVersion: String
+) {
     val context = LocalContext.current as Activity
     val searchWord = remember { mutableStateOf("") }
 
@@ -194,13 +198,12 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
                     textAlign = TextAlign.End
                 )
             }
-            if (data.isNotEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(data) {
-                        SearchHistoryItemView(context, viewModel, it, latestVersion)
-                    }
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(data) {
+                    SearchHistoryItemView(context, viewModel, it, latestVersion)
                 }
             }
         }
@@ -211,7 +214,7 @@ fun SearchView(viewModel: SearchViewModel, data: List<SearchHistory>, latestVers
 fun SearchHistoryItemView(
     context: Context,
     viewModel: SearchViewModel,
-    item: SearchHistory,
+    item: SearchHistorySummonerJoin,
     latestVersion: String
 ) {
     Row(
@@ -219,7 +222,7 @@ fun SearchHistoryItemView(
             .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.clickable { startMatchHistoryActivity(context, item.nickname) }
+            modifier = Modifier.clickable { startMatchHistoryActivity(context, item.summonerName) }
                 .weight(1f)
         ) {
             Image(
@@ -229,7 +232,7 @@ fun SearchHistoryItemView(
                     .size(50.dp),
                 painter = rememberAsyncImagePainter(
                     BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
-                        "/img/profileicon/" + item.icon + ".png"
+                        "/img/profileicon/" + item.profileIconId + ".png"
                 ),
                 contentScale = ContentScale.Crop,
                 contentDescription = null
@@ -239,7 +242,7 @@ fun SearchHistoryItemView(
                     .padding(start = 4.dp)
                     .align(Alignment.CenterVertically)
             ) {
-                Text(text = item.nickname, fontWeight = FontWeight.Bold)
+                Text(text = item.summonerName, fontWeight = FontWeight.Bold)
                 Row {
                     Image(
                         modifier = Modifier.size(20.dp),
@@ -256,10 +259,12 @@ fun SearchHistoryItemView(
             contentAlignment = Alignment.CenterEnd
         ) {
             Row {
-                Icon(
-                    imageVector = Icons.Filled.FavoriteBorder,
-                    contentDescription = null
-                ) // TODO Favorite Check
+                IconFavorite(
+                    modifier = Modifier.clickable {
+                        viewModel.updateFavoriteSummoner(item.copy(isFavorite = !item.isFavorite))
+                    },
+                    isFavorite = item.isFavorite
+                )
                 Icon(
                     modifier = Modifier.clickable {
                         viewModel.deleteAndReloadHistory(listOf(item))

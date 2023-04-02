@@ -7,12 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "search_history")
 data class SearchHistoryEntity(
     @PrimaryKey
-    @ColumnInfo(name = "nickname")
-    val nickname: String,
-    @ColumnInfo(name = "icon")
-    val icon: Int,
+    @ColumnInfo(name = "summoner_name")
+    val summonerName: String,
+    @ColumnInfo(name = "profile_icon_id")
+    val profileIconId: Int,
     @ColumnInfo(name = "tier")
     val tier: String,
     @ColumnInfo(name = "rank")
-    val rank: String
+    val rank: String,
+    @ColumnInfo(name = "last_searched_at")
+    val lastSearchedAt: Long
 )

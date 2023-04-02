@@ -131,7 +131,7 @@ fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data:
                 if (uiState is UiState.Success) {
                     IconFavorite(
                         modifier = Modifier.clickable {
-                            viewModel.insertFavoriteSummoner(
+                            viewModel.updateFavoriteSummoner(
                                 uiState.data.copy(isFavorite = !uiState.data.isFavorite)
                             )
                         },

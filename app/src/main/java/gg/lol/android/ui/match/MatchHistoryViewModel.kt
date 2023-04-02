@@ -99,7 +99,7 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
-    fun insertFavoriteSummoner(summoner: Summoner) {
+    fun updateFavoriteSummoner(summoner: Summoner) {
         launchCoroutineIO {
             updateFavoriteSummonerUseCase.invoke(summoner)
             getFavoriteSummoner(summoner.summonerName)
@@ -140,7 +140,8 @@ class MatchHistoryViewModel @Inject internal constructor(
                 SearchHistory(
                     it.summonerName,
                     it.profileIconId,
-                    Tier.valueOf(it.histories.first().tier, it.histories.first().rank)
+                    Tier.valueOf(it.histories.first().tier, it.histories.first().rank),
+                    System.currentTimeMillis()
                 )
             )
             getFavoriteSummoner(it.summonerName)
