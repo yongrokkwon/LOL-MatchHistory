@@ -6,7 +6,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -62,8 +61,8 @@ import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
+import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.LoadingView
-import gg.lol.android.ui.view.NetworkError
 import gg.lol.android.util.QueueTypeExtensions.toName
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.Champion
@@ -97,8 +96,10 @@ fun MatchHistoryView(
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> MatchHistoryList(viewModel, state.data)
         is UiState.Error -> {
-            state.error?.printStackTrace()
-            NetworkError(modifier = Modifier.clickable { context.finish() })
+            AlertErrorDialog(
+                throwable = state.error,
+                confirmOnClick = { context.finish() }
+            )
         }
         is UiState.Loading -> LoadingView()
     }

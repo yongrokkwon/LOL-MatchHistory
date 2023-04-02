@@ -12,6 +12,8 @@
     <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="next">다음</string>
+    <string name="ok">OK</string>
+    <string name="internal_error">App Internal Error</string>
 
     <string name="home_favorite_summoner">즐겨찾기한 소환사</string>
     <string name="home_change_index">순서 변경</string>

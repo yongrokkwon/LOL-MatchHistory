@@ -12,6 +12,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ import gg.lol.android.ui.navigation.TOP_LEVEL_DESTINATIONS
 import gg.lol.android.ui.search.SearchScreen
 import gg.lol.android.ui.setting.SettingScreen
 import gg.lol.android.ui.theme.ColorBackground
+import gg.lol.android.ui.view.AlertErrorDialog
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
@@ -42,6 +44,10 @@ fun MainScreen(viewModel: MainViewModel) {
     val navigationActions = remember { LOLMatchHistoryNavigationActions(navController) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination = navBackStackEntry?.destination?.route ?: LOLMatchHistoryRoute.HOME
+    when (val state = viewModel.uiState.collectAsState().value) {
+        is UiState.Error -> AlertErrorDialog(throwable = state.error)
+        else -> Unit
+    }
 
     Column(
         modifier = Modifier

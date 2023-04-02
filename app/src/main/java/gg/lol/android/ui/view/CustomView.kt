@@ -1,6 +1,7 @@
 package gg.lol.android.ui.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,15 +14,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import gg.lol.android.R
 import gg.lol.android.ui.theme.PrimaryColor
 
 @Composable
@@ -53,13 +58,27 @@ fun IconFavorite(modifier: Modifier = Modifier, isFavorite: Boolean) {
 }
 
 @Composable
-fun NetworkError(modifier: Modifier = Modifier) {
-    AlertDialog(
-        modifier = modifier,
-        onDismissRequest = {},
-        confirmButton = { Text(text = "확인") },
-        text = { Text(text = "네트워크 에러 발생") }
-    )
+fun AlertErrorDialog(throwable: Throwable, confirmOnClick: () -> Unit = {}) {
+    val openDialog = remember { mutableStateOf(true) }
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {},
+            confirmButton = {
+                Text(
+                    modifier = Modifier.clickable {
+                        openDialog.value = false
+                        confirmOnClick.invoke()
+                    },
+                    text = stringResource(id = R.string.ok)
+                )
+            },
+            text = {
+                Text(
+                    text = throwable.message ?: stringResource(id = R.string.internal_error)
+                )
+            }
+        )
+    }
 }
 
 @Composable

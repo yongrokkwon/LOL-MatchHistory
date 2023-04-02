@@ -36,9 +36,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import gg.lol.android.ui.UiState
 import gg.lol.android.ui.account.ROUTE_LOGIN
 import gg.lol.android.ui.theme.LOLMatchHistoryTheme
+import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
-import gg.lol.android.ui.view.NetworkError
 import gg.op.lol.domain.models.Summoner
 
 @AndroidEntryPoint
@@ -70,7 +70,12 @@ fun MatchHistoryRoot(viewModel: MatchHistoryViewModel = hiltViewModel()) {
         is UiState.Success -> {
             MatchHistoryScreen(viewModel, state.data)
         }
-        is UiState.Error -> NetworkError(modifier = Modifier.clickable { context.finish() })
+        is UiState.Error -> {
+            AlertErrorDialog(
+                throwable = state.error,
+                confirmOnClick = { context.finish() }
+            )
+        }
         is UiState.Loading -> LoadingView()
     }
 }

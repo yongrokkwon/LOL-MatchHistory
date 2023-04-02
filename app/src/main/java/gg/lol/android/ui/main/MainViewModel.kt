@@ -30,7 +30,6 @@ class MainViewModel @Inject internal constructor(
     val uiState: StateFlow<UiState<Unit>> get() = _uiState
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        exception.printStackTrace()
         _uiState.value = UiState.Error(exception)
     }
 
