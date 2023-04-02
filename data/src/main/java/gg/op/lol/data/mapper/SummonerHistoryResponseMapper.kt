@@ -7,9 +7,9 @@ import gg.op.lol.domain.models.Summoner
 import javax.inject.Inject
 
 class SummonerHistoryResponseMapper @Inject constructor() :
-    Mapper<SummonerHistoryResponse, Summoner.Body> {
-    override fun mapFromEntity(type: SummonerHistoryResponse): Summoner.Body {
-        return Summoner.Body(
+    Mapper<SummonerHistoryResponse, Summoner.TierHistory> {
+    override fun mapFromEntity(type: SummonerHistoryResponse): Summoner.TierHistory {
+        return Summoner.TierHistory(
             freshBlood = type.freshBlood,
             hotStreak = type.hotStreak,
             inactive = type.inactive,
@@ -26,7 +26,7 @@ class SummonerHistoryResponseMapper @Inject constructor() :
         )
     }
 
-    override fun mapToEntity(type: Summoner.Body): SummonerHistoryResponse {
+    override fun mapToEntity(type: Summoner.TierHistory): SummonerHistoryResponse {
         return SummonerHistoryResponse(
             freshBlood = type.freshBlood,
             hotStreak = type.hotStreak,

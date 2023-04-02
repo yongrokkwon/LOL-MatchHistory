@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import gg.op.lol.data.local.models.RuneEntity
 
-class Converters {
+class RuneConvert {
 
     @TypeConverter
     fun runeBodyToJson(value: MutableList<RuneEntity.Body>): String {

@@ -1,7 +1,7 @@
 package gg.op.lol.data.repository.summoner
 
 import androidx.paging.PagingData
-import gg.op.lol.data.mapper.SearchHistoryEntityMapper
+import gg.op.lol.data.mapper.SummonerEntityMapper
 import gg.op.lol.data.mapper.SummonerHistoryResponseMapper
 import gg.op.lol.data.source.summoner.SummonerDataSourceFactory
 import gg.op.lol.domain.models.MatchHistory
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flow
 @Singleton
 class SummonerRepositoryImp @Inject constructor(
     private val summonerDataSourceFactory: SummonerDataSourceFactory,
-    private val searchHistoryEntityMapper: SearchHistoryEntityMapper,
+    private val summonerEntityMapper: SummonerEntityMapper,
     private val summonerHistoryEntityMapper: SummonerHistoryResponseMapper
 ) : SummonerRepository {
     // TODO
@@ -24,6 +24,16 @@ class SummonerRepositoryImp @Inject constructor(
         throw UnsupportedOperationException(
             "getLocalSummonerByNickName TODO"
         )
+    }
+
+    override suspend fun getFavoriteSummoner(summonerName: String): Summoner? {
+        return summonerDataSourceFactory.getLocalDataSource().getSummoner(summonerName)
+            ?.let { summonerEntityMapper.mapFromEntity(it) }
+    }
+
+    override fun updateFavoriteSummoner(summoner: Summoner) {
+        val entity = summonerEntityMapper.mapToEntity(summoner)
+        summonerDataSourceFactory.getLocalDataSource().updateFavoriteSummoner(entity)
     }
 
     override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {

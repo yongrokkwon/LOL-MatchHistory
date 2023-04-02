@@ -1,25 +1,28 @@
 package gg.op.lol.domain.models
 
 data class Summoner(
-    val summonerLevel: Int,
     val summonerName: String,
-    val puuid: String,
     val profileIconId: Int,
-    val histories: List<Body>
+    val summonerLevel: Int = 0,
+    val puuid: String = "",
+    val histories: List<TierHistory> = listOf(),
+
+    val isFavorite: Boolean = false,
+    val mySummoner: Boolean = false
 ) {
-    data class Body(
-        val freshBlood: Boolean,
-        val hotStreak: Boolean,
-        val inactive: Boolean,
-        val leagueId: String,
-        val leaguePoints: Int,
-        val losses: Int,
-        val queueType: QueueType,
+    data class TierHistory(
         val rank: String,
-        val summonerId: String,
-        val summonerName: String,
         val tier: String,
-        val veteran: Boolean,
-        val wins: Int
+        val queueType: QueueType = QueueType.RANKED_SOLO_5X5,
+        val freshBlood: Boolean = false,
+        val hotStreak: Boolean = false,
+        val inactive: Boolean = false,
+        val leagueId: String = "",
+        val leaguePoints: Int = 0,
+        val wins: Int = 0,
+        val losses: Int = 0,
+        val summonerId: String = "",
+        val summonerName: String = "",
+        val veteran: Boolean = false
     )
 }

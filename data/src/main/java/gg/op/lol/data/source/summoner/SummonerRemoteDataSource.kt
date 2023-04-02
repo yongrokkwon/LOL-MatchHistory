@@ -14,6 +14,18 @@ class SummonerRemoteDataSource @Inject constructor(
     private val summonerRemote: SummonerRemote
 ) : SummonerDataSource {
 
+    override fun getSummoner(summonerName: String): SummonerEntity? {
+        throw UnsupportedOperationException(
+            "getSummoner is not supported for RemoteDataSource."
+        )
+    }
+
+    override fun updateFavoriteSummoner(summoner: SummonerEntity) {
+        throw UnsupportedOperationException(
+            "insertFavoriteSummoner is not supported for RemoteDataSource."
+        )
+    }
+
     override fun getSummoners(): List<SummonerEntity> {
         throw UnsupportedOperationException("Get Summoners is not supported for RemoteDataSource.")
     }
@@ -22,8 +34,8 @@ class SummonerRemoteDataSource @Inject constructor(
         return summonerRemote.getSummonerHistory(id)
     }
 
-    override suspend fun getSummonerInfo(nickName: String): SummonerInfoResponse {
-        return summonerRemote.getSummonerInfo(nickName)
+    override suspend fun getSummonerInfo(summonerName: String): SummonerInfoResponse {
+        return summonerRemote.getSummonerInfo(summonerName)
     }
 
     override fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {

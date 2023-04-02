@@ -272,7 +272,7 @@ fun SeasonInformation() {
 }
 
 @Composable
-fun TierInformation(summonerHistoryBodies: List<Summoner.Body>) {
+fun TierInformation(summonerHistoryBodies: List<Summoner.TierHistory>) {
     LazyRow {
         items(items = summonerHistoryBodies) {
             TierItem(it)
@@ -281,7 +281,7 @@ fun TierInformation(summonerHistoryBodies: List<Summoner.Body>) {
 }
 
 @Composable
-fun TierItem(item: Summoner.Body) {
+fun TierItem(item: Summoner.TierHistory) {
     val queueTypeNameRes = item.queueType.toName()
     val tier = Tier.valueOf(item.tier, item.rank)
     val winRate = calculateWinRate(item.wins, item.losses)

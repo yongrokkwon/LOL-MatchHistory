@@ -12,4 +12,6 @@ interface SummonerRepository {
 
     // Local
     suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner>
+    fun updateFavoriteSummoner(summoner: Summoner)
+    suspend fun getFavoriteSummoner(summonerName: String): Summoner?
 }

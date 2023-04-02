@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
+import gg.op.lol.domain.interactor.GetFavoriteSummonerUseCase
 import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
 import gg.op.lol.domain.interactor.GetLocalItemUseCase
 import gg.op.lol.domain.interactor.GetLocalRunesUseCase
@@ -17,6 +18,7 @@ import gg.op.lol.domain.interactor.GetLocalSpellsUseCase
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
 import gg.op.lol.domain.interactor.GetSummonerMatchHistoryUseCase
 import gg.op.lol.domain.interactor.InsertSearchHistoryUseCase
+import gg.op.lol.domain.interactor.UpdateFavoriteSummonerUseCase
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
@@ -39,6 +41,8 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val spellUseCase: GetLocalSpellsUseCase,
     private val runeUseCase: GetLocalRunesUseCase,
     private val itemUseCase: GetLocalItemUseCase,
+    private val updateFavoriteSummonerUseCase: UpdateFavoriteSummonerUseCase,
+    private val getFavoriteSummonerUseCase: GetFavoriteSummonerUseCase,
     private val insertSearchHistoryUseCase: InsertSearchHistoryUseCase,
     private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
@@ -95,6 +99,26 @@ class MatchHistoryViewModel @Inject internal constructor(
         }
     }
 
+    fun insertFavoriteSummoner(summoner: Summoner) {
+        launchCoroutineIO {
+            updateFavoriteSummonerUseCase.invoke(summoner)
+            getFavoriteSummoner(summoner.summonerName)
+        }
+    }
+
+    fun getFavoriteSummoner(summonerName: String) {
+        launchCoroutineIO {
+            val result = getFavoriteSummonerUseCase.invoke(summonerName)
+            result ?: return@launchCoroutineIO
+            val state = uiState.value
+            if (state is UiState.Success<Summoner>) {
+                _uiState.value = state.copy(
+                    data = state.data.copy(isFavorite = result.isFavorite)
+                )
+            }
+        }
+    }
+
     fun getMatchHistories(puuid: String) {
         _matchHistories.value = PagingData.empty()
         launchCoroutineIO {
@@ -119,6 +143,7 @@ class MatchHistoryViewModel @Inject internal constructor(
                     Tier.valueOf(it.histories.first().tier, it.histories.first().rank)
                 )
             )
+            getFavoriteSummoner(it.summonerName)
         }
     }
 

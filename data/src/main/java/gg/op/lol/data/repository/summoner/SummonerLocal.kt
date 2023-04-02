@@ -4,7 +4,8 @@ import gg.op.lol.data.local.models.SummonerEntity
 
 interface SummonerLocal {
     fun getSummoners(): List<SummonerEntity>
+    fun getSummoner(summonerName: String): SummonerEntity?
     fun getSummonerByNickName(nickName: String): SummonerEntity?
 
-    suspend fun insertSummoner(summoner: SummonerEntity)
+    fun updateSummoner(summoner: SummonerEntity)
 }

@@ -32,7 +32,7 @@ const val DATABASE_NAME = "LOL-MatchHistory-DB"
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(RuneConvert::class)
 abstract class LOLMatchHistoryDatabase : RoomDatabase() {
     abstract fun summonerDao(): SummonerDao
     abstract fun championDao(): ChampionDao

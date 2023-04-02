@@ -127,11 +127,17 @@ fun MatchHistoryScreen(viewModel: MatchHistoryViewModel = hiltViewModel(), data:
                 }
             },
             actions = {
-                IconFavorite(
-                    modifier = Modifier
-                        .clickable { /* TODO */ },
-                    isFavorite = false // TODO
-                )
+                val uiState = viewModel.uiState.collectAsState().value
+                if (uiState is UiState.Success) {
+                    IconFavorite(
+                        modifier = Modifier.clickable {
+                            viewModel.insertFavoriteSummoner(
+                                uiState.data.copy(isFavorite = !uiState.data.isFavorite)
+                            )
+                        },
+                        isFavorite = uiState.data.isFavorite
+                    )
+                }
             }
         )
     }

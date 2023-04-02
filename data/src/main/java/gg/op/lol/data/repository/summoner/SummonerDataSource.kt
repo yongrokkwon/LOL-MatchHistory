@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.Flow
 interface SummonerDataSource {
     // Local
     fun getSummoners(): List<SummonerEntity>
+    fun getSummoner(summonerName: String): SummonerEntity?
+    fun updateFavoriteSummoner(summoner: SummonerEntity)
 
     // Remote
     suspend fun getSummonerHistory(id: String): List<SummonerHistoryResponse>
-    suspend fun getSummonerInfo(nickName: String): SummonerInfoResponse
+    suspend fun getSummonerInfo(summonerName: String): SummonerInfoResponse
     fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>>
 }

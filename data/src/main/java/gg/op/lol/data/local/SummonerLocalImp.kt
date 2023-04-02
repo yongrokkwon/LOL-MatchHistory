@@ -13,8 +13,12 @@ class SummonerLocalImp @Inject constructor(
         return summonerDao.getSummonerByNickName(nickName)
     }
 
-    override suspend fun insertSummoner(summoner: SummonerEntity) {
-        summonerDao.insert(summoner)
+    override fun updateSummoner(summoner: SummonerEntity) {
+        summonerDao.update(summoner)
+    }
+
+    override fun getSummoner(summonerName: String): SummonerEntity? {
+        return summonerDao.getSummonerByNickName(summonerName)
     }
 
     override fun getSummoners(): List<SummonerEntity> {

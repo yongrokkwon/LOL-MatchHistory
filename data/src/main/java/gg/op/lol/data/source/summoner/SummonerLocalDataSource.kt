@@ -18,13 +18,21 @@ class SummonerLocalDataSource @Inject constructor(
         return summonerLocal.getSummoners()
     }
 
+    override fun getSummoner(summonerName: String): SummonerEntity? {
+        return summonerLocal.getSummoner(summonerName)
+    }
+
+    override fun updateFavoriteSummoner(summoner: SummonerEntity) {
+        summonerLocal.updateSummoner(summoner)
+    }
+
     override suspend fun getSummonerHistory(id: String): List<SummonerHistoryResponse> {
         throw UnsupportedOperationException(
             "getSummonerByNickName is not supported for LocalDataSource."
         )
     }
 
-    override suspend fun getSummonerInfo(nickName: String): SummonerInfoResponse {
+    override suspend fun getSummonerInfo(summonerName: String): SummonerInfoResponse {
         throw UnsupportedOperationException(
             "getSummonerInfo is not supported for LocalDataSource."
         )
