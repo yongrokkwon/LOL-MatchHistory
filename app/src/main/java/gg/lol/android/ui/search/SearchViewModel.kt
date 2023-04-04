@@ -1,7 +1,5 @@
 package gg.lol.android.ui.search
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.exception.RoomDatabaseException
 import gg.lol.android.ui.BaseViewModel
@@ -31,9 +29,6 @@ class SearchViewModel @Inject internal constructor(
 
     private val _uiState = MutableStateFlow<SearchViewModelUiState>(UiState.Loading)
     val uiState: StateFlow<SearchViewModelUiState> = _uiState
-
-    private val _items = mutableStateListOf<List<SearchHistorySummonerJoin>>(emptyList())
-    val items: SnapshotStateList<List<SearchHistorySummonerJoin>> = _items
 
     private val _latestVersion = MutableStateFlow(preferencesHelper.currentVersion)
     val latestVersion: StateFlow<String> = _latestVersion

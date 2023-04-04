@@ -1,5 +1,7 @@
 package gg.lol.android.ui.search
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +19,12 @@ class SearchActivity : ComponentActivity() {
             LOLMatchHistoryTheme {
                 SearchScreen(viewModel)
             }
+        }
+    }
+
+    companion object {
+        fun createIntent(context: Context): Intent {
+            return Intent(context, SearchActivity::class.java)
         }
     }
 }

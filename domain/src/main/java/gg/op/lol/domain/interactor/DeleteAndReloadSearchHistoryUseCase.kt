@@ -24,6 +24,7 @@ class DeleteAndReloadSearchHistoryUseCase @Inject constructor(
                 params.map {
                     SearchHistorySummonerJoin(
                         it.summonerName,
+                        it.summonerLevel,
                         it.profileIconId,
                         it.tier,
                         it.lastSearchedAt,

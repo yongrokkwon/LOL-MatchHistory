@@ -17,6 +17,12 @@ class SearchHistoryRepositoryImp @Inject constructor(
     private val searchSummonerMapper: SearchSummonerMapper
 ) : SearchHistoryRepository {
 
+    override fun getFavorites(): List<SearchHistorySummonerJoin> {
+        return searchHistoryDao.getSearchHistory()
+            .map { searchSummonerMapper.mapFromEntity(it) }
+            .filter { it.isFavorite }
+    }
+
     override fun getSearchHistories(): List<SearchHistorySummonerJoin> {
         val result = searchHistoryDao.getSearchHistory().map {
             searchSummonerMapper.mapFromEntity(it)

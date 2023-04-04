@@ -11,7 +11,8 @@ import gg.op.lol.data.local.models.SearchHistorySummonerJoinEntity
 @Dao
 interface SearchHistoryDao {
     @Query(
-        "SELECT a.*, b.favorite, b.my_summoner" + '\n' +
+        "SELECT a.summoner_name, a.profile_icon_id, a.tier, a.rank, a.last_searched_at," + '\n' +
+            "b.favorite, b.my_summoner, b.summoner_level" + '\n' +
             "FROM search_history a" + '\n' +
             "LEFT JOIN summoner b" + '\n' +
             "ON a.summoner_name = b.summoner_name"

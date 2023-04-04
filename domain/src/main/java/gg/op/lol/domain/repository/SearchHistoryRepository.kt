@@ -6,6 +6,7 @@ import javax.inject.Singleton
 
 @Singleton
 interface SearchHistoryRepository {
+    fun getFavorites(): List<SearchHistorySummonerJoin>
     fun getSearchHistories(): List<SearchHistorySummonerJoin>
     fun deleteSearchHistory(searchHistory: List<SearchHistorySummonerJoin>): Boolean
     fun insertSearchHistory(searchHistory: SearchHistory)

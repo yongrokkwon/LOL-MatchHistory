@@ -8,6 +8,7 @@ class SummonerEntityMapper @Inject constructor() : Mapper<SummonerEntity, Summon
     override fun mapFromEntity(type: SummonerEntity): Summoner {
         return Summoner(
             summonerName = type.summonerName,
+            summonerLevel = type.summonerLevel,
             profileIconId = type.profileIconId,
             histories = listOf(
                 Summoner.TierHistory(
@@ -23,6 +24,7 @@ class SummonerEntityMapper @Inject constructor() : Mapper<SummonerEntity, Summon
     override fun mapToEntity(type: Summoner): SummonerEntity {
         return SummonerEntity(
             summonerName = type.summonerName,
+            summonerLevel = type.summonerLevel,
             profileIconId = type.profileIconId,
             tier = type.histories.first().tier,
             rank = type.histories.first().rank,
