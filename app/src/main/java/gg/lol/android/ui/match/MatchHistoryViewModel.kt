@@ -1,14 +1,14 @@
 package gg.lol.android.ui.match
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
+import gg.lol.android.util.GeneralFunctions
 import gg.lol.android.util.PreferencesHelper
 import gg.op.lol.domain.interactor.GetFavoriteSummonerUseCase
 import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MatchHistoryViewModel @Inject internal constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val summonerInfoUseCase: GetSummonerInfoUseCase,
     private val summonerMatchHistoryUseCase: GetSummonerMatchHistoryUseCase,
     private val localChampionsUseCase: GetLocalChampionsUseCase,
@@ -47,11 +48,10 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
 
-    private val _summonerName = MutableStateFlow("")
-    val summonerName: StateFlow<String> get() = _summonerName
-
-    private val _appbarBackground = MutableStateFlow(Color.White)
-    val appbarBackground: StateFlow<Color> get() = _appbarBackground
+    private val summonerName = GeneralFunctions.getArg<String>(
+        savedStateHandle,
+        LOLMatchHistoryRoute.ARG_SUMMONER_NAME
+    ) ?: ""
 
     private val _uiState = MutableStateFlow<UiState<Summoner>>(UiState.Loading)
     val uiState: StateFlow<UiState<Summoner>> get() = _uiState
@@ -73,9 +73,6 @@ class MatchHistoryViewModel @Inject internal constructor(
 
     private val _items = arrayListOf<Item>()
     val items: List<Item> = _items
-
-    private val _screenCloseCheck = mutableStateOf(false)
-    val screenCloseCheck: State<Boolean> get() = _screenCloseCheck
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         exception.printStackTrace()
@@ -133,7 +130,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     }
 
     private suspend fun getRemoteSummoner() {
-        summonerInfoUseCase.invoke(summonerName.value).collect {
+        summonerInfoUseCase.invoke(summonerName).collect {
             _uiState.value = UiState.Success(it)
             getMatchHistories(it.puuid)
             insertSearchHistory(
@@ -170,18 +167,6 @@ class MatchHistoryViewModel @Inject internal constructor(
         itemUseCase.invoke(Unit).collect {
             _items.addAll(it)
         }
-    }
-
-    fun setAppBarBackground(value: Color) {
-        _appbarBackground.value = value
-    }
-
-    fun setScreenCloseCheck(value: Boolean) {
-        _screenCloseCheck.value = value
-    }
-
-    fun setNickName(value: String) {
-        _summonerName.value = value
     }
 
     fun getSummoner(name: String) {

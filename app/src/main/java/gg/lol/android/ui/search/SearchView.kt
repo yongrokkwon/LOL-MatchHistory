@@ -1,8 +1,5 @@
 package gg.lol.android.ui.search
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.view.KeyEvent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,7 +35,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -50,11 +46,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
 import gg.lol.android.ui.UiState
-import gg.lol.android.ui.match.MatchHistoryActivity
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
@@ -67,12 +64,13 @@ import gg.op.lol.domain.models.SearchHistorySummonerJoin
 const val MAX_SEARCH_SIZE = 16
 
 @Composable
-fun SearchScreen(
+fun SearchView(
+    navController: NavController,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val latestVersion = viewModel.latestVersion.collectAsState().value
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is UiState.Success -> SearchView(viewModel, uiState.data, latestVersion)
+        is UiState.Success -> SearchView(navController, viewModel, uiState.data, latestVersion)
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
     }
@@ -91,12 +89,12 @@ fun SearchHistoryErrorView() {
 
 @Composable
 fun SearchView(
-    viewModel: SearchViewModel,
+    navController: NavController,
+    viewModel: SearchViewModel = hiltViewModel(),
     data: List<SearchHistorySummonerJoin>,
     latestVersion: String
 ) {
-    val context = LocalContext.current as Activity
-    val searchWord = remember { mutableStateOf("") }
+    val summonerName = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -111,13 +109,13 @@ fun SearchView(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(end = 8.dp)
-                    .clickable { context.finish() },
+                    .clickable { navController.popBackStack() },
                 imageVector = Icons.Filled.ArrowBack,
                 contentDescription = null
             )
             BasicTextField(
-                value = searchWord.value,
-                onValueChange = { if (it.length < MAX_SEARCH_SIZE) searchWord.value = it },
+                value = summonerName.value,
+                onValueChange = { if (it.length < MAX_SEARCH_SIZE) summonerName.value = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp)
@@ -127,9 +125,13 @@ fun SearchView(
                         shape = RoundedCornerShape(6.dp)
                     )
                     .onKeyEvent {
-                        searchWord.value = searchWord.value.replace("\n", "")
+                        summonerName.value = summonerName.value.replace("\n", "")
                         if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-                            startMatchHistoryActivity(context, searchWord.value)
+                            navController.navigate(
+                                LOLMatchHistoryRoute.MatchHistory.createRoute(
+                                    summonerName.value
+                                )
+                            )
                             return@onKeyEvent true
                         }
                         return@onKeyEvent false
@@ -138,7 +140,11 @@ fun SearchView(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        startMatchHistoryActivity(context, searchWord.value)
+                        navController.navigate(
+                            LOLMatchHistoryRoute.MatchHistory.createRoute(
+                                summonerName.value
+                            )
+                        )
                     },
                     onDone = {
                     }
@@ -158,7 +164,7 @@ fun SearchView(
                             Modifier.weight(1f)
                                 .padding(start = 4.dp)
                         ) {
-                            if (searchWord.value.isEmpty()) {
+                            if (summonerName.value.isEmpty()) {
                                 Text(
                                     modifier = Modifier,
                                     text = stringResource(id = R.string.search_hint),
@@ -203,7 +209,7 @@ fun SearchView(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(data.sortedByDescending { it.lastSearchedAt }) {
-                    SearchHistoryItemView(context, viewModel, it, latestVersion)
+                    SearchHistoryItemView(navController, viewModel, it, latestVersion)
                 }
             }
         }
@@ -212,7 +218,7 @@ fun SearchView(
 
 @Composable
 fun SearchHistoryItemView(
-    context: Context,
+    navController: NavController,
     viewModel: SearchViewModel,
     item: SearchHistorySummonerJoin,
     latestVersion: String
@@ -222,8 +228,14 @@ fun SearchHistoryItemView(
             .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.clickable { startMatchHistoryActivity(context, item.summonerName) }
-                .weight(1f)
+            modifier = Modifier.weight(1f)
+                .clickable {
+                    navController.navigate(
+                        LOLMatchHistoryRoute.MatchHistory.createRoute(
+                            item.summonerName
+                        )
+                    )
+                }
         ) {
             Image(
                 modifier = Modifier
@@ -275,20 +287,6 @@ fun SearchHistoryItemView(
             }
         }
     }
-}
-
-fun startMatchHistoryActivity(context: Context, summonerName: String) {
-    context.startActivity(
-        Intent(
-            context,
-            MatchHistoryActivity::class.java
-        ).apply {
-            putExtra(
-                MatchHistoryActivity.EXTRA_NICKNAME,
-                summonerName
-            )
-        }
-    )
 }
 
 @Preview

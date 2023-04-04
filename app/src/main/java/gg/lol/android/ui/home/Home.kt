@@ -52,7 +52,7 @@ import gg.lol.android.BuildConfig
 import gg.lol.android.R
 import gg.lol.android.ui.UiState
 import gg.lol.android.ui.main.MainViewModel
-import gg.lol.android.ui.search.SearchActivity
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.GUIDE_STYLE
@@ -63,15 +63,19 @@ import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
-import gg.op.lol.domain.models.Tier
 
 @Composable
-fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = hiltViewModel()) {
+fun HomeView(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
     val context = LocalContext.current as Activity
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Loading -> LoadingView()
         is UiState.Error -> AlertErrorDialog(throwable = state.error) { context.finish() }
-        is UiState.Success -> HomeView(viewModel, state.data, viewModel.latestVersion)
+        is UiState.Success -> HomeView(
+            navController,
+            viewModel,
+            state.data,
+            viewModel.latestVersion
+        )
     }
     OnLifecycleEvent { _, event ->
         when (event) {
@@ -83,6 +87,7 @@ fun HomeScreen(navController: NavController? = null, viewModel: MainViewModel = 
 
 @Composable
 fun HomeView(
+    navController: NavController,
     viewModel: MainViewModel,
     data: List<SearchHistorySummonerJoin>,
     latestVersion: String
@@ -95,12 +100,12 @@ fun HomeView(
         Image(
             modifier = Modifier.fillMaxWidth().background(color = Color.White)
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp).height(40.dp)
-                .clickable { context.startActivity(SearchActivity.createIntent(context)) },
+                .clickable { navController.navigate(LOLMatchHistoryRoute.Search.route) },
             painter = painterResource(id = R.drawable.home_search),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
-        FavoriteSummonerView(viewModel, data, latestVersion)
+        FavoriteSummonerView(navController, viewModel, data, latestVersion)
         CreateEmptySummoner()
     }
 }
@@ -111,6 +116,7 @@ fun CreateFavoriteSummonerView() {
 
 @Composable
 fun FavoriteSummonerView(
+    navController: NavController,
     viewModel: MainViewModel,
     data: List<SearchHistorySummonerJoin>,
     latestVersion: String
@@ -146,7 +152,8 @@ fun FavoriteSummonerView(
         }
         if (data.isEmpty()) {
             EmptyFavoriteSummonerView(
-                modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally)
+                modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally),
+                navController
             )
         } else {
             LazyRow {
@@ -224,7 +231,7 @@ fun FavoriteSummonerItemView(
 }
 
 @Composable
-fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier) {
+fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavController) {
     val context = LocalContext.current
     Row(
         modifier = modifier
@@ -244,9 +251,7 @@ fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier) {
     )
     HomeButton(
         stringResource(id = R.string.home_favorite_button),
-        onClick = {
-            context.startActivity(SearchActivity.createIntent(context))
-        }
+        onClick = { navController.navigate(LOLMatchHistoryRoute.Search.route) }
     )
 }
 
@@ -357,19 +362,4 @@ fun FavoriteProfile(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomePreview() {
-    HomeView(
-        hiltViewModel(),
-        listOf(
-            SearchHistorySummonerJoin(
-                "hide on bush",
-                555,
-                1,
-                Tier.valueOf("MASTER", "I"),
-                System.currentTimeMillis(),
-                true,
-                false
-            )
-        ),
-        "13.6.1"
-    )
 }

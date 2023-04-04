@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,17 +19,26 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -62,6 +72,7 @@ import gg.lol.android.ui.theme.MultiKillBackgroundColor
 import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.AlertErrorDialog
+import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.util.QueueTypeExtensions.toName
 import gg.lol.android.util.TierExtensions.toDrawable
@@ -86,15 +97,22 @@ enum class MultiKillType(@StringRes val id: Int) {
     PENTA(R.string.match_penta_kill)
 }
 
+const val EXTRA_SUMMONER_NAME = "EXTRA_SUMMONER_NAME"
+
 @Composable
 fun MatchHistoryView(
-    viewModel: MatchHistoryViewModel = hiltViewModel(),
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: MatchHistoryViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current as Activity
 
     when (val state = viewModel.uiState.collectAsState().value) {
-        is UiState.Success -> MatchHistoryList(viewModel, state.data)
+        is UiState.Success -> {
+            Column(modifier = Modifier.fillMaxSize()) {
+                TopAppBar(navController, viewModel, state.data)
+                MatchHistoryList(viewModel, state.data)
+            }
+        }
         is UiState.Error -> {
             AlertErrorDialog(
                 throwable = state.error,
@@ -102,6 +120,51 @@ fun MatchHistoryView(
             )
         }
         is UiState.Loading -> LoadingView()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBar(navController: NavHostController, viewModel: MatchHistoryViewModel, data: Summoner) {
+    val activity = LocalContext.current as Activity
+    Box(
+        modifier = Modifier.fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        CenterAlignedTopAppBar(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.White),
+            title = {
+                Text(
+                    text = data.summonerName,
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Filled.ArrowBack, null)
+                }
+            },
+            actions = {
+                val uiState = viewModel.uiState.collectAsState().value
+                if (uiState is UiState.Success) {
+                    IconFavorite(
+                        modifier = Modifier.clickable {
+                            viewModel.updateFavoriteSummoner(
+                                uiState.data.copy(isFavorite = !uiState.data.isFavorite)
+                            )
+                        },
+                        isFavorite = uiState.data.isFavorite
+                    )
+                }
+            }
+        )
     }
 }
 
@@ -116,7 +179,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentSize()
             .background(color = Color.White)
     ) {
         Header(latestVersion, summoner)

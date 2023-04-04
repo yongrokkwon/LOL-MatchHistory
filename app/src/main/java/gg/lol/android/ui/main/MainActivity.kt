@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.Composable
 import dagger.hilt.android.AndroidEntryPoint
-import gg.lol.android.ui.MainScreen
 import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 
 @AndroidEntryPoint
@@ -21,9 +19,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun MainView(viewModel: MainViewModel) {
-    MainScreen(viewModel)
 }
