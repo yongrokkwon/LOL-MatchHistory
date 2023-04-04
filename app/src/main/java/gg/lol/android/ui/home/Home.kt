@@ -92,7 +92,6 @@ fun HomeView(
     data: List<SearchHistorySummonerJoin>,
     latestVersion: String
 ) {
-    val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -126,7 +125,7 @@ fun FavoriteSummonerView(
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         Row(
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
         ) {
             Text(
                 modifier = Modifier.weight(1f),
@@ -163,6 +162,13 @@ fun FavoriteSummonerView(
                             Modifier.padding(start = 8.dp)
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(color = LightGray)
+                                .clickable {
+                                    navController.navigate(
+                                        LOLMatchHistoryRoute.MatchHistory.createRoute(
+                                            item.summonerName
+                                        )
+                                    )
+                                }
                                 .padding(top = 8.dp, bottom = 8.dp)
                                 .align(Alignment.Center)
                                 .width(IntrinsicSize.Max),
