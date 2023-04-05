@@ -2,13 +2,14 @@ package gg.op.lol.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import gg.op.lol.data.local.models.ChampionEntity
 
 @Dao
 interface ChampionDao {
-    @Insert
-    fun insert(champion: ChampionEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrUpdate(champion: ChampionEntity)
 
     @Query("SELECT * FROM champion WHERE `key` = :key")
     fun findByKey(key: String): ChampionEntity?

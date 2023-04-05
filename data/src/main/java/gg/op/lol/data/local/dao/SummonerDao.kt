@@ -11,14 +11,23 @@ import gg.op.lol.data.local.models.SummonerEntity
 interface SummonerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun update(summoner: SummonerEntity)
+    fun insertOrUpdate(summoner: SummonerEntity)
 
     @Query("SELECT * FROM summoner")
-    fun getSummoners(): List<SummonerEntity>
+    fun getFavorites(): List<SummonerEntity>
 
     @Query("SELECT * FROM summoner WHERE summoner_name = :summonerName")
-    fun getSummonerByNickName(summonerName: String): SummonerEntity?
+    fun getBySummonerName(summonerName: String): SummonerEntity
+
+    @Query("UPDATE summoner SET favorite_order = :newValue WHERE summoner_name = :summonerName")
+    fun updateOrderById(summonerName: String, newValue: Int): Int
 
     @Delete
     fun delete(summoner: SummonerEntity)
+
+    fun updateIntValueToNextById(summonerName: String) {
+        val entity = getBySummonerName(summonerName)
+        val newValue = entity.favoriteOrder.plus(1)
+        updateOrderById(summonerName, newValue)
+    }
 }

@@ -18,13 +18,13 @@ class SearchHistoryRepositoryImp @Inject constructor(
 ) : SearchHistoryRepository {
 
     override fun getFavorites(): List<SearchHistorySummonerJoin> {
-        return searchHistoryDao.getSearchHistory()
+        return searchHistoryDao.getSearchHistoryWithFavorites()
             .map { searchSummonerMapper.mapFromEntity(it) }
             .filter { it.isFavorite }
     }
 
     override fun getSearchHistories(): List<SearchHistorySummonerJoin> {
-        val result = searchHistoryDao.getSearchHistory().map {
+        val result = searchHistoryDao.getSearchHistoryWithFavorites().map {
             searchSummonerMapper.mapFromEntity(it)
         }
         return result
@@ -34,11 +34,12 @@ class SearchHistoryRepositoryImp @Inject constructor(
         val entities = searchHistory.map { searchSummonerMapper.mapToEntity(it) }
         val deleteEntities = entities.map {
             SearchHistoryEntity(
-                it.summonerName,
-                it.profileIconId,
-                it.tier,
-                it.rank,
-                it.lastSearchedAt
+                summonerName = it.summonerName,
+                summonerLevel = it.summonerLevel,
+                profileIconId = it.profileIconId,
+                tier = it.tier,
+                rank = it.rank,
+                lastSearchedAt = it.lastSearchedAt
             )
         }
         return searchHistoryDao.delete(deleteEntities) == deleteEntities.size
@@ -46,6 +47,6 @@ class SearchHistoryRepositoryImp @Inject constructor(
 
     override fun insertSearchHistory(searchHistory: SearchHistory) {
         val result = searchHistoryEntityMapper.mapToEntity(searchHistory)
-        return searchHistoryDao.insertSearchHistory(result)
+        return searchHistoryDao.insertOrUpdate(result)
     }
 }

@@ -9,6 +9,7 @@ class SearchHistoryEntityMapper @Inject constructor() : Mapper<SearchHistoryEnti
     override fun mapFromEntity(type: SearchHistoryEntity): SearchHistory {
         return SearchHistory(
             summonerName = type.summonerName,
+            summonerLevel = type.summonerLevel,
             profileIconId = type.profileIconId,
             tier = Tier.valueOf(type.tier, type.rank),
             lastSearchedAt = type.lastSearchedAt
@@ -18,6 +19,7 @@ class SearchHistoryEntityMapper @Inject constructor() : Mapper<SearchHistoryEnti
     override fun mapToEntity(type: SearchHistory): SearchHistoryEntity {
         return SearchHistoryEntity(
             summonerName = type.summonerName,
+            summonerLevel = type.summonerLevel,
             profileIconId = type.profileIconId,
             tier = type.tier.javaClass.simpleName,
             rank = type.tier.rank,

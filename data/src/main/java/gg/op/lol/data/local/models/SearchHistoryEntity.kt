@@ -9,6 +9,8 @@ data class SearchHistoryEntity(
     @PrimaryKey
     @ColumnInfo(name = "summoner_name")
     val summonerName: String,
+    @ColumnInfo(name = "summoner_level")
+    val summonerLevel: Int,
     @ColumnInfo(name = "profile_icon_id")
     val profileIconId: Int,
     @ColumnInfo(name = "tier")

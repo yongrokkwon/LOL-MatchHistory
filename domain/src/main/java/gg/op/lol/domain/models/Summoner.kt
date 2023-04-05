@@ -3,7 +3,7 @@ package gg.op.lol.domain.models
 data class Summoner(
     val summonerName: String,
     val profileIconId: Int,
-    val summonerLevel: Int = 0,
+    val summonerLevel: Int,
     val puuid: String = "",
     val histories: List<TierHistory>,
 

@@ -135,10 +135,11 @@ class MatchHistoryViewModel @Inject internal constructor(
             getMatchHistories(it.puuid)
             insertSearchHistory(
                 SearchHistory(
-                    it.summonerName,
-                    it.profileIconId,
-                    Tier.valueOf(it.histories.first().tier, it.histories.first().rank),
-                    System.currentTimeMillis()
+                    summonerName = it.summonerName,
+                    summonerLevel = it.summonerLevel,
+                    profileIconId = it.profileIconId,
+                    tier = Tier.valueOf(it.histories.first().tier, it.histories.first().rank),
+                    lastSearchedAt = System.currentTimeMillis()
                 )
             )
             getFavoriteSummoner(it.summonerName)

@@ -17,7 +17,9 @@ data class SummonerEntity(
     val tier: String,
     @ColumnInfo(name = "rank")
     val rank: String,
-    @ColumnInfo(name = "favorite")
+    @ColumnInfo(name = "favorite_order")
+    val favoriteOrder: Int = 1,
+    @ColumnInfo(name = "is_favorite")
     val isFavorite: Boolean = false,
     @ColumnInfo(name = "my_summoner")
     val mySummoner: Boolean = false

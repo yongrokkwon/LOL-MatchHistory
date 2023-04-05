@@ -25,19 +25,19 @@ class DDragonLocalImp @Inject constructor(
     override fun getSpells(): List<SpellEntity> = spellDao.getAll()
 
     override fun insertRune(runeEntity: RuneEntity) {
-        runeDao.insert(runeEntity)
+        runeDao.insertOrUpdate(runeEntity)
     }
 
     override fun insertItem(itemEntity: ItemEntity) {
-        itemDao.insert(itemEntity)
+        itemDao.insertOrUpdate(itemEntity)
     }
 
     override fun insertSpell(spellEntity: SpellEntity) {
-        spellDao.insert(spellEntity)
+        spellDao.insertOrUpdate(spellEntity)
     }
 
     override fun insertChampion(championEntity: ChampionEntity) {
-        championDao.insert(championEntity)
+        championDao.insertOrUpdate(championEntity)
     }
 
     override fun deleteAllChampion() {

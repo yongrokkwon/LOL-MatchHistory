@@ -40,6 +40,7 @@ class MainViewModel @Inject internal constructor(
     val latestVersion get() = preferencesHelper.currentVersion
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        exception.printStackTrace()
         _uiState.value = UiState.Error(exception)
     }
 
@@ -79,6 +80,7 @@ class MainViewModel @Inject internal constructor(
     fun updateFavoriteSummoner(join: SearchHistorySummonerJoin) {
         val summoner = Summoner(
             summonerName = join.summonerName,
+            summonerLevel = join.summonerLevel,
             profileIconId = join.profileIconId,
             isFavorite = join.isFavorite,
             histories = listOf(

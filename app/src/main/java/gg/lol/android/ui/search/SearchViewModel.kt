@@ -44,6 +44,7 @@ class SearchViewModel @Inject internal constructor(
 
     fun updateFavoriteSummoner(join: SearchHistorySummonerJoin) {
         val summoner = Summoner(
+            summonerLevel = join.summonerLevel,
             summonerName = join.summonerName,
             profileIconId = join.profileIconId,
             isFavorite = join.isFavorite,

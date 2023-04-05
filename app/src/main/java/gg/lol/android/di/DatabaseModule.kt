@@ -44,11 +44,6 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideSummonerDao(appDatabase: LOLMatchHistoryDatabase): SummonerDao {
-        return appDatabase.summonerDao()
-    }
-
-    @Provides
     fun provideChampionDao(appDatabase: LOLMatchHistoryDatabase): ChampionDao {
         return appDatabase.championDao()
     }
@@ -71,5 +66,10 @@ class DatabaseModule {
     @Provides
     fun provideSearchHistoryDao(appDatabase: LOLMatchHistoryDatabase): SearchHistoryDao {
         return appDatabase.searchHistoryDao()
+    }
+
+    @Provides
+    fun provideSummonerDao(appDatabase: LOLMatchHistoryDatabase): SummonerDao {
+        return appDatabase.summonerDao()
     }
 }

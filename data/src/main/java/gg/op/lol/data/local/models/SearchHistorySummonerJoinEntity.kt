@@ -19,7 +19,9 @@ data class SearchHistorySummonerJoinEntity(
     val rank: String,
     @ColumnInfo(name = "last_searched_at")
     val lastSearchedAt: Long,
-    @ColumnInfo(name = "favorite")
+    @ColumnInfo(name = "favorite_order")
+    val favoriteOrder: Int = 1,
+    @ColumnInfo(name = "is_favorite")
     val isFavorite: Boolean = false,
     @ColumnInfo(name = "my_summoner")
     val mySummoner: Boolean = false

@@ -9,19 +9,20 @@ class SummonerLocalImp @Inject constructor(
     private val summonerDao: SummonerDao
 ) : SummonerLocal {
 
-    override fun getSummonerByNickName(nickName: String): SummonerEntity? {
-        return summonerDao.getSummonerByNickName(nickName)
+    override fun getSummonerByNickName(nickName: String): SummonerEntity {
+        return summonerDao.getBySummonerName(nickName)
     }
 
     override fun updateSummoner(summoner: SummonerEntity) {
-        summonerDao.update(summoner)
+        summonerDao.insertOrUpdate(summoner)
+        summonerDao.updateIntValueToNextById(summoner.summonerName)
     }
 
-    override fun getSummoner(summonerName: String): SummonerEntity? {
-        return summonerDao.getSummonerByNickName(summonerName)
+    override fun getSummoner(summonerName: String): SummonerEntity {
+        return summonerDao.getBySummonerName(summonerName)
     }
 
     override fun getSummoners(): List<SummonerEntity> {
-        return summonerDao.getSummoners()
+        return summonerDao.getFavorites()
     }
 }
