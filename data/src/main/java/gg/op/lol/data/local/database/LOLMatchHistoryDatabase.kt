@@ -61,9 +61,9 @@ abstract class LOLMatchHistoryDatabase : RoomDatabase() {
                 .setQueryCallback(
                     { sqlQuery, bindArgs ->
                         if (BuildConfig.DEBUG) {
-                            Log.d("## RoomDB Query", sqlQuery)
+                            Log.d("RoomDB Query", sqlQuery)
                             if (bindArgs.isNotEmpty()) {
-                                Log.d("## RoomDB Args", bindArgs.toString())
+                                Log.d("RoomDB Args", bindArgs.toString())
                             }
                         }
                     },

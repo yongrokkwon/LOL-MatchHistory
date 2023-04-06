@@ -14,6 +14,7 @@ class SearchSummonerMapper @Inject constructor() :
             profileIconId = type.profileIconId,
             tier = Tier.valueOf(type.tier, type.rank),
             lastSearchedAt = type.lastSearchedAt,
+            favoriteOrder = type.favoriteOrder,
             isFavorite = type.isFavorite,
             mySummoner = type.mySummoner
         )

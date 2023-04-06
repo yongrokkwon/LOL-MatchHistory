@@ -1,6 +1,9 @@
 package gg.lol.android.ui.home
 
-import android.app.Activity
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,10 +31,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,33 +54,25 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
-import gg.lol.android.ui.UiState
 import gg.lol.android.ui.main.MainViewModel
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.LightGray
-import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
-import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
+import gg.op.lol.domain.models.SwapSummoner
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun HomeView(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
-    val context = LocalContext.current as Activity
-    when (val state = viewModel.uiState.collectAsState().value) {
-        is UiState.Loading -> LoadingView()
-        is UiState.Error -> AlertErrorDialog(throwable = state.error) { context.finish() }
-        is UiState.Success -> HomeView(
-            navController,
-            viewModel,
-            state.data,
-            viewModel.latestVersion
-        )
-    }
+    HomeBody(navController, viewModel)
     OnLifecycleEvent { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> viewModel.getFavorites()
@@ -86,42 +82,33 @@ fun HomeView(navController: NavController, viewModel: MainViewModel = hiltViewMo
 }
 
 @Composable
-fun HomeView(
-    navController: NavController,
-    viewModel: MainViewModel,
-    data: List<SearchHistorySummonerJoin>,
-    latestVersion: String
-) {
+fun HomeBody(navController: NavController, viewModel: MainViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.fillMaxWidth().background(color = Color.White)
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp).height(40.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.White)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 16.dp)
+                .height(40.dp)
                 .clickable { navController.navigate(LOLMatchHistoryRoute.Search.route) },
             painter = painterResource(id = R.drawable.home_search),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
-        FavoriteSummonerView(navController, viewModel, data, latestVersion)
+        FavoriteSummonerView(navController, viewModel)
         CreateEmptySummoner()
     }
 }
 
 @Composable
-fun CreateFavoriteSummonerView() {
-}
-
-@Composable
-fun FavoriteSummonerView(
-    navController: NavController,
-    viewModel: MainViewModel,
-    data: List<SearchHistorySummonerJoin>,
-    latestVersion: String
-) {
+fun FavoriteSummonerView(navController: NavController, viewModel: MainViewModel) {
     Column(
-        modifier = Modifier.padding(top = 8.dp).background(color = Color.White)
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .background(color = Color.White)
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         Row(
@@ -142,51 +129,102 @@ fun FavoriteSummonerView(
                     style = GUIDE_STYLE
                 )
                 Icon(
-                    modifier = Modifier.width(15.dp).align(Alignment.CenterVertically),
+                    modifier = Modifier
+                        .width(15.dp)
+                        .align(Alignment.CenterVertically),
                     imageVector = Icons.Filled.Warning,
                     contentDescription = null,
                     tint = Color.Gray
                 )
             }
         }
-        if (data.isEmpty()) {
+        if (viewModel.favorites.value.isEmpty()) {
             EmptyFavoriteSummonerView(
-                modifier = Modifier.padding(top = 8.dp).align(Alignment.CenterHorizontally),
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally),
                 navController
             )
         } else {
-            LazyRow {
-                items(data) { item ->
-                    Box {
-                        FavoriteSummonerItemView(
-                            Modifier.padding(start = 8.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(color = LightGray)
-                                .clickable {
-                                    navController.navigate(
-                                        LOLMatchHistoryRoute.MatchHistory.createRoute(
-                                            item.summonerName
-                                        )
-                                    )
-                                }
-                                .padding(top = 8.dp, bottom = 8.dp)
-                                .align(Alignment.Center)
-                                .width(IntrinsicSize.Max),
-                            item,
-                            latestVersion
+            FavoriteListView(navController, viewModel)
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun FavoriteListView(navController: NavController, viewModel: MainViewModel) {
+    val favorites = viewModel.favorites.value
+    val state = rememberReorderableLazyListState(
+        onMove = { from, to ->
+            viewModel.setFavorites(
+                favorites.toMutableList().apply {
+                    val item = removeAt(from.index)
+                    add(to.index, item)
+                }
+            )
+            viewModel.swapFavoriteOrder(
+                SwapSummoner(
+                    favorites[to.index],
+                    to.index + 1,
+                    favorites[from.index],
+                    from.index + 1
+                )
+            )
+        }
+    )
+
+    LazyRow(
+        state = state.listState,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.reorderable(state)
+    ) {
+        items(favorites, { it.summonerName }) { item ->
+            ReorderableItem(state, key = item.summonerName) { isDragging ->
+                val scale = animateFloatAsState(if (isDragging) 1.1f else 1.0f)
+                val elevation = if (isDragging) 8.dp else 0.dp
+                val rounded = RoundedCornerShape(10.dp)
+                Box(
+                    modifier = Modifier
+                        .scale(scale.value)
+                        .shadow(elevation, rounded)
+                        .clip(rounded)
+                        .background(color = LightGray)
+                        .detectReorderAfterLongPress(state)
+                        .animateItemPlacement(
+                            animationSpec = tween(
+                                durationMillis = 100,
+                                easing = FastOutSlowInEasing
+                            )
                         )
-                        IconFavorite(
-                            Modifier.align(Alignment.TopEnd)
-                                .size(25.dp)
-                                .padding(end = 4.dp)
-                                .clickable {
-                                    viewModel.updateFavoriteSummoner(
-                                        item.copy(isFavorite = !item.isFavorite)
+                ) {
+                    FavoriteSummonerItemView(
+                        Modifier
+                            .clickable {
+                                navController.navigate(
+                                    LOLMatchHistoryRoute.MatchHistory.createRoute(
+                                        item.summonerName
                                     )
-                                },
-                            item.isFavorite
-                        )
-                    }
+                                )
+                            }
+                            .padding(top = 8.dp, bottom = 8.dp)
+                            .align(Alignment.Center)
+                            .width(IntrinsicSize.Max),
+                        item,
+                        viewModel.latestVersion
+                    )
+                    IconFavorite(
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .size(25.dp)
+                            .padding(end = 4.dp)
+                            .clickable {
+                                viewModel.updateFavoriteSummoner(
+                                    item.copy(isFavorite = !item.isFavorite)
+                                )
+                            },
+                        item.isFavorite
+                    )
                 }
             }
         }
@@ -201,14 +239,16 @@ fun FavoriteSummonerItemView(
 ) {
     Column(modifier = modifier) {
         FavoriteProfile(
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier
+                .wrapContentSize()
                 .padding(start = 24.dp, end = 24.dp),
             latestVersion,
             item.summonerLevel,
             item.profileIconId
         )
         Text(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 8.dp),
             text = item.summonerName,
             style = TextStyle(
@@ -250,7 +290,9 @@ fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavC
         )
     }
     Text(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
         text = stringResource(id = R.string.home_favorite_empty_guide_02),
         textAlign = TextAlign.Center,
         fontSize = 12.sp
@@ -264,20 +306,29 @@ fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavC
 @Composable
 fun CreateEmptySummoner() {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp).background(color = Color.White)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .background(color = Color.White)
             .padding(start = 8.dp, end = 16.dp, bottom = 16.dp)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
             shape = RoundedCornerShape(10.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().background(color = LightGray)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = LightGray)
                     .padding(start = 32.dp, top = 16.dp, bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(60.dp),
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .size(60.dp),
                     painter = painterResource(id = R.drawable.home_summoner_empty),
                     contentScale = ContentScale.Crop,
                     contentDescription = null
@@ -294,7 +345,9 @@ fun CreateEmptySummoner() {
         }
         Text(
             text = stringResource(id = R.string.home_summoner_empty_guide_02),
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = 16.dp, bottom = 16.dp)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = TextStyle(
                 fontSize = 12.sp
@@ -316,7 +369,9 @@ fun HomeButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth().height(30.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp),
         shape = RoundedCornerShape(6.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonColor
@@ -356,7 +411,8 @@ fun FavoriteProfile(
         Text(
             text = "$summonerLevel",
             style = TextStyle(color = Color.White, fontSize = 12.sp),
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .offset(y = 4.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(color = Color.Gray)

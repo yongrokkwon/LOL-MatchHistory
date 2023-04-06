@@ -163,7 +163,7 @@ data class MatchHistory(
                 val dodgeSkillShotsSmallWindow: Int = 0,
                 val doubleAces: Int = 0,
                 val dragonTakedowns: Int = 0,
-                val earlyLaningPhaseGoldExpAdvantage: Int = 0,
+                val earlyLaningPhaseGoldExpAdvantage: Double = 0.0,
                 val effectiveHealAndShielding: Double = 0.0,
                 val elderDragonKillsWithOpposingSoul: Int = 0,
                 val elderDragonMultikills: Int = 0,

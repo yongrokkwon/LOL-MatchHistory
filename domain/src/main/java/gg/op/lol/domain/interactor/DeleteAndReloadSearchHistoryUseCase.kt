@@ -28,8 +28,9 @@ class DeleteAndReloadSearchHistoryUseCase @Inject constructor(
                         it.profileIconId,
                         it.tier,
                         it.lastSearchedAt,
-                        false,
-                        false
+                        it.favoriteOrder,
+                        isFavorite = false,
+                        mySummoner = false
                     )
                 }
             )

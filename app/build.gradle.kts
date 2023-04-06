@@ -101,6 +101,9 @@ dependencies {
     implementation(OtherLibrary.RETROFIT)
     implementation(OtherLibrary.RETROFIT_GSON)
 
+    implementation(OtherLibrary.RETROFIT_GSON)
+    implementation(OtherLibrary.RECORDERABLE)
+
     debugImplementation(OtherLibrary.LEAKCANARY)
 
     debugImplementation(OtherLibrary.FLIPPER)

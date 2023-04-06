@@ -6,6 +6,7 @@ import gg.op.lol.data.mapper.SummonerHistoryResponseMapper
 import gg.op.lol.data.source.summoner.SummonerDataSourceFactory
 import gg.op.lol.domain.models.MatchHistory
 import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.SwapSummoner
 import gg.op.lol.domain.repository.SummonerRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,6 +35,10 @@ class SummonerRepositoryImp @Inject constructor(
     override fun updateFavoriteSummoner(summoner: Summoner) {
         val entity = summonerEntityMapper.mapToEntity(summoner)
         summonerDataSourceFactory.getLocalDataSource().updateFavoriteSummoner(entity)
+    }
+
+    override fun swapFavoriteSummoner(swapSummoner: SwapSummoner) {
+        summonerDataSourceFactory.getLocalDataSource().swapFavoriteSummoner(swapSummoner)
     }
 
     override suspend fun getRemoteSummoner(nickName: String): Flow<Summoner> = flow {

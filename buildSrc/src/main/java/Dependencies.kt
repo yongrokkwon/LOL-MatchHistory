@@ -42,6 +42,8 @@ object Versions {
     const val COROUTINE_ANDROID = "1.6.4"
 
     const val OKHTTP_LOGGING = "4.10.0"
+
+    const val RECORDERABLE = "0.9.6"
 }
 
 object CoroutinesDep {
@@ -125,6 +127,8 @@ object OtherLibrary {
     const val OKHTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP_LOGGING}"
 
     const val COIL_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_COMPOSE_VERSION}"
+
+    const val RECORDERABLE = "org.burnoutcrew.composereorderable:reorderable:${Versions.RECORDERABLE}"
 }
 
 object UnitTest {

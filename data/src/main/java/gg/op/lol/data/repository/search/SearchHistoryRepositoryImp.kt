@@ -21,6 +21,7 @@ class SearchHistoryRepositoryImp @Inject constructor(
         return searchHistoryDao.getSearchHistoryWithFavorites()
             .map { searchSummonerMapper.mapFromEntity(it) }
             .filter { it.isFavorite }
+            .sortedBy { it.favoriteOrder }
     }
 
     override fun getSearchHistories(): List<SearchHistorySummonerJoin> {

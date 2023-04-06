@@ -7,6 +7,7 @@ import gg.op.lol.data.remote.models.SummonerInfoResponse
 import gg.op.lol.data.repository.summoner.SummonerDataSource
 import gg.op.lol.data.repository.summoner.SummonerLocal
 import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.SwapSummoner
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
@@ -24,6 +25,10 @@ class SummonerLocalDataSource @Inject constructor(
 
     override fun updateFavoriteSummoner(summoner: SummonerEntity) {
         summonerLocal.updateSummoner(summoner)
+    }
+
+    override fun swapFavoriteSummoner(swapSummoner: SwapSummoner) {
+        summonerLocal.swapFavoriteSummoner(swapSummoner)
     }
 
     override suspend fun getSummonerHistory(id: String): List<SummonerHistoryResponse> {

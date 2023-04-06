@@ -7,12 +7,21 @@ import gg.op.lol.data.remote.models.SummonerInfoResponse
 import gg.op.lol.data.repository.summoner.SummonerDataSource
 import gg.op.lol.data.repository.summoner.SummonerRemote
 import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.SwapSummoner
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class SummonerRemoteDataSource @Inject constructor(
     private val summonerRemote: SummonerRemote
 ) : SummonerDataSource {
+
+    override fun swapFavoriteSummoner(
+        swapSummoner: SwapSummoner
+    ) {
+        throw UnsupportedOperationException(
+            "swapFavoriteSummoner is not supported for RemoteDataSource."
+        )
+    }
 
     override fun getSummoner(summonerName: String): SummonerEntity? {
         throw UnsupportedOperationException(

@@ -6,6 +6,7 @@ data class SearchHistorySummonerJoin(
     val profileIconId: Int,
     val tier: Tier,
     val lastSearchedAt: Long,
+    val favoriteOrder: Int,
     val isFavorite: Boolean,
     val mySummoner: Boolean
 )

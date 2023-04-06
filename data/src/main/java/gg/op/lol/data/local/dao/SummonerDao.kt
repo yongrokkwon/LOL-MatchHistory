@@ -19,15 +19,34 @@ interface SummonerDao {
     @Query("SELECT * FROM summoner WHERE summoner_name = :summonerName")
     fun getBySummonerName(summonerName: String): SummonerEntity
 
-    @Query("UPDATE summoner SET favorite_order = :newValue WHERE summoner_name = :summonerName")
-    fun updateOrderById(summonerName: String, newValue: Int): Int
+    @Query("SELECT MAX(favorite_order) FROM summoner")
+    fun getMaxFavoriteOrder(): Int
+
+    @Query(
+        "UPDATE summoner SET favorite_order = :favoriteOrder WHERE summoner_name = :summonerName"
+    )
+    fun updateOrderById(summonerName: String, favoriteOrder: Int): Int
+
+    @Query(
+        "UPDATE summoner SET favorite_order = CASE " +
+            "WHEN summoner_name = :summonerName1 THEN :favoriteOrder1 " +
+            "WHEN summoner_name = :summonerName2 THEN :favoriteOrder2 " +
+            "ELSE favorite_order END " +
+            "WHERE summoner_name IN (:summonerName1, :summonerName2)"
+    )
+    fun swapFavoriteOrder(
+        summonerName1: String,
+        favoriteOrder1: Int,
+        summonerName2: String,
+        favoriteOrder2: Int
+    )
 
     @Delete
     fun delete(summoner: SummonerEntity)
 
-    fun updateIntValueToNextById(summonerName: String) {
-        val entity = getBySummonerName(summonerName)
-        val newValue = entity.favoriteOrder.plus(1)
-        updateOrderById(summonerName, newValue)
+    fun updateFavoriteOrderToNextById(summoner: SummonerEntity) {
+        val entity = getMaxFavoriteOrder()
+        val favoriteOrder = entity.plus(1)
+        updateOrderById(summoner.summonerName, favoriteOrder)
     }
 }
