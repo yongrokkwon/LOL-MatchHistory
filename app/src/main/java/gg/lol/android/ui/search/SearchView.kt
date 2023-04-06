@@ -58,7 +58,7 @@ import gg.lol.android.ui.theme.Typography
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
-import gg.lol.android.util.TierExtensions.toDrawable
+import gg.lol.android.util.Extensions.toDrawable
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 
 const val MAX_SEARCH_SIZE = 16

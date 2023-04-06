@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
-import gg.lol.android.util.GeneralFunctions
+import gg.lol.android.util.Functions
 import gg.lol.android.util.PreferencesHelper
 import gg.op.lol.domain.interactor.GetFavoriteSummonerUseCase
 import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
@@ -48,7 +48,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
 
-    private val summonerName = GeneralFunctions.getArg<String>(
+    private val summonerName = Functions.getArg<String>(
         savedStateHandle,
         LOLMatchHistoryRoute.ARG_SUMMONER_NAME
     ) ?: ""

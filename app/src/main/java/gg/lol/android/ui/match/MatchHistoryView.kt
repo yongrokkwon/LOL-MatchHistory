@@ -74,8 +74,8 @@ import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
-import gg.lol.android.util.QueueTypeExtensions.toName
-import gg.lol.android.util.TierExtensions.toDrawable
+import gg.lol.android.util.Extensions.toDrawable
+import gg.lol.android.util.Extensions.toName
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory

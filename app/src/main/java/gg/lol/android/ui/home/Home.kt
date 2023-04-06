@@ -64,8 +64,8 @@ import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.OnLifecycleEvent
-import gg.lol.android.util.GeneralExtensions.showToast
-import gg.lol.android.util.TierExtensions.toDrawable
+import gg.lol.android.util.Extensions.showToast
+import gg.lol.android.util.Extensions.toDrawable
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.models.SwapSummoner
 import org.burnoutcrew.reorderable.ReorderableItem
