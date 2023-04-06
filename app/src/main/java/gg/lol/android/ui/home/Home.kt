@@ -24,7 +24,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -64,6 +64,7 @@ import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.OnLifecycleEvent
+import gg.lol.android.util.GeneralExtensions.showToast
 import gg.lol.android.util.TierExtensions.toDrawable
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.models.SwapSummoner
@@ -111,6 +112,7 @@ fun HomeBody(navController: NavController, viewModel: HomeViewModel) {
 
 @Composable
 fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -126,10 +128,12 @@ fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel)
                 fontWeight = FontWeight.Bold
             )
             Row(
-                modifier = Modifier.align(Alignment.CenterVertically),
+                modifier = Modifier.align(Alignment.CenterVertically)
+                    .clickable { context.showToast(R.string.toast_favorite) },
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
+                    modifier = Modifier.padding(end = 4.dp),
                     text = stringResource(id = R.string.home_change_index),
                     fontWeight = FontWeight.Normal,
                     style = GUIDE_STYLE
@@ -138,7 +142,7 @@ fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel)
                     modifier = Modifier
                         .width(15.dp)
                         .align(Alignment.CenterVertically),
-                    imageVector = Icons.Filled.Warning,
+                    imageVector = Icons.Rounded.Info,
                     contentDescription = null,
                     tint = Color.Gray
                 )
