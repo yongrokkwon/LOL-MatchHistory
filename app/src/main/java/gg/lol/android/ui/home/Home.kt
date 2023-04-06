@@ -31,6 +31,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,12 +55,13 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
-import gg.lol.android.ui.main.MainViewModel
+import gg.lol.android.ui.UiState
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.BackgroundPrimaryColor
 import gg.lol.android.ui.theme.ButtonTextColor
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.LightGray
+import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.OnLifecycleEvent
 import gg.lol.android.util.TierExtensions.toDrawable
@@ -71,7 +73,11 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
 @Composable
-fun HomeView(navController: NavController, viewModel: MainViewModel = hiltViewModel()) {
+fun HomeView(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    when (val state = viewModel.uiState.collectAsState().value) {
+        is UiState.Error -> AlertErrorDialog(throwable = state.error)
+        else -> Unit
+    }
     HomeBody(navController, viewModel)
     OnLifecycleEvent { _, event ->
         when (event) {
@@ -82,7 +88,7 @@ fun HomeView(navController: NavController, viewModel: MainViewModel = hiltViewMo
 }
 
 @Composable
-fun HomeBody(navController: NavController, viewModel: MainViewModel) {
+fun HomeBody(navController: NavController, viewModel: HomeViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -104,7 +110,7 @@ fun HomeBody(navController: NavController, viewModel: MainViewModel) {
 }
 
 @Composable
-fun FavoriteSummonerView(navController: NavController, viewModel: MainViewModel) {
+fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel) {
     Column(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -153,7 +159,7 @@ fun FavoriteSummonerView(navController: NavController, viewModel: MainViewModel)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FavoriteListView(navController: NavController, viewModel: MainViewModel) {
+fun FavoriteListView(navController: NavController, viewModel: HomeViewModel) {
     val favorites = viewModel.favorites.value
     val state = rememberReorderableLazyListState(
         onMove = { from, to ->
