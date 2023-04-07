@@ -10,30 +10,23 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    private val job: Job = Job()
-
     abstract val coroutineExceptionHandler: CoroutineExceptionHandler
 
     protected fun launchCoroutineIO(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(Dispatchers.IO + job + coroutineExceptionHandler) {
+        return viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             block()
         }
     }
 
     protected fun launchCoroutineMain(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(Dispatchers.Main + job + coroutineExceptionHandler) {
+        return viewModelScope.launch(Dispatchers.Main + coroutineExceptionHandler) {
             block()
         }
     }
 
     protected fun launchCoroutineDefault(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(Dispatchers.Default + job + coroutineExceptionHandler) {
+        return viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler) {
             block()
         }
-    }
-
-    public override fun onCleared() {
-        super.onCleared()
-        job.cancel()
     }
 }

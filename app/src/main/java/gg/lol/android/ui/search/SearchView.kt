@@ -1,5 +1,6 @@
 package gg.lol.android.ui.search
 
+import android.util.Log
 import android.view.KeyEvent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -70,7 +71,10 @@ fun SearchView(
 ) {
     val latestVersion = viewModel.latestVersion.collectAsState().value
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is UiState.Success -> SearchView(navController, viewModel, uiState.data, latestVersion)
+        is UiState.Success -> {
+            Log.d("##", "SearchView")
+            SearchView(navController, viewModel, uiState.data, latestVersion)
+        }
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
     }

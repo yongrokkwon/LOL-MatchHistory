@@ -79,7 +79,7 @@ fun HomeView(navController: NavController, viewModel: HomeViewModel = hiltViewMo
         is UiState.Error -> AlertErrorDialog(throwable = state.error)
         else -> Unit
     }
-    HomeBody(navController, viewModel)
+    RenderView(navController, viewModel)
     OnLifecycleEvent { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> viewModel.getFavorites()
@@ -89,7 +89,7 @@ fun HomeView(navController: NavController, viewModel: HomeViewModel = hiltViewMo
 }
 
 @Composable
-fun HomeBody(navController: NavController, viewModel: HomeViewModel) {
+fun RenderView(navController: NavController, viewModel: HomeViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -106,7 +106,7 @@ fun HomeBody(navController: NavController, viewModel: HomeViewModel) {
             contentScale = ContentScale.FillBounds
         )
         FavoriteSummonerView(navController, viewModel)
-        CreateEmptySummoner()
+        CreateEmptySummoner(navController)
     }
 }
 
@@ -224,8 +224,7 @@ fun FavoriteListView(navController: NavController, viewModel: HomeViewModel) {
                         viewModel.latestVersion
                     )
                     IconFavorite(
-                        Modifier
-                            .align(Alignment.TopEnd)
+                        Modifier.align(Alignment.TopEnd)
                             .size(25.dp)
                             .padding(end = 4.dp)
                             .clickable {
@@ -288,10 +287,7 @@ fun FavoriteSummonerItemView(
 
 @Composable
 fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavController) {
-    val context = LocalContext.current
-    Row(
-        modifier = modifier
-    ) {
+    Row(modifier = modifier) {
         IconFavorite(isFavorite = true)
         Text(
             modifier = Modifier.padding(),
@@ -314,7 +310,7 @@ fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavC
 }
 
 @Composable
-fun CreateEmptySummoner() {
+fun CreateEmptySummoner(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -364,7 +360,7 @@ fun CreateEmptySummoner() {
             )
         )
         HomeButton(stringResource(id = R.string.home_summoner_button), {
-            // TODO
+            navController.navigate(LOLMatchHistoryRoute.MySummonerSearch.route)
         })
     }
 }

@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MatchHistoryViewModel @Inject internal constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val summonerInfoUseCase: GetSummonerInfoUseCase,
     private val summonerMatchHistoryUseCase: GetSummonerMatchHistoryUseCase,
     private val localChampionsUseCase: GetLocalChampionsUseCase,

@@ -7,6 +7,7 @@ sealed class LOLMatchHistoryRoute(val route: String) {
 
     object Home : LOLMatchHistoryRoute(Home::class.java.simpleName)
     object Search : LOLMatchHistoryRoute(Search::class.java.simpleName)
+    object MySummonerSearch : LOLMatchHistoryRoute(MySummonerSearch::class.java.simpleName)
     object MatchHistory : LOLMatchHistoryRoute(
         "${MatchHistory::class.java.simpleName}/{$ARG_SUMMONER_NAME}"
     ) {

@@ -13,6 +13,7 @@
     <string name="nickname">닉네임</string>
     <string name="next">다음</string>
     <string name="ok">OK</string>
+    <string name="complete">완료</string>
     <string name="internal_error">App Internal Error</string>
 
     <string name="home_favorite_summoner">즐겨찾기한 소환사</string>
@@ -99,6 +100,10 @@
     <string name="match_triple_kill">트리플킬</string>
     <string name="match_quadra_kill">쿼드라킬</string>
     <string name="match_penta_kill">펜타킬</string>
+
+    <string name="my_summoner_toast">소환사 이름을 입력해주세요</string>
+    <string name="my_summoner_title">내 소환사를 등록해주세요!</string>
+    <string name="my_summoner_hint">소환사 이름</string>
 
     <string name="toast_favorite">즐겨찾기한 소환사 카드를 꾹 누른 후 카드를 움직여 순서를 변경해주세요.</string>
 

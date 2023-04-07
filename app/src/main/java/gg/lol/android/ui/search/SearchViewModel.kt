@@ -39,7 +39,7 @@ class SearchViewModel @Inject internal constructor(
         }
 
     init {
-        loadSearchHistories()
+//        loadSearchHistories()
     }
 
     fun updateFavoriteSummoner(join: SearchHistorySummonerJoin) {

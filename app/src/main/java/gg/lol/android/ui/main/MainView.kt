@@ -13,6 +13,7 @@ import gg.lol.android.ui.home.HomeView
 import gg.lol.android.ui.match.MatchHistoryView
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.search.SearchView
+import gg.lol.android.ui.summoner.MySummonerView
 import gg.lol.android.ui.view.AlertErrorDialog
 
 @Composable
@@ -39,6 +40,9 @@ fun NavHost(
     }
     composable(LOLMatchHistoryRoute.Search.route) {
         SearchView(navController)
+    }
+    composable(LOLMatchHistoryRoute.MySummonerSearch.route) { backStackEntry ->
+        MySummonerView(navController)
     }
     composable(LOLMatchHistoryRoute.MatchHistory.route) { backStackEntry ->
         MatchHistoryView(navController)
