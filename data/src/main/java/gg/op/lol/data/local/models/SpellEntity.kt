@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "spell")
 data class SpellEntity(
-    @PrimaryKey val key: String,
+    @PrimaryKey val id: Int,
     @ColumnInfo(name = "imagePath") val imagePath: String
 )

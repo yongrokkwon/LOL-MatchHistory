@@ -76,6 +76,7 @@ import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.util.Extensions.toDrawable
 import gg.lol.android.util.Extensions.toName
+import gg.lol.android.util.Functions
 import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.MatchHistory
@@ -88,7 +89,6 @@ import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
-import kotlin.math.roundToInt
 
 enum class MultiKillType(@StringRes val id: Int) {
     DOUBLE(R.string.match_double_kill),
@@ -194,6 +194,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                     items = matchHistories,
                     key = { matchHistory -> matchHistory.metadata.matchId }
                 ) { matchHistory ->
+                    // TODO
                     matchHistory?.info?.participants?.find { it.puuid == summoner.puuid }?.let {
                         MatchHistoryCard(
                             latestVersion,
@@ -347,7 +348,7 @@ fun TierInformation(summonerHistoryBodies: List<Summoner.TierHistory>) {
 fun TierItem(item: Summoner.TierHistory) {
     val queueTypeNameRes = item.queueType.toName()
     val tier = Tier.valueOf(item.tier, item.rank)
-    val winRate = calculateWinRate(item.wins, item.losses)
+    val winRate = Functions.calculateWinRate(item.wins, item.losses)
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -541,9 +542,9 @@ fun ResultInformationTop(
     runes: List<Rune>,
     items: List<Item>
 ) {
-    val champion = champions.find { it.key.toInt() == participant.championId }
-    val spell01 = spells.find { it.key.toInt() == participant.summoner1Id }
-    val spell02 = spells.find { it.key.toInt() == participant.summoner2Id }
+    val champion = champions.find { it.id == participant.championId }
+    val spell01 = spells.find { it.id == participant.summoner1Id }
+    val spell02 = spells.find { it.id == participant.summoner2Id }
     val rune1 = runes.find { it.id == participant.perks.styles[0].style }
         ?.bodies?.find { it.id == participant.perks.styles[0].selections[0].perk }
     val rune2 = runes.find { it.id == participant.perks.styles[1].style }
@@ -575,8 +576,11 @@ fun ResultInformationTop(
     val totalKills = matchHistory.info.teams.find {
         it.teamId == participant.teamId
     }?.objectives?.champion?.kills ?: 0
-    val killInvolvementRate =
-        calculateKillInvolvementRate(participant.kills, participant.assists, totalKills)
+    val killInvolvementRate = Functions.calculateKillInvolvementRate(
+        participant.kills,
+        participant.assists,
+        totalKills
+    )
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -828,21 +832,6 @@ fun ResultInformationBottom(
 @Preview
 @Composable
 fun MatchHistoryPreview() {
-}
-
-fun calculateWinRate(wins: Int, losses: Int): Int {
-    val totalGames = wins + losses
-    if (totalGames == 0) {
-        return 0
-    }
-    return (wins.toDouble() / totalGames.toDouble() * 100).toInt()
-}
-
-fun calculateKillInvolvementRate(kills: Int, assists: Int, totalKills: Int): Int {
-    if (totalKills == 0) return 0
-    val killContribution = kills + assists
-    val killInvolvementRate = (killContribution.toDouble() / totalKills.toDouble()) * 100.0
-    return killInvolvementRate.roundToInt()
 }
 
 fun getTimeDiffDuration(dateTime: LocalDateTime): Duration {

@@ -15,8 +15,8 @@ import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
 import gg.op.lol.domain.interactor.GetLocalItemUseCase
 import gg.op.lol.domain.interactor.GetLocalRunesUseCase
 import gg.op.lol.domain.interactor.GetLocalSpellsUseCase
+import gg.op.lol.domain.interactor.GetPagingMatchHistoriesUseCase
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
-import gg.op.lol.domain.interactor.GetSummonerMatchHistoryUseCase
 import gg.op.lol.domain.interactor.InsertSearchHistoryUseCase
 import gg.op.lol.domain.interactor.UpdateFavoriteSummonerUseCase
 import gg.op.lol.domain.models.Champion
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 class MatchHistoryViewModel @Inject internal constructor(
     savedStateHandle: SavedStateHandle,
     private val summonerInfoUseCase: GetSummonerInfoUseCase,
-    private val summonerMatchHistoryUseCase: GetSummonerMatchHistoryUseCase,
+    private val summonerMatchHistoryUseCase: GetPagingMatchHistoriesUseCase,
     private val localChampionsUseCase: GetLocalChampionsUseCase,
     private val spellUseCase: GetLocalSpellsUseCase,
     private val runeUseCase: GetLocalRunesUseCase,

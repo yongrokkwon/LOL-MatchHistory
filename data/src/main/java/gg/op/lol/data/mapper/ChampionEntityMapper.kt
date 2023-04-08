@@ -8,7 +8,7 @@ class ChampionEntityMapper @Inject constructor() : Mapper<ChampionEntity, Champi
     override fun mapFromEntity(type: ChampionEntity): Champion {
         return Champion(
             imagePath = type.imagePath,
-            key = type.key,
+            id = type.id,
             name = type.name
         )
     }
@@ -16,7 +16,7 @@ class ChampionEntityMapper @Inject constructor() : Mapper<ChampionEntity, Champi
     override fun mapToEntity(type: Champion): ChampionEntity {
         return ChampionEntity(
             imagePath = type.imagePath,
-            key = type.key,
+            id = type.id,
             name = type.name
         )
     }

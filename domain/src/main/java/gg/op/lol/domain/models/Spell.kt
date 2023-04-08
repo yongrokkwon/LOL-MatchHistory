@@ -1,6 +1,6 @@
 package gg.op.lol.domain.models
 
 data class Spell(
-    val key: String,
+    val id: Int,
     val imagePath: String
 )

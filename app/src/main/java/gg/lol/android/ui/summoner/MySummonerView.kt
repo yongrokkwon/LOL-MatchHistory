@@ -39,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import gg.lol.android.R
 import gg.lol.android.ui.UiState
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.LOLMatchHistoryTheme
 import gg.lol.android.ui.theme.PrimaryColor
 import gg.lol.android.ui.theme.SearchHint
@@ -56,7 +57,12 @@ fun MySummonerView(navController: NavController, viewModel: MySummonerViewModel 
     }
     LaunchedEffect(state) {
         if (state is UiState.Success) {
-            state.data?.let { navController.popBackStack() }
+            state.data?.let {
+                navController.previousBackStackEntry
+                    ?.savedStateHandle
+                    ?.set(LOLMatchHistoryRoute.ARG_SUMMONER_NAME, it.summonerName)
+                navController.popBackStack()
+            }
         }
     }
     RenderView(navController, viewModel)

@@ -29,6 +29,7 @@ import androidx.lifecycle.LifecycleOwner
 import gg.lol.android.R
 import gg.lol.android.ui.theme.PrimaryColor
 
+// TODO
 @Composable
 fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
     val eventHandler = rememberUpdatedState(onEvent)

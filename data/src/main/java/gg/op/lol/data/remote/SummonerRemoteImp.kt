@@ -30,7 +30,18 @@ class SummonerRemoteImp @Inject constructor(
         return summonerService.getSummonerInfo(nickName)
     }
 
-    override fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+    override suspend fun getMatchHistory(puuid: String): List<MatchHistory> {
+        val matchIds = matchService.getMatches(puuid, STARTING_PAGE_INDEX, PAGE_COUNT)
+        return if (matchIds.isNotEmpty()) {
+            val matchHistoryResponse = matchIds.map { matchService.getMatch(it) }
+            val result = matchHistoryResponse.map { matchHistoryMapper.mapFromLocal(it) }
+            result
+        } else {
+            emptyList()
+        }
+    }
+
+    override fun getPagingMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = PAGE_COUNT),
             pagingSourceFactory = {

@@ -7,7 +7,7 @@ import gg.op.lol.data.remote.mapper.MatchHistoryMapper
 import gg.op.lol.domain.models.MatchHistory
 
 const val STARTING_PAGE_INDEX = 0
-const val PAGE_COUNT = 5
+const val PAGE_COUNT = 10
 
 class MatchHistoryPagingSource(
     private val matchService: MatchService,

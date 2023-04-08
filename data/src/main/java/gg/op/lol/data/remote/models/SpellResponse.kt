@@ -16,7 +16,7 @@ data class SpellResponse(
         val effectBurn: List<String> = listOf(),
         val id: String = "",
         val image: Image = Image(),
-        val key: String,
+        val key: Int,
         val maxammo: String = "",
         val maxrank: Int = 0,
         val modes: List<String> = listOf(),

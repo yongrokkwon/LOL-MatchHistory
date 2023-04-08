@@ -72,7 +72,7 @@ class DDragonRemoteDataSource @Inject constructor(
         )
     }
 
-    override fun getChampion(key: String): ChampionEntity? {
+    override fun getChampion(id: Int): ChampionEntity? {
         throw UnsupportedOperationException(
             "getChampion is not supported for RemoteDataSource."
         )

@@ -7,14 +7,14 @@ import javax.inject.Inject
 class SpellResponseMapper @Inject constructor() : Mapper<SpellResponse.Body, Spell> {
     override fun mapFromEntity(type: SpellResponse.Body): Spell {
         return Spell(
-            key = type.key,
+            id = type.key,
             imagePath = type.image.full
         )
     }
 
     override fun mapToEntity(type: Spell): SpellResponse.Body {
         return SpellResponse.Body(
-            key = type.key,
+            key = type.id,
             image = SpellResponse.Body.Image(
                 full = type.imagePath
             )

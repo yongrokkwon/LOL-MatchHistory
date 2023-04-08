@@ -6,7 +6,7 @@ import gg.op.lol.data.local.models.RuneEntity
 import gg.op.lol.data.local.models.SpellEntity
 
 interface DDragonLocal {
-    fun getChampion(key: String): ChampionEntity?
+    fun getChampion(id: Int): ChampionEntity?
     fun getChampions(): List<ChampionEntity>
     fun getRunes(): List<RuneEntity>
     fun getItems(): List<ItemEntity>

@@ -9,5 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface SummonerRemote {
     suspend fun getSummonerHistory(id: String): List<SummonerHistoryResponse>
     suspend fun getSummonerInfo(nickName: String): SummonerInfoResponse
-    fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>>
+    fun getPagingMatchHistory(puuid: String): Flow<PagingData<MatchHistory>>
+    suspend fun getMatchHistory(puuid: String): List<MatchHistory>
 }

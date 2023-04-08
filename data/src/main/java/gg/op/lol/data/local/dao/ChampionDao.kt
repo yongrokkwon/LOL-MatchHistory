@@ -11,8 +11,8 @@ interface ChampionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(champion: ChampionEntity)
 
-    @Query("SELECT * FROM champion WHERE `key` = :key")
-    fun findByKey(key: String): ChampionEntity?
+    @Query("SELECT * FROM champion WHERE id = :id")
+    fun findByKey(id: Int): ChampionEntity?
 
     @Query("SELECT * FROM champion")
     fun getAll(): List<ChampionEntity>

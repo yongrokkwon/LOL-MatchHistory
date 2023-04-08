@@ -11,8 +11,8 @@ interface SpellDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(spell: SpellEntity)
 
-    @Query("SELECT * FROM spell WHERE `key` = :key")
-    fun findByKey(key: String): SpellEntity?
+    @Query("SELECT * FROM spell WHERE id = :id")
+    fun findByKey(id: Int): SpellEntity?
 
     @Query("SELECT * FROM spell")
     fun getAll(): List<SpellEntity>

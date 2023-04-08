@@ -26,7 +26,7 @@ interface DDragonDataSource {
     fun insertSpell(spellEntity: SpellEntity)
     fun insertRune(runeEntity: RuneEntity)
     fun insertItem(itemEntity: ItemEntity)
-    fun getChampion(key: String): ChampionEntity?
+    fun getChampion(id: Int): ChampionEntity?
     fun getLocalChampions(): List<ChampionEntity>
     fun getLocalRunes(): List<RuneEntity>
     fun getLocalItems(): List<ItemEntity>

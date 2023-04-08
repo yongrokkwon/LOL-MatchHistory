@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "champion")
 data class ChampionEntity(
-    @PrimaryKey val key: String,
+    @PrimaryKey val id: Int,
     val name: String,
     val imagePath: String
 )

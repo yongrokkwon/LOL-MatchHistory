@@ -4,7 +4,10 @@ import android.content.Context
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import gg.lol.android.R
+import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.op.lol.domain.models.QueueType
 import gg.op.lol.domain.models.Tier
 
@@ -45,5 +48,13 @@ object Extensions {
             is Tier.CHALLENGER -> R.drawable.challenger
             else -> R.drawable.unranked
         }
+    }
+
+    @Composable
+    fun <T> NavController.onComposeResult(keyResult: String): T? {
+        val savedStateHandle = currentBackStackEntry
+            ?.savedStateHandle
+
+        return savedStateHandle?.remove<T>(LOLMatchHistoryRoute.ARG_SUMMONER_NAME)
     }
 }

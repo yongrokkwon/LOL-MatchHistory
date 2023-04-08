@@ -47,7 +47,11 @@ class SummonerRemoteDataSource @Inject constructor(
         return summonerRemote.getSummonerInfo(summonerName)
     }
 
-    override fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+    override fun getPagingMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+        return summonerRemote.getPagingMatchHistory(puuid)
+    }
+
+    override suspend fun getMatchHistory(puuid: String): List<MatchHistory> {
         return summonerRemote.getMatchHistory(puuid)
     }
 }

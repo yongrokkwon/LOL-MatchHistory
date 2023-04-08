@@ -70,8 +70,8 @@ class DDragonLocalDataSource @Inject constructor(
         ddragonLocal.insertChampion(championEntity)
     }
 
-    override fun getChampion(key: String): ChampionEntity? {
-        return ddragonLocal.getChampion(key)
+    override fun getChampion(id: Int): ChampionEntity? {
+        return ddragonLocal.getChampion(id)
     }
 
     override fun getLocalChampions(): List<ChampionEntity> {

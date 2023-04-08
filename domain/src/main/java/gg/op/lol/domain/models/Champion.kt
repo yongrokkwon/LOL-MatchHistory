@@ -1,7 +1,7 @@
 package gg.op.lol.domain.models
 
 data class Champion(
-    val key: String,
+    val id: Int,
     val name: String,
     val imagePath: String
 )

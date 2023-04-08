@@ -43,7 +43,13 @@ class SummonerLocalDataSource @Inject constructor(
         )
     }
 
-    override fun getMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+    override fun getPagingMatchHistory(puuid: String): Flow<PagingData<MatchHistory>> {
+        throw UnsupportedOperationException(
+            "getPagingMatchHistory is not supported for LocalDataSource."
+        )
+    }
+
+    override suspend fun getMatchHistory(puuid: String): List<MatchHistory> {
         throw UnsupportedOperationException(
             "getMatchHistory is not supported for LocalDataSource."
         )

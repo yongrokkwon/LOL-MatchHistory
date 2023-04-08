@@ -31,6 +31,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,8 +65,10 @@ import gg.lol.android.ui.theme.LightGray
 import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.OnLifecycleEvent
+import gg.lol.android.util.Extensions.onComposeResult
 import gg.lol.android.util.Extensions.showToast
 import gg.lol.android.util.Extensions.toDrawable
+import gg.op.lol.domain.models.MySummoner
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.models.SwapSummoner
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -75,21 +78,29 @@ import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun HomeView(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    val result = navController.onComposeResult<String>(LOLMatchHistoryRoute.ARG_SUMMONER_NAME)
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Error -> AlertErrorDialog(throwable = state.error)
         else -> Unit
     }
     RenderView(navController, viewModel)
+    // TODO
     OnLifecycleEvent { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> viewModel.getFavorites()
             else -> Unit
         }
     }
+    LaunchedEffect(result) {
+        if (result != null) {
+            viewModel.getMatchHistories(result)
+        }
+    }
 }
 
 @Composable
 fun RenderView(navController: NavController, viewModel: HomeViewModel) {
+    val mySummoner = viewModel.mySummoner.collectAsState().value
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -106,7 +117,15 @@ fun RenderView(navController: NavController, viewModel: HomeViewModel) {
             contentScale = ContentScale.FillBounds
         )
         FavoriteSummonerView(navController, viewModel)
-        CreateEmptySummoner(navController)
+        mySummoner?.let { MySummonerView(mySummoner) }
+            ?: MySummonerEmptyView(navController)
+    }
+}
+
+@Composable
+fun MySummonerView(mySummoner: MySummoner) {
+    println("## $mySummoner")
+    Column {
     }
 }
 
@@ -128,7 +147,8 @@ fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel)
                 fontWeight = FontWeight.Bold
             )
             Row(
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
                     .clickable { context.showToast(R.string.toast_favorite) },
                 horizontalArrangement = Arrangement.End
             ) {
@@ -149,7 +169,7 @@ fun FavoriteSummonerView(navController: NavController, viewModel: HomeViewModel)
             }
         }
         if (viewModel.favorites.value.isEmpty()) {
-            EmptyFavoriteSummonerView(
+            FavoriteEmptyView(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally),
@@ -224,7 +244,8 @@ fun FavoriteListView(navController: NavController, viewModel: HomeViewModel) {
                         viewModel.latestVersion
                     )
                     IconFavorite(
-                        Modifier.align(Alignment.TopEnd)
+                        Modifier
+                            .align(Alignment.TopEnd)
                             .size(25.dp)
                             .padding(end = 4.dp)
                             .clickable {
@@ -238,6 +259,31 @@ fun FavoriteListView(navController: NavController, viewModel: HomeViewModel) {
             }
         }
     }
+}
+
+@Composable
+fun SummonerIconName(modifier: Modifier, onClick: () -> Unit) {
+//    Box(modifier = modifier) {
+//        FavoriteSummonerItemView(
+//            Modifier.clickable { onClick.invoke() }
+//                .padding(top = 8.dp, bottom = 8.dp)
+//                .align(Alignment.Center)
+//                .width(IntrinsicSize.Max),
+//            item,
+//            viewModel.latestVersion
+//        )
+//        IconFavorite(
+//            Modifier.align(Alignment.TopEnd)
+//                .size(25.dp)
+//                .padding(end = 4.dp)
+//                .clickable {
+//                    viewModel.updateFavoriteSummoner(
+//                        item.copy(isFavorite = !item.isFavorite)
+//                    )
+//                },
+//            item.isFavorite
+//        )
+//    }
 }
 
 @Composable
@@ -286,7 +332,7 @@ fun FavoriteSummonerItemView(
 }
 
 @Composable
-fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavController) {
+fun FavoriteEmptyView(modifier: Modifier = Modifier, navController: NavController) {
     Row(modifier = modifier) {
         IconFavorite(isFavorite = true)
         Text(
@@ -310,7 +356,7 @@ fun EmptyFavoriteSummonerView(modifier: Modifier = Modifier, navController: NavC
 }
 
 @Composable
-fun CreateEmptySummoner(navController: NavController) {
+fun MySummonerEmptyView(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

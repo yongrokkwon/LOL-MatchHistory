@@ -6,14 +6,14 @@ import gg.op.lol.domain.repository.SummonerRepository
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
-interface GetSummonerMatchHistoryBaseUseCase<in Parameter, out Result> {
+interface GetPagingMatchHistoriesBaseUseCase<in Parameter, out Result> {
     operator fun invoke(params: Parameter): Result
 }
 
-class GetSummonerMatchHistoryUseCase @Inject constructor(
+class GetPagingMatchHistoriesUseCase @Inject constructor(
     private val summonerRepository: SummonerRepository
-) : GetSummonerMatchHistoryBaseUseCase<String, Flow<PagingData<MatchHistory>>> {
+) : GetPagingMatchHistoriesBaseUseCase<String, Flow<PagingData<MatchHistory>>> {
 
     override operator fun invoke(params: String): Flow<PagingData<MatchHistory>> =
-        summonerRepository.getRemoteSummonerMatchHistory(params)
+        summonerRepository.getRemotePagingMatchHistory(params)
 }

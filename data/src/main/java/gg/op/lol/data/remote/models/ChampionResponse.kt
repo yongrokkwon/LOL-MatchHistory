@@ -12,7 +12,7 @@ data class ChampionResponse(
         val id: String = "",
         val image: Image,
         val info: Info? = null,
-        val key: String,
+        val key: Int,
         val name: String,
         val partype: String = "",
         val stats: Stats? = null,

@@ -21,7 +21,7 @@ class DDragonLocalImp @Inject constructor(
     override fun getRunes(): List<RuneEntity> = runeDao.getAll()
     override fun getItems(): List<ItemEntity> = itemDao.getAll()
     override fun getChampions(): List<ChampionEntity> = championDao.getAll()
-    override fun getChampion(key: String): ChampionEntity? = championDao.findByKey(key)
+    override fun getChampion(id: Int): ChampionEntity? = championDao.findByKey(id)
     override fun getSpells(): List<SpellEntity> = spellDao.getAll()
 
     override fun insertRune(runeEntity: RuneEntity) {
