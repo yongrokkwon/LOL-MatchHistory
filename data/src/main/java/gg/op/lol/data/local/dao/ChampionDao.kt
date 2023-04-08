@@ -8,8 +8,9 @@ import gg.op.lol.data.local.models.ChampionEntity
 
 @Dao
 interface ChampionDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrUpdate(champion: ChampionEntity)
+    fun insertOrUpdate(championEntities: List<ChampionEntity>)
 
     @Query("SELECT * FROM champion WHERE id = :id")
     fun findByKey(id: Int): ChampionEntity?

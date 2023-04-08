@@ -23,6 +23,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import gg.op.lol.data.local.dao.ChampionDao
+import gg.op.lol.data.local.dao.GameDataDao
 import gg.op.lol.data.local.dao.ItemDao
 import gg.op.lol.data.local.dao.RuneDao
 import gg.op.lol.data.local.dao.SearchHistoryDao
@@ -71,5 +72,10 @@ class DatabaseModule {
     @Provides
     fun provideSummonerDao(appDatabase: LOLMatchHistoryDatabase): SummonerDao {
         return appDatabase.summonerDao()
+    }
+
+    @Provides
+    fun provideGameDataDao(appDatabase: LOLMatchHistoryDatabase): GameDataDao {
+        return appDatabase.gameDataDao()
     }
 }

@@ -9,8 +9,8 @@ import gg.op.lol.data.mapper.RuneResponseMapper
 import gg.op.lol.data.mapper.SpellEntityMapper
 import gg.op.lol.data.mapper.SpellResponseMapper
 import gg.op.lol.data.source.ddragon.DDragonDataSourceFactory
-import gg.op.lol.data.source.ddragon.DDragonLocalDataSource
 import gg.op.lol.domain.models.Champion
+import gg.op.lol.domain.models.ChampionRuneItemSpell
 import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.models.Rune
 import gg.op.lol.domain.models.Spell
@@ -32,49 +32,43 @@ class DDragonRepositoryImp @Inject constructor(
     private val itemResponseMapper: ItemResponseMapper,
     private val itemEntityMapper: ItemEntityMapper
 ) : DDragonRepository {
+    override fun delete() {
+        val local = ddragonDataSourceFactory.getLocalDataSource()
+        local.delete()
+    }
+
+    override fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
+        val local = ddragonDataSourceFactory.getLocalDataSource()
+        local.insert(championRuneItemSpell)
+    }
+
     override suspend fun getVersion(): Flow<String> = flow {
         val latestVersion = ddragonDataSourceFactory.getRemoteDataSource().getVersions().first()
         emit(latestVersion)
     }
 
     override suspend fun getRemoteChampions(version: String): List<Champion> {
-        val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
         val championResponse = remote.getRemoteChampions(version)
-        val result = championResponse.data.map { championResponseMapper.mapFromEntity(it.value) }
-        local.deleteAllChampion()
-        insertLocalChampion(result, local)
-        return result
+        return championResponse.data.map { championResponseMapper.mapFromEntity(it.value) }
     }
 
     override suspend fun getRemoteSpells(version: String): List<Spell> {
-        val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
         val remoteChampions = remote.getRemoteSpells(version)
-        val result = remoteChampions.data.map { spellResponseMapper.mapFromEntity(it.value) }
-        local.deleteAllSpell()
-        insertLocalSpell(result, local)
-        return result
+        return remoteChampions.data.map { spellResponseMapper.mapFromEntity(it.value) }
     }
 
     override suspend fun getRemoteRunes(version: String): List<Rune> {
-        val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
         val remoteRunes = remote.getRemoteRunes(version)
-        val result = remoteRunes.map { runeResponseMapper.mapFromEntity(it) }
-        local.deleteAllRune()
-        insertLocalRune(result, local)
-        return result
+        return remoteRunes.map { runeResponseMapper.mapFromEntity(it) }
     }
 
     override suspend fun getRemoteItems(version: String): List<Item> {
-        val local = ddragonDataSourceFactory.getLocalDataSource()
         val remote = ddragonDataSourceFactory.getRemoteDataSource()
         val remoteItems = remote.getRemoteItems(version)
-        val result = remoteItems.data.map { itemResponseMapper.mapFromEntity(it.value, it.key) }
-        local.deleteAllItem()
-        insertLocalItem(result, local)
-        return result
+        return remoteItems.data.map { itemResponseMapper.mapFromEntity(it.value, it.key) }
     }
 
     override fun getLocalSpells(): Flow<List<Spell>> = flow {
@@ -95,25 +89,5 @@ class DDragonRepositoryImp @Inject constructor(
     override fun getLocalRunes(): Flow<List<Rune>> = flow {
         val localRunes = ddragonDataSourceFactory.getLocalDataSource().getLocalRunes()
         emit(localRunes.map { runeEntityMapper.mapFromEntity(it) })
-    }
-
-    private fun insertLocalChampion(champions: List<Champion>, local: DDragonLocalDataSource) {
-        val championEntities = champions.map { championEntityMapper.mapToEntity(it) }
-        championEntities.forEach { local.insertChampion(it) }
-    }
-
-    private fun insertLocalSpell(spells: List<Spell>, local: DDragonLocalDataSource) {
-        val spellEntities = spells.map { spellEntityMapper.mapToEntity(it) }
-        spellEntities.forEach { local.insertSpell(it) }
-    }
-
-    private fun insertLocalRune(rune: List<Rune>, local: DDragonLocalDataSource) {
-        val runeEntities = rune.map { runeEntityMapper.mapToEntity(it) }
-        runeEntities.forEach { local.insertRune(it) }
-    }
-
-    private fun insertLocalItem(rune: List<Item>, local: DDragonLocalDataSource) {
-        val itemEntities = rune.map { itemEntityMapper.mapToEntity(it) }
-        itemEntities.forEach { local.insertItem(it) }
     }
 }

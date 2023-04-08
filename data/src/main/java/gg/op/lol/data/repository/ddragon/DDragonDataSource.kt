@@ -8,6 +8,7 @@ import gg.op.lol.data.remote.models.ChampionResponse
 import gg.op.lol.data.remote.models.ItemResponse
 import gg.op.lol.data.remote.models.RuneResponse
 import gg.op.lol.data.remote.models.SpellResponse
+import gg.op.lol.domain.models.ChampionRuneItemSpell
 
 interface DDragonDataSource {
     // Remote
@@ -18,14 +19,8 @@ interface DDragonDataSource {
     suspend fun getVersions(): List<String>
 
     // Local
-    fun deleteAllChampion()
-    fun deleteAllSpell()
-    fun deleteAllRune()
-    fun deleteAllItem()
-    fun insertChampion(championEntity: ChampionEntity)
-    fun insertSpell(spellEntity: SpellEntity)
-    fun insertRune(runeEntity: RuneEntity)
-    fun insertItem(itemEntity: ItemEntity)
+    fun delete()
+    fun insert(championRuneItemSpell: ChampionRuneItemSpell)
     fun getChampion(id: Int): ChampionEntity?
     fun getLocalChampions(): List<ChampionEntity>
     fun getLocalRunes(): List<RuneEntity>

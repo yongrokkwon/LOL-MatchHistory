@@ -4,11 +4,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
+import gg.op.lol.domain.interactor.DeleteGameDataUseCase
 import gg.op.lol.domain.interactor.GetChampionsUseCase
 import gg.op.lol.domain.interactor.GetItemUseCase
 import gg.op.lol.domain.interactor.GetLatestVersionUseCase
 import gg.op.lol.domain.interactor.GetRuneUseCase
 import gg.op.lol.domain.interactor.GetSpellUseCase
+import gg.op.lol.domain.interactor.InsertGameDataUseCase
+import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
@@ -19,6 +22,8 @@ import kotlinx.coroutines.flow.StateFlow
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
     private val getLatestVersionUseCase: GetLatestVersionUseCase,
+    private val deleteGameDataBaseUseCase: DeleteGameDataUseCase,
+    private val insertBaseDataBaseUseCase: InsertGameDataUseCase,
     private val getChampionsUseCase: GetChampionsUseCase,
     private val getSpellUseCase: GetSpellUseCase,
     private val getRuneUseCase: GetRuneUseCase,
@@ -47,6 +52,16 @@ class MainViewModel @Inject internal constructor(
             val spellResponse = async { getSpellUseCase.invoke(versionPair) }
             awaitAll(championResponse, runeResponse, itemResponse, spellResponse)
             preferencesHelper.currentVersion = latestVersion
+
+            deleteGameDataBaseUseCase.invoke(Unit)
+            insertBaseDataBaseUseCase.invoke(
+                ChampionRuneItemSpell(
+                    championResponse.await(),
+                    runeResponse.await(),
+                    itemResponse.await(),
+                    spellResponse.await()
+                )
+            )
         }
     }
 

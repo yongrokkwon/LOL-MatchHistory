@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import gg.op.lol.BuildConfig
 import gg.op.lol.data.local.dao.ChampionDao
+import gg.op.lol.data.local.dao.GameDataDao
 import gg.op.lol.data.local.dao.ItemDao
 import gg.op.lol.data.local.dao.RuneDao
 import gg.op.lol.data.local.dao.SearchHistoryDao
@@ -37,6 +38,7 @@ const val DATABASE_NAME = "LOL-MatchHistory-DB"
 )
 @TypeConverters(RuneConvert::class)
 abstract class LOLMatchHistoryDatabase : RoomDatabase() {
+    abstract fun gameDataDao(): GameDataDao
     abstract fun championDao(): ChampionDao
     abstract fun spellDao(): SpellDao
     abstract fun itemDao(): ItemDao

@@ -10,6 +10,7 @@ import gg.op.lol.data.remote.models.RuneResponse
 import gg.op.lol.data.remote.models.SpellResponse
 import gg.op.lol.data.repository.ddragon.DDragonDataSource
 import gg.op.lol.data.repository.ddragon.DDragonLocal
+import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 
 class DDragonLocalDataSource @Inject constructor(
@@ -46,12 +47,12 @@ class DDragonLocalDataSource @Inject constructor(
         )
     }
 
-    override fun insertRune(runeEntity: RuneEntity) {
-        ddragonLocal.insertRune(runeEntity)
+    override fun delete() {
+        ddragonLocal.delete()
     }
 
-    override fun insertItem(itemEntity: ItemEntity) {
-        ddragonLocal.insertItem(itemEntity)
+    override fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
+        ddragonLocal.insert(championRuneItemSpell)
     }
 
     override fun getLocalRunes(): List<RuneEntity> {
@@ -60,14 +61,6 @@ class DDragonLocalDataSource @Inject constructor(
 
     override fun getLocalItems(): List<ItemEntity> {
         return ddragonLocal.getItems()
-    }
-
-    override fun insertSpell(spellEntity: SpellEntity) {
-        ddragonLocal.insertSpell(spellEntity)
-    }
-
-    override fun insertChampion(championEntity: ChampionEntity) {
-        ddragonLocal.insertChampion(championEntity)
     }
 
     override fun getChampion(id: Int): ChampionEntity? {
@@ -80,21 +73,5 @@ class DDragonLocalDataSource @Inject constructor(
 
     override fun getLocalSpells(): List<SpellEntity> {
         return ddragonLocal.getSpells()
-    }
-
-    override fun deleteAllChampion() {
-        ddragonLocal.deleteAllChampion()
-    }
-
-    override fun deleteAllSpell() {
-        ddragonLocal.deleteAllSpell()
-    }
-
-    override fun deleteAllRune() {
-        ddragonLocal.deleteAllRune()
-    }
-
-    override fun deleteAllItem() {
-        ddragonLocal.deleteAllItem()
     }
 }

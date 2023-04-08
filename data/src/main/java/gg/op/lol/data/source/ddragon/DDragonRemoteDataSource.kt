@@ -10,6 +10,7 @@ import gg.op.lol.data.remote.models.RuneResponse
 import gg.op.lol.data.remote.models.SpellResponse
 import gg.op.lol.data.repository.ddragon.DDragonDataSource
 import gg.op.lol.data.repository.ddragon.DDragonRemote
+import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 
 class DDragonRemoteDataSource @Inject constructor(
@@ -30,15 +31,9 @@ class DDragonRemoteDataSource @Inject constructor(
 
     override suspend fun getVersions(): List<String> = ddragonRemote.getVersions()
 
-    override fun insertRune(runeEntity: RuneEntity) {
+    override fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
         throw UnsupportedOperationException(
             "insertRune is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun insertItem(itemEntity: ItemEntity) {
-        throw UnsupportedOperationException(
-            "insertItem is not supported for RemoteDataSource."
         )
     }
 
@@ -51,12 +46,6 @@ class DDragonRemoteDataSource @Inject constructor(
     override fun getLocalItems(): List<ItemEntity> {
         throw UnsupportedOperationException(
             "getLocalItems is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun insertSpell(spellEntity: SpellEntity) {
-        throw UnsupportedOperationException(
-            "insertSpell is not supported for RemoteDataSource."
         )
     }
 
@@ -78,33 +67,9 @@ class DDragonRemoteDataSource @Inject constructor(
         )
     }
 
-    override fun insertChampion(championEntity: ChampionEntity) {
+    override fun delete() {
         throw UnsupportedOperationException(
-            "insertChampion is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun deleteAllChampion() {
-        throw UnsupportedOperationException(
-            "deleteAllChampion is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun deleteAllSpell() {
-        throw UnsupportedOperationException(
-            "deleteAllSpell is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun deleteAllRune() {
-        throw UnsupportedOperationException(
-            "deleteAllRune is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun deleteAllItem() {
-        throw UnsupportedOperationException(
-            "deleteAllItem is not supported for RemoteDataSource."
+            "delete is not supported for RemoteDataSource."
         )
     }
 }
