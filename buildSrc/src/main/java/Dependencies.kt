@@ -15,7 +15,7 @@ object Versions {
 
     const val ROOM_VERSION = "2.4.3"
     const val RETROFIT_VERSION = "2.9.0"
-    const val FILPPER = "0.187.1"
+    const val FILPPER = "0.189.0"
     const val SOLOADER = "0.10.5"
     const val LEAK_CARNARY = "2.8.1"
 
