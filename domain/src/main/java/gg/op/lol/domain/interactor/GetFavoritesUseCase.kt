@@ -4,15 +4,13 @@ import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.repository.SearchHistoryRepository
 import javax.inject.Inject
 
-interface GetFavoriteBaseUseCase {
-    operator fun invoke(params: Unit): List<SearchHistorySummonerJoin>
-}
+typealias GetFavoriteBaseUseCase = BaseUseCase<Unit, List<SearchHistorySummonerJoin>>
 
 class GetFavoritesUseCase @Inject constructor(
     private val searchHistoryRepository: SearchHistoryRepository
 ) : GetFavoriteBaseUseCase {
 
-    override operator fun invoke(params: Unit): List<SearchHistorySummonerJoin> {
+    override suspend operator fun invoke(params: Unit): List<SearchHistorySummonerJoin> {
         return searchHistoryRepository.getFavorites()
     }
 }

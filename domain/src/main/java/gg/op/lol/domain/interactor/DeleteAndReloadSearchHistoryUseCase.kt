@@ -4,17 +4,13 @@ import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.repository.SearchHistoryRepository
 import javax.inject.Inject
 
-typealias BaseUseCaseReturnType = Pair<Boolean, List<SearchHistorySummonerJoin>>
-
-interface DeleteAndReloadSearchHistoryBaseUseCase {
-    operator fun invoke(params: List<SearchHistorySummonerJoin>): BaseUseCaseReturnType
-}
-
 class DeleteAndReloadSearchHistoryUseCase @Inject constructor(
     private val searchHistoryRepository: SearchHistoryRepository
-) : DeleteAndReloadSearchHistoryBaseUseCase {
+) : BaseUseCase<List<SearchHistorySummonerJoin>, Pair<Boolean, List<SearchHistorySummonerJoin>>> {
 
-    override operator fun invoke(params: List<SearchHistorySummonerJoin>): BaseUseCaseReturnType {
+    override suspend fun invoke(
+        params: List<SearchHistorySummonerJoin>
+    ): Pair<Boolean, List<SearchHistorySummonerJoin>> {
         val isDeleted = searchHistoryRepository.deleteSearchHistory(params)
         return if (isDeleted) {
             Pair(isDeleted, searchHistoryRepository.getSearchHistories())
@@ -36,4 +32,5 @@ class DeleteAndReloadSearchHistoryUseCase @Inject constructor(
             )
         }
     }
+
 }
