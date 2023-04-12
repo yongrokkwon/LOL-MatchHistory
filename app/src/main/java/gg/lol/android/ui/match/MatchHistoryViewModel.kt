@@ -10,28 +10,13 @@ import gg.lol.android.ui.UiState
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.util.Functions
 import gg.lol.android.util.PreferencesHelper
-import gg.op.lol.domain.interactor.GetFavoriteSummonerUseCase
-import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
-import gg.op.lol.domain.interactor.GetLocalItemUseCase
-import gg.op.lol.domain.interactor.GetLocalRunesUseCase
-import gg.op.lol.domain.interactor.GetLocalSpellsUseCase
-import gg.op.lol.domain.interactor.GetPagingMatchHistoriesUseCase
-import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
-import gg.op.lol.domain.interactor.InsertSearchHistoryUseCase
-import gg.op.lol.domain.interactor.UpdateFavoriteSummonerUseCase
-import gg.op.lol.domain.models.Champion
-import gg.op.lol.domain.models.Item
-import gg.op.lol.domain.models.MatchHistory
-import gg.op.lol.domain.models.Rune
-import gg.op.lol.domain.models.SearchHistory
-import gg.op.lol.domain.models.Spell
-import gg.op.lol.domain.models.Summoner
-import gg.op.lol.domain.models.Tier
-import javax.inject.Inject
+import gg.op.lol.domain.interactor.*
+import gg.op.lol.domain.models.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class MatchHistoryViewModel @Inject internal constructor(
@@ -59,8 +44,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _matchHistories = MutableStateFlow<PagingData<MatchHistory>>(PagingData.empty())
     val matchHistories: StateFlow<PagingData<MatchHistory>> = _matchHistories
 
-    private val _latestVersion = MutableStateFlow("")
-    val latestVersion: StateFlow<String> = _latestVersion
+    val latestVersion get() = preferencesHelper.currentVersion
 
     private val _champions = arrayListOf<Champion>()
     val champions: List<Champion> = _champions
@@ -81,7 +65,6 @@ class MatchHistoryViewModel @Inject internal constructor(
 
     init {
         launchCoroutineIO {
-            getLatestVersion()
             getRemoteSummoner()
             loadChampions()
             loadSpell()
@@ -123,10 +106,6 @@ class MatchHistoryViewModel @Inject internal constructor(
                 _matchHistories.value = it
             }
         }
-    }
-
-    private fun getLatestVersion() {
-        _latestVersion.value = preferencesHelper.currentVersion
     }
 
     private suspend fun getRemoteSummoner() {
