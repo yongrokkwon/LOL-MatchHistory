@@ -10,12 +10,26 @@ import gg.lol.android.ui.UiState
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.util.Functions
 import gg.lol.android.util.PreferencesHelper
-import gg.op.lol.domain.interactor.*
-import gg.op.lol.domain.models.*
+import gg.op.lol.domain.interactor.GetFavoriteSummonerUseCase
+import gg.op.lol.domain.interactor.GetLocalChampionsUseCase
+import gg.op.lol.domain.interactor.GetLocalItemUseCase
+import gg.op.lol.domain.interactor.GetLocalRunesUseCase
+import gg.op.lol.domain.interactor.GetLocalSpellsUseCase
+import gg.op.lol.domain.interactor.GetPagingMatchHistoriesUseCase
+import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
+import gg.op.lol.domain.interactor.InsertSearchHistoryUseCase
+import gg.op.lol.domain.interactor.UpdateFavoriteSummonerUseCase
+import gg.op.lol.domain.models.Champion
+import gg.op.lol.domain.models.Item
+import gg.op.lol.domain.models.MatchHistory
+import gg.op.lol.domain.models.Rune
+import gg.op.lol.domain.models.SearchHistory
+import gg.op.lol.domain.models.Spell
+import gg.op.lol.domain.models.Summoner
+import gg.op.lol.domain.models.Tier
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -146,12 +160,6 @@ class MatchHistoryViewModel @Inject internal constructor(
     private suspend fun loadItem() {
         itemUseCase.invoke(Unit).collect {
             _items.addAll(it)
-        }
-    }
-
-    fun getSummoner(name: String) {
-        viewModelScope.launch {
-            // TODO
         }
     }
 }

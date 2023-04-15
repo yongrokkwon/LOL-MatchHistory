@@ -79,8 +79,7 @@ fun SearchView(
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
     }
-    // TODO
-    OnLifecycleEvent { owner, event ->
+    OnLifecycleEvent { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> viewModel.loadSearchHistories()
             else -> Unit
@@ -149,7 +148,8 @@ fun SearchView(
                             return@onKeyEvent true
                         }
                         return@onKeyEvent false
-                    }.focusRequester(focusRequester),
+                    }
+                    .focusRequester(focusRequester),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
@@ -169,13 +169,15 @@ fun SearchView(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier
+                                .size(30.dp)
                                 .padding(start = 8.dp, end = 0.dp),
                             imageVector = Icons.Default.Search,
                             contentDescription = null
                         )
                         Box(
-                            Modifier.weight(1f)
+                            Modifier
+                                .weight(1f)
                                 .padding(start = 4.dp)
                         ) {
                             if (summonerName.value.isEmpty()) {
@@ -242,7 +244,8 @@ fun SearchHistoryItemView(
             .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
                 .clickable {
                     navController.navigate(
                         LOLMatchHistoryRoute.MatchHistory.createRoute(

@@ -157,7 +157,6 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                     items = matchHistories,
                     key = { matchHistory -> matchHistory.metadata.matchId }
                 ) { matchHistory ->
-                    // TODO
                     matchHistory?.info?.participants?.find { it.puuid == summoner.puuid }?.let {
                         MatchHistoryCard(viewModel, matchHistory, it)
                     } ?: MatchHistoryErrorView()
@@ -252,7 +251,6 @@ fun MatchHistoryUpdate(
 
 @Composable
 fun SeasonInformation() {
-    // TODO
     val items = listOf(mapOf(Pair("S2022", "DIAMOND 1"), Pair("S2021", "DIAMOND 2")))
     LazyRow(modifier = Modifier) {
         itemsIndexed(items) { index, item ->

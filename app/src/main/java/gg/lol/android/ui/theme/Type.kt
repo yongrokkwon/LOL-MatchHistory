@@ -50,7 +50,6 @@ val Typography = Typography(
     */
 )
 
-// TODO naming
 val GUIDE_STYLE = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
