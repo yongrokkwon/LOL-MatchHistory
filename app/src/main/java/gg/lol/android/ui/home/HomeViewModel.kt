@@ -16,10 +16,10 @@ import gg.op.lol.domain.models.MySummoner
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.models.SwapSummoner
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject internal constructor(
@@ -45,10 +45,6 @@ class HomeViewModel @Inject internal constructor(
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _uiState.value = UiState.Error(exception)
-    }
-
-    fun getSummonerName() {
-        savedStateHandle
     }
 
     fun setFavorites(value: List<SearchHistorySummonerJoin>) {
