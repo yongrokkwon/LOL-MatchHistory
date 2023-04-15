@@ -8,6 +8,7 @@ plugins {
 }
 
 android {
+    namespace = "gg.lol.android"
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
