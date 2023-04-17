@@ -7,7 +7,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -15,7 +28,17 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -35,14 +58,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.rememberAsyncImagePainter
 import gg.lol.android.BuildConfig
 import gg.lol.android.R
 import gg.lol.android.ui.UiState
-import gg.lol.android.ui.theme.*
+import gg.lol.android.ui.theme.BackgroundPrimaryColor
+import gg.lol.android.ui.theme.ButtonTextColor
+import gg.lol.android.ui.theme.LightGray
+import gg.lol.android.ui.theme.MultiKillBackgroundColor
+import gg.lol.android.ui.theme.PrimaryColor
+import gg.lol.android.ui.theme.SeasonInformationTextColor
 import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
@@ -65,8 +92,6 @@ enum class MultiKillType(@StringRes val id: Int) {
     PENTA(R.string.match_penta_kill)
 }
 
-const val EXTRA_SUMMONER_NAME = "EXTRA_SUMMONER_NAME"
-
 @Composable
 fun MatchHistoryView(
     navController: NavHostController,
@@ -81,12 +106,14 @@ fun MatchHistoryView(
                 MatchHistoryList(viewModel, state.data)
             }
         }
+
         is UiState.Error -> {
             AlertErrorDialog(
                 throwable = state.error,
                 confirmOnClick = { context.finish() }
             )
         }
+
         is UiState.Loading -> LoadingView()
     }
 }
@@ -146,7 +173,7 @@ fun MatchHistoryList(viewModel: MatchHistoryViewModel, summoner: Summoner) {
             .background(color = Color.White)
     ) {
         Header(viewModel, summoner)
-        MatchHistoryUpdate(matchHistories, viewModel, summoner.puuid)
+        MatchHistoryUpdate(viewModel, summoner.puuid)
 //        SeasonInformation()
         TierInformation(summoner.histories)
         if (matchHistories.itemCount != 0) {
@@ -223,11 +250,7 @@ fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
 }
 
 @Composable
-fun MatchHistoryUpdate(
-    matchHistories: LazyPagingItems<MatchHistory>,
-    viewModel: MatchHistoryViewModel,
-    puuid: String
-) {
+fun MatchHistoryUpdate(viewModel: MatchHistoryViewModel, puuid: String) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
@@ -300,7 +323,7 @@ fun TierInformation(summonerHistoryBodies: List<Summoner.TierHistory>) {
 @Composable
 fun TierItem(item: Summoner.TierHistory) {
     val queueTypeNameRes = item.queueType.toName()
-    val tier = Tier.valueOf(item.tier, item.rank)
+    val tier = Tier.getTierByRank(item.tier, item.rank)
     val winRate = Functions.calculateWinRate(item.wins, item.losses)
     Row(
         modifier = Modifier
@@ -397,7 +420,7 @@ fun MatchHistoryCard(
                 .align(Alignment.CenterVertically),
             viewModel,
             matchHistory,
-            participant,
+            participant
         )
     }
 }
@@ -494,10 +517,12 @@ fun ResultInformationTop(
             R.string.match_minute,
             gameEndTime.toMinutes().toInt()
         )
+
         gameEndTime.toHours() < 24 -> stringResource(
             R.string.match_hour,
             gameEndTime.toHours().toInt()
         )
+
         gameEndTime.toDays() < 7 -> stringResource(R.string.match_day, gameEndTime.toDays().toInt())
         else -> stringResource(
             R.string.match_date,

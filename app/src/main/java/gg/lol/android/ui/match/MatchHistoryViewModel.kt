@@ -27,10 +27,10 @@ import gg.op.lol.domain.models.SearchHistory
 import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.models.Tier
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
 @HiltViewModel
 class MatchHistoryViewModel @Inject internal constructor(
@@ -131,7 +131,7 @@ class MatchHistoryViewModel @Inject internal constructor(
                     summonerName = it.summonerName,
                     summonerLevel = it.summonerLevel,
                     profileIconId = it.profileIconId,
-                    tier = Tier.valueOf(it.histories.first().tier, it.histories.first().rank),
+                    tier = Tier.getTierByRank(it.histories.first().tier, it.histories.first().rank),
                     lastSearchedAt = System.currentTimeMillis()
                 )
             )

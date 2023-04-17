@@ -12,10 +12,10 @@ import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.models.SwapSummoner
 import gg.op.lol.domain.models.Tier
 import gg.op.lol.domain.repository.SummonerRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 @Singleton
 class SummonerRepositoryImp @Inject constructor(
@@ -62,7 +62,7 @@ class SummonerRepositoryImp @Inject constructor(
     override suspend fun getMySummoner(summonerName: String): Flow<MySummoner> = flow {
         getRemoteSummoner(summonerName).collect { summoner ->
             val tierHistory = summoner.histories.find { it.queueType == QueueType.RANKED_SOLO_5X5 }
-            val tier = tierHistory?.let { Tier.valueOf(it.tier, it.rank) } ?: Tier.UNRANK
+            val tier = tierHistory?.let { Tier.getTierByRank(it.tier, it.rank) } ?: Tier.UNRANK
             val matchHistories = summonerDataSourceFactory.getRemoteDataSource()
                 .getMatchHistory(summoner.puuid)
             val participants = matchHistories.flatMap {

@@ -12,7 +12,7 @@ class SearchSummonerMapper @Inject constructor() :
             summonerName = type.summonerName,
             summonerLevel = type.summonerLevel,
             profileIconId = type.profileIconId,
-            tier = Tier.valueOf(type.tier, type.rank),
+            tier = Tier.getTierByRank(type.tier, type.rank),
             lastSearchedAt = type.lastSearchedAt,
             favoriteOrder = type.favoriteOrder,
             isFavorite = type.isFavorite,

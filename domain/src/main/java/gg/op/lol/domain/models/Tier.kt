@@ -16,7 +16,7 @@ sealed class Tier(val rank: String) {
     object UNRANK : Tier("")
 
     fun toName(): String {
-        return this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest() + " " +
+        return getTierAsString().capitalizeFirstLetterAndLowercaseRest() + " " +
             rank.romanToArabic()
     }
 
@@ -25,18 +25,19 @@ sealed class Tier(val rank: String) {
             is MASTER -> "M1"
             is GRANDMASTER -> "GM1"
             is CHALLENGER -> "C1"
-            else -> this.javaClass.simpleName.capitalizeFirstLetterAndLowercaseRest() + " " +
+            else -> getTierAsString().capitalizeFirstLetterAndLowercaseRest() + " " +
                 rank.romanToArabic()
         }
     }
+
+    private fun getTierAsString() = this.javaClass.simpleName
 
     private fun String.capitalizeFirstLetterAndLowercaseRest(): String {
         return this.lowercase(Locale.getDefault()).replaceFirstChar { it.uppercase() }
     }
 
     companion object {
-        // TODO
-        fun valueOf(tier: String, rank: String): Tier {
+        fun getTierByRank(tier: String, rank: String): Tier {
             return when (tier) {
                 "CHALLENGER" -> CHALLENGER(rank)
                 "GRANDMASTER" -> GRANDMASTER(rank)
