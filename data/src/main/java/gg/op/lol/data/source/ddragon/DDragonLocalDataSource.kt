@@ -4,10 +4,6 @@ import gg.op.lol.data.local.models.ChampionEntity
 import gg.op.lol.data.local.models.ItemEntity
 import gg.op.lol.data.local.models.RuneEntity
 import gg.op.lol.data.local.models.SpellEntity
-import gg.op.lol.data.remote.models.ChampionResponse
-import gg.op.lol.data.remote.models.ItemResponse
-import gg.op.lol.data.remote.models.RuneResponse
-import gg.op.lol.data.remote.models.SpellResponse
 import gg.op.lol.data.repository.ddragon.DDragonDataSource
 import gg.op.lol.data.repository.ddragon.DDragonLocal
 import gg.op.lol.domain.models.ChampionRuneItemSpell
@@ -17,61 +13,31 @@ class DDragonLocalDataSource @Inject constructor(
     private val ddragonLocal: DDragonLocal
 ) : DDragonDataSource {
 
-    override suspend fun getRemoteChampions(version: String): ChampionResponse {
-        throw UnsupportedOperationException(
-            "getChampions is not supported for LocalDataSource."
-        )
-    }
-
-    override suspend fun getRemoteSpells(version: String): SpellResponse {
-        throw UnsupportedOperationException(
-            "getRemoteSpells is not supported for LocalDataSource."
-        )
-    }
-
-    override suspend fun getRemoteRunes(version: String): List<RuneResponse> {
-        throw UnsupportedOperationException(
-            "getRemoteRunes is not supported for LocalDataSource."
-        )
-    }
-
-    override suspend fun getRemoteItems(version: String): ItemResponse {
-        throw UnsupportedOperationException(
-            "getRemoteItems is not supported for LocalDataSource."
-        )
-    }
-
-    override suspend fun getVersions(): List<String> {
-        throw UnsupportedOperationException(
-            "getVersions is not supported for LocalDataSource."
-        )
-    }
-
-    override fun delete() {
+    fun delete() {
         ddragonLocal.delete()
     }
 
-    override fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
+    fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
         ddragonLocal.insert(championRuneItemSpell)
     }
 
-    override fun getLocalRunes(): List<RuneEntity> {
+    fun getLocalRunes(): List<RuneEntity> {
         return ddragonLocal.getRunes()
     }
 
-    override fun getLocalItems(): List<ItemEntity> {
+    fun getLocalItems(): List<ItemEntity> {
         return ddragonLocal.getItems()
     }
 
-    override fun getChampion(id: Int): ChampionEntity? {
+    fun getChampion(id: Int): ChampionEntity? {
         return ddragonLocal.getChampion(id)
     }
 
-    override fun getLocalChampions(): List<ChampionEntity> {
+    fun getLocalChampions(): List<ChampionEntity> {
         return ddragonLocal.getChampions()
     }
 
-    override fun getLocalSpells(): List<SpellEntity> {
+    fun getLocalSpells(): List<SpellEntity> {
         return ddragonLocal.getSpells()
     }
 }

@@ -1,75 +1,28 @@
 package gg.op.lol.data.source.ddragon
 
-import gg.op.lol.data.local.models.ChampionEntity
-import gg.op.lol.data.local.models.ItemEntity
-import gg.op.lol.data.local.models.RuneEntity
-import gg.op.lol.data.local.models.SpellEntity
 import gg.op.lol.data.remote.models.ChampionResponse
 import gg.op.lol.data.remote.models.ItemResponse
 import gg.op.lol.data.remote.models.RuneResponse
 import gg.op.lol.data.remote.models.SpellResponse
 import gg.op.lol.data.repository.ddragon.DDragonDataSource
 import gg.op.lol.data.repository.ddragon.DDragonRemote
-import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 
 class DDragonRemoteDataSource @Inject constructor(
     private val ddragonRemote: DDragonRemote
 ) : DDragonDataSource {
 
-    override suspend fun getRemoteChampions(version: String): ChampionResponse =
+    suspend fun getRemoteChampions(version: String): ChampionResponse =
         ddragonRemote.getChampions(version)
 
-    override suspend fun getRemoteSpells(version: String): SpellResponse =
+    suspend fun getRemoteSpells(version: String): SpellResponse =
         ddragonRemote.getSpells(version)
 
-    override suspend fun getRemoteRunes(version: String): List<RuneResponse> =
+    suspend fun getRemoteRunes(version: String): List<RuneResponse> =
         ddragonRemote.getRunes(version)
 
-    override suspend fun getRemoteItems(version: String): ItemResponse =
+    suspend fun getRemoteItems(version: String): ItemResponse =
         ddragonRemote.getItems(version)
 
-    override suspend fun getVersions(): List<String> = ddragonRemote.getVersions()
-
-    override fun insert(championRuneItemSpell: ChampionRuneItemSpell) {
-        throw UnsupportedOperationException(
-            "insertRune is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun getLocalRunes(): List<RuneEntity> {
-        throw UnsupportedOperationException(
-            "getLocalRunes is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun getLocalItems(): List<ItemEntity> {
-        throw UnsupportedOperationException(
-            "getLocalItems is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun getLocalSpells(): List<SpellEntity> {
-        throw UnsupportedOperationException(
-            "getLocalSpells is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun getLocalChampions(): List<ChampionEntity> {
-        throw UnsupportedOperationException(
-            "getLocalChampions is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun getChampion(id: Int): ChampionEntity? {
-        throw UnsupportedOperationException(
-            "getChampion is not supported for RemoteDataSource."
-        )
-    }
-
-    override fun delete() {
-        throw UnsupportedOperationException(
-            "delete is not supported for RemoteDataSource."
-        )
-    }
+    suspend fun getVersions(): List<String> = ddragonRemote.getVersions()
 }
