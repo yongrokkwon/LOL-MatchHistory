@@ -1,6 +1,5 @@
 package gg.op.lol.data.source.summoner
 
-import gg.op.lol.data.repository.summoner.SummonerDataSource
 import javax.inject.Inject
 
 open class SummonerDataSourceFactory @Inject constructor(
@@ -8,11 +7,11 @@ open class SummonerDataSourceFactory @Inject constructor(
     private val remoteDataSource: SummonerRemoteDataSource
 ) {
 
-    fun getRemoteDataSource(): SummonerDataSource {
+    fun getRemoteDataSource(): SummonerRemoteDataSource {
         return remoteDataSource
     }
 
-    fun getLocalDataSource(): SummonerDataSource {
+    fun getLocalDataSource(): SummonerLocalDataSource {
         return localDataSource
     }
 }

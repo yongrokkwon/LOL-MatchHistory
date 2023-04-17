@@ -25,12 +25,6 @@ class SummonerRepositoryImp @Inject constructor(
     private val summonerHistoryEntityMapper: SummonerHistoryResponseMapper
 ) : SummonerRepository {
 
-    override suspend fun getLocalSummonerByNickName(nickName: String): Flow<Summoner> {
-        throw UnsupportedOperationException(
-            "getLocalSummonerByNickName TODO"
-        )
-    }
-
     override suspend fun getFavoriteSummoner(summonerName: String): Summoner? {
         return summonerDataSourceFactory.getLocalDataSource().getSummoner(summonerName)
             ?.let { summonerEntityMapper.mapFromEntity(it) }
