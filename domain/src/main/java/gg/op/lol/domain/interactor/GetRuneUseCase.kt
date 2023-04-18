@@ -14,7 +14,7 @@ class GetRuneUseCase @Inject constructor(
         val currentVersion = params.first
         val latestVersion = params.second
         if (currentVersion != latestVersion) {
-            ddragonRepository.getRemoteRunes(latestVersion)
+            return ddragonRepository.getRemoteRunes(latestVersion)
         }
         return emptyList()
     }

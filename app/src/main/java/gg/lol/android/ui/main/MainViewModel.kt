@@ -15,7 +15,6 @@ import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -50,8 +49,6 @@ class MainViewModel @Inject internal constructor(
             val runeResponse = async { getRuneUseCase.invoke(versionPair) }
             val itemResponse = async { getItemUseCase.invoke(versionPair) }
             val spellResponse = async { getSpellUseCase.invoke(versionPair) }
-            awaitAll(championResponse, runeResponse, itemResponse, spellResponse)
-            preferencesHelper.currentVersion = latestVersion
 
             deleteGameDataBaseUseCase.invoke(Unit)
             insertBaseDataBaseUseCase.invoke(
@@ -62,6 +59,7 @@ class MainViewModel @Inject internal constructor(
                     spellResponse.await()
                 )
             )
+            preferencesHelper.currentVersion = latestVersion
         }
     }
 
