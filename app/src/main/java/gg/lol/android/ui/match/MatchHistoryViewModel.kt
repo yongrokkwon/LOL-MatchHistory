@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.BuildConfig
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
@@ -72,9 +73,9 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _items = arrayListOf<Item>()
     val items: List<Item> = _items
 
-    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        exception.printStackTrace()
-        _uiState.value = UiState.Error(exception)
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (BuildConfig.DEBUG) throwable.printStackTrace()
+        _uiState.value = UiState.Error(throwable)
     }
 
     init {

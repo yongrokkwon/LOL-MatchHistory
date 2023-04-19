@@ -60,6 +60,7 @@ import gg.lol.android.ui.navigation.LOLMatchHistoryRoute
 import gg.lol.android.ui.theme.GUIDE_STYLE
 import gg.lol.android.ui.theme.SearchHint
 import gg.lol.android.ui.theme.Typography
+import gg.lol.android.ui.view.AlertErrorDialog
 import gg.lol.android.ui.view.IconFavorite
 import gg.lol.android.ui.view.LoadingView
 import gg.lol.android.ui.view.OnLifecycleEvent
@@ -76,7 +77,7 @@ fun SearchView(
     when (val uiState = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> SearchView(navController, viewModel, uiState.data)
         is UiState.Loading -> LoadingView()
-        is UiState.Error -> SearchHistoryErrorView()
+        is UiState.Error -> AlertErrorDialog(uiState.error)
     }
     OnLifecycleEvent { _, event ->
         when (event) {

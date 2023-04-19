@@ -1,6 +1,7 @@
 package gg.lol.android.ui.main
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.BuildConfig
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
@@ -33,8 +34,9 @@ class MainViewModel @Inject internal constructor(
     private val _uiState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val uiState: StateFlow<UiState<Unit>> get() = _uiState
 
-    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _uiState.value = UiState.Error(exception)
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (BuildConfig.DEBUG) throwable.printStackTrace()
+        _uiState.value = UiState.Error(throwable)
     }
 
     init {

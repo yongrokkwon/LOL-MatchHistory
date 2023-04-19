@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.BuildConfig
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
@@ -43,8 +44,9 @@ class HomeViewModel @Inject internal constructor(
 
     val lolApiVersion = preferencesHelper.lolApiVersion
 
-    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _uiState.value = UiState.Error(exception)
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (BuildConfig.DEBUG) throwable.printStackTrace()
+        _uiState.value = UiState.Error(throwable)
     }
 
     fun setFavorites(value: List<SearchHistorySummonerJoin>) {

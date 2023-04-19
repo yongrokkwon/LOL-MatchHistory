@@ -3,6 +3,7 @@ package gg.lol.android.ui.summoner
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.BuildConfig
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.op.lol.domain.interactor.GetSummonerInfoUseCase
@@ -25,9 +26,9 @@ class MySummonerViewModel @Inject internal constructor(
     private val _uiState = MutableStateFlow<UiState<Summoner?>>(UiState.Success(null))
     val uiState: StateFlow<UiState<Summoner?>> get() = _uiState
 
-    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        exception.printStackTrace()
-        _uiState.value = UiState.Error(exception)
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (BuildConfig.DEBUG) throwable.printStackTrace()
+        _uiState.value = UiState.Error(throwable)
     }
 
     fun setSummonerName(summonerName: String) {

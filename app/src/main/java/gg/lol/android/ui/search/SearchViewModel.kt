@@ -1,6 +1,7 @@
 package gg.lol.android.ui.search
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import gg.lol.android.BuildConfig
 import gg.lol.android.exception.RoomDatabaseException
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
@@ -32,10 +33,10 @@ class SearchViewModel @Inject internal constructor(
 
     val lolApiVersion = preferencesHelper.lolApiVersion
 
-    override val coroutineExceptionHandler: CoroutineExceptionHandler =
-        CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-        }
+    override val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (BuildConfig.DEBUG) throwable.printStackTrace()
+        _uiState.value = UiState.Error(throwable)
+    }
 
     fun updateFavoriteSummoner(join: SearchHistorySummonerJoin) {
         val summoner = Summoner(
