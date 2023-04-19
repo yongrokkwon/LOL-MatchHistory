@@ -97,7 +97,7 @@ fun MatchHistoryView(
     navController: NavHostController,
     viewModel: MatchHistoryViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current as Activity
+    val activity = LocalContext.current as Activity
 
     when (val state = viewModel.uiState.collectAsState().value) {
         is UiState.Success -> {
@@ -110,7 +110,7 @@ fun MatchHistoryView(
         is UiState.Error -> {
             AlertErrorDialog(
                 throwable = state.error,
-                confirmOnClick = { context.finish() }
+                confirmOnClick = { activity.finish() }
             )
         }
 
