@@ -241,7 +241,7 @@ fun FavoriteListView(navController: NavController, viewModel: HomeViewModel) {
                             .align(Alignment.Center)
                             .width(IntrinsicSize.Max),
                         item,
-                        viewModel.latestVersion
+                        viewModel.lolApiVersion
                     )
                     IconFavorite(
                         Modifier

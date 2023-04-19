@@ -6,7 +6,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import gg.op.lol.BuildConfig
 import gg.op.lol.data.local.dao.ChampionDao
 import gg.op.lol.data.local.dao.GameDataDao
 import gg.op.lol.data.local.dao.ItemDao
@@ -23,6 +22,7 @@ import gg.op.lol.data.local.models.SummonerEntity
 import java.util.concurrent.Executors
 
 const val DATABASE_NAME = "LOL-MatchHistory-DB"
+const val QUERY_DEBUG = false
 
 @Database(
     entities = [
@@ -62,7 +62,7 @@ abstract class LOLMatchHistoryDatabase : RoomDatabase() {
             return Room.databaseBuilder(context, LOLMatchHistoryDatabase::class.java, DATABASE_NAME)
                 .setQueryCallback(
                     { sqlQuery, bindArgs ->
-                        if (BuildConfig.DEBUG) {
+                        if (QUERY_DEBUG) {
                             Log.d("RoomDB Query", sqlQuery)
                             if (bindArgs.isNotEmpty()) {
                                 Log.d("RoomDB Args", bindArgs.toString())

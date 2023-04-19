@@ -20,9 +20,9 @@ typealias SearchViewModelUiState = UiState<List<SearchHistorySummonerJoin>>
 
 @HiltViewModel
 class SearchViewModel @Inject internal constructor(
+    preferencesHelper: PreferencesHelper,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
     private val deleteSearchHistoryUseCase: DeleteAndReloadSearchHistoryUseCase,
-    private val preferencesHelper: PreferencesHelper,
     private val updateFavoriteSummonerUseCase: UpdateFavoriteSummonerUseCase,
     private val getFavoriteSummonerUseCase: GetFavoriteSummonerUseCase
 ) : BaseViewModel() {
@@ -30,17 +30,12 @@ class SearchViewModel @Inject internal constructor(
     private val _uiState = MutableStateFlow<SearchViewModelUiState>(UiState.Loading)
     val uiState: StateFlow<SearchViewModelUiState> = _uiState
 
-    private val _latestVersion = MutableStateFlow(preferencesHelper.currentVersion)
-    val latestVersion: StateFlow<String> = _latestVersion
+    val lolApiVersion = preferencesHelper.lolApiVersion
 
     override val coroutineExceptionHandler: CoroutineExceptionHandler =
-        CoroutineExceptionHandler { coroutineContext, throwable ->
+        CoroutineExceptionHandler { _, throwable ->
             throwable.printStackTrace()
         }
-
-    init {
-//        loadSearchHistories()
-    }
 
     fun updateFavoriteSummoner(join: SearchHistorySummonerJoin) {
         val summoner = Summoner(

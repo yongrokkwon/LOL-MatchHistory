@@ -214,7 +214,7 @@ fun Header(viewModel: MatchHistoryViewModel, summoner: Summoner) {
                         .width(80.dp)
                         .height(80.dp),
                     painter = rememberAsyncImagePainter(
-                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                             "/img/profileicon/" + summoner.profileIconId + ".png"
                     ),
                     contentDescription = null,
@@ -547,7 +547,7 @@ fun ResultInformationTop(
                 .clip(RoundedCornerShape(10.dp))
                 .size(50.dp),
             painter = rememberAsyncImagePainter(
-                BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                     "/img/champion/" + champion?.imagePath
             ),
             contentDescription = null
@@ -569,7 +569,7 @@ fun ResultInformationTop(
                         .size(20.dp)
                         .padding(start = 4.dp),
                     painter = rememberAsyncImagePainter(
-                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                             "/img/spell/" + spell01?.imagePath
                     ),
                     contentDescription = null
@@ -621,7 +621,7 @@ fun ResultInformationTop(
                         .clip(RoundedCornerShape(5.dp))
                         .size(20.dp),
                     painter = rememberAsyncImagePainter(
-                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                        BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                             "/img/spell/" + spell02?.imagePath
                     ),
                     contentDescription = null
@@ -683,7 +683,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item0?.full
                 ),
                 contentDescription = null
@@ -695,7 +695,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item1?.full
                 ),
                 contentDescription = null
@@ -707,7 +707,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item2?.full
                 ),
                 contentDescription = null
@@ -719,7 +719,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item3?.full
                 ),
                 contentDescription = null
@@ -731,7 +731,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item4?.full
                 ),
                 contentDescription = null
@@ -743,7 +743,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item5?.full
                 ),
                 contentDescription = null
@@ -755,7 +755,7 @@ fun ResultInformationBottom(
                     .size(20.dp)
                     .background(LightGray),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/item/" + item6?.full
                 ),
                 contentDescription = null

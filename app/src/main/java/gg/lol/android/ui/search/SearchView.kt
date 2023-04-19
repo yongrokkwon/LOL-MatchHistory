@@ -73,9 +73,8 @@ fun SearchView(
     navController: NavController,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val latestVersion = viewModel.latestVersion.collectAsState().value
     when (val uiState = viewModel.uiState.collectAsState().value) {
-        is UiState.Success -> SearchView(navController, viewModel, uiState.data, latestVersion)
+        is UiState.Success -> SearchView(navController, viewModel, uiState.data)
         is UiState.Loading -> LoadingView()
         is UiState.Error -> SearchHistoryErrorView()
     }
@@ -97,8 +96,7 @@ fun SearchHistoryErrorView() {
 fun SearchView(
     navController: NavController,
     viewModel: SearchViewModel = hiltViewModel(),
-    data: List<SearchHistorySummonerJoin>,
-    latestVersion: String
+    data: List<SearchHistorySummonerJoin>
 ) {
     val summonerName = remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -225,7 +223,7 @@ fun SearchView(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(data.sortedByDescending { it.lastSearchedAt }) {
-                    SearchHistoryItemView(navController, viewModel, it, latestVersion)
+                    SearchHistoryItemView(navController, viewModel, it)
                 }
             }
         }
@@ -236,8 +234,7 @@ fun SearchView(
 fun SearchHistoryItemView(
     navController: NavController,
     viewModel: SearchViewModel,
-    item: SearchHistorySummonerJoin,
-    latestVersion: String
+    item: SearchHistorySummonerJoin
 ) {
     Row(
         modifier = Modifier
@@ -260,7 +257,7 @@ fun SearchHistoryItemView(
                     .padding(end = 0.dp)
                     .size(50.dp),
                 painter = rememberAsyncImagePainter(
-                    BuildConfig.DDRAGON_URL + "/cdn/" + latestVersion +
+                    BuildConfig.DDRAGON_URL + "/cdn/" + viewModel.lolApiVersion +
                         "/img/profileicon/" + item.profileIconId + ".png"
                 ),
                 contentScale = ContentScale.Crop,

@@ -58,7 +58,7 @@ class MatchHistoryViewModel @Inject internal constructor(
     private val _matchHistories = MutableStateFlow<PagingData<MatchHistory>>(PagingData.empty())
     val matchHistories: StateFlow<PagingData<MatchHistory>> = _matchHistories
 
-    val latestVersion get() = preferencesHelper.currentVersion
+    val lolApiVersion = preferencesHelper.lolApiVersion
 
     private val _champions = arrayListOf<Champion>()
     val champions: List<Champion> = _champions

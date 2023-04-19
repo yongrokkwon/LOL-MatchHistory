@@ -41,10 +41,10 @@ class MainViewModel @Inject internal constructor(
         getLatestVersion()
     }
 
-    private fun load(latestVersion: String) {
+    private fun load(lolApiLatestVersion: String) {
         launchCoroutineIO {
-            val currentVersion = preferencesHelper.currentVersion
-            val versionPair = Pair(currentVersion, latestVersion)
+            val lolApiCurrentVersion = preferencesHelper.lolApiVersion
+            val versionPair = Pair(lolApiCurrentVersion, lolApiLatestVersion)
             val championResponse = async { getChampionsUseCase.invoke(versionPair) }
             val runeResponse = async { getRuneUseCase.invoke(versionPair) }
             val itemResponse = async { getItemUseCase.invoke(versionPair) }
@@ -59,14 +59,14 @@ class MainViewModel @Inject internal constructor(
                     spellResponse.await()
                 )
             )
-            preferencesHelper.currentVersion = latestVersion
+            preferencesHelper.lolApiVersion = lolApiLatestVersion
         }
     }
 
     private fun getLatestVersion() {
         launchCoroutineIO {
-            getLatestVersionUseCase.invoke(Unit).collect { latestVersion ->
-                load(latestVersion)
+            getLatestVersionUseCase.invoke(Unit).collect { lolApiLatestVersion ->
+                load(lolApiLatestVersion)
             }
         }
     }

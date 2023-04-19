@@ -16,10 +16,10 @@ import gg.op.lol.domain.models.MySummoner
 import gg.op.lol.domain.models.SearchHistorySummonerJoin
 import gg.op.lol.domain.models.Summoner
 import gg.op.lol.domain.models.SwapSummoner
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject internal constructor(
@@ -41,7 +41,7 @@ class HomeViewModel @Inject internal constructor(
     private val _uiState = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val uiState: StateFlow<UiState<Unit>> get() = _uiState
 
-    val latestVersion get() = preferencesHelper.currentVersion
+    val lolApiVersion = preferencesHelper.lolApiVersion
 
     override val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _uiState.value = UiState.Error(exception)
