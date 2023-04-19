@@ -22,7 +22,7 @@ typealias SearchViewModelUiState = UiState<List<SearchHistorySummonerJoin>>
 class SearchViewModel @Inject internal constructor(
     preferencesHelper: PreferencesHelper,
     private val getSearchHistoryUseCase: GetSearchHistoryUseCase,
-    private val deleteSearchHistoryUseCase: DeleteAndReloadSearchHistoryUseCase,
+    private val deleteAndReloadSearchHistoryUseCase: DeleteAndReloadSearchHistoryUseCase,
     private val updateFavoriteSummonerUseCase: UpdateFavoriteSummonerUseCase,
     private val getFavoriteSummonerUseCase: GetFavoriteSummonerUseCase
 ) : BaseViewModel() {
@@ -84,7 +84,7 @@ class SearchViewModel @Inject internal constructor(
 
     fun deleteAndReloadHistory(params: List<SearchHistorySummonerJoin>) {
         launchCoroutineIO {
-            val result = deleteSearchHistoryUseCase.invoke(params)
+            val result = deleteAndReloadSearchHistoryUseCase.invoke(params)
             val isDeleted = result.first
             val histories = result.second
             _uiState.value = if (isDeleted) {
