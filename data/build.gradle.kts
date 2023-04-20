@@ -1,7 +1,7 @@
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
 }
@@ -14,11 +14,6 @@ android {
     compileSdk = Config.Android.COMPILESDK
 
     defaultConfig {
-        minSdk = Config.Android.MINSDK
-        targetSdk = Config.Android.TARGETSDK
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField("String", "API_KEY", properties["API_KEY"].toString())
     }
     compileOptions {
