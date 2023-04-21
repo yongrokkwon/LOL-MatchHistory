@@ -40,10 +40,10 @@ class MainViewModel @Inject internal constructor(
     }
 
     init {
-        getLatestVersion()
+        loadGameDataWithLatestApiVersion()
     }
 
-    private fun load(lolApiLatestVersion: String) {
+    private fun loadGameDataFromApi(lolApiLatestVersion: String) {
         launchCoroutineIO {
             val lolApiCurrentVersion = preferencesHelper.lolApiVersion
             val versionPair = Pair(lolApiCurrentVersion, lolApiLatestVersion)
@@ -65,10 +65,10 @@ class MainViewModel @Inject internal constructor(
         }
     }
 
-    private fun getLatestVersion() {
+    private fun loadGameDataWithLatestApiVersion() {
         launchCoroutineIO {
             getLatestVersionUseCase.invoke(Unit).collect { lolApiLatestVersion ->
-                load(lolApiLatestVersion)
+                loadGameDataFromApi(lolApiLatestVersion)
             }
         }
     }
