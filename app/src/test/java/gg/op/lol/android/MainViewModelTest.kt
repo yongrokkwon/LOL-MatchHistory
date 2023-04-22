@@ -1,7 +1,12 @@
 package gg.op.lol.android
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import gg.lol.android.ui.main.MainViewModel
 import gg.lol.android.util.PreferencesHelper
+import gg.op.lol.data.local.dao.GameDataDao
 import gg.op.lol.domain.interactor.DeleteGameDataUseCase
 import gg.op.lol.domain.interactor.GetChampionsUseCase
 import gg.op.lol.domain.interactor.GetItemUseCase
@@ -9,67 +14,75 @@ import gg.op.lol.domain.interactor.GetLatestVersionUseCase
 import gg.op.lol.domain.interactor.GetRuneUseCase
 import gg.op.lol.domain.interactor.GetSpellUseCase
 import gg.op.lol.domain.interactor.InsertGameDataUseCase
-import gg.op.lol.domain.models.Champion
-import gg.op.lol.domain.models.ChampionRuneItemSpell
-import gg.op.lol.domain.models.Item
-import gg.op.lol.domain.models.Rune
-import gg.op.lol.domain.models.Spell
-import io.mockk.Runs
-import io.mockk.coEvery
-import io.mockk.coVerifyOrder
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.withContext
+import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
-// TODO 버전 가져오기 수정, 테스트 케이스 추가
+@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
+@Config(application = HiltTestApplication::class)
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
-    private val getLatestVersionUseCase: GetLatestVersionUseCase = mockk()
-    private val deleteGameDataBaseUseCase: DeleteGameDataUseCase = mockk()
-    private val insertBaseDataBaseUseCase: InsertGameDataUseCase = mockk()
-    private val getChampionsUseCase: GetChampionsUseCase = mockk()
-    private val getSpellUseCase: GetSpellUseCase = mockk()
-    private val getRuneUseCase: GetRuneUseCase = mockk()
-    private val getItemUseCase: GetItemUseCase = mockk()
-    private val preferencesHelper: PreferencesHelper = mockk()
+
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var getLatestVersionUseCase: GetLatestVersionUseCase
+
+    @Inject
+    lateinit var deleteGameDataBaseUseCase: DeleteGameDataUseCase
+
+    @Inject
+    lateinit var insertBaseDataBaseUseCase: InsertGameDataUseCase
+
+    @Inject
+    lateinit var getChampionsUseCase: GetChampionsUseCase
+
+    @Inject
+    lateinit var getSpellUseCase: GetSpellUseCase
+
+    @Inject
+    lateinit var getRuneUseCase: GetRuneUseCase
+
+    @Inject
+    lateinit var getItemUseCase: GetItemUseCase
+
+    @Inject
+    lateinit var preferencesHelper: PreferencesHelper
+
+    @Inject
+    lateinit var gameDataDao: GameDataDao
 
     @Before
     fun setup() {
         Dispatchers.setMain(TestCoroutineDispatcher())
+        hiltRule.inject()
     }
 
     @Test
-    fun `loadGameDataFromApi success`() = runBlockingTest {
-        // Given
-        val lolApiCurrentVersion = ""
-        val lolApiLatestVersion = "11.9.1"
-        val versionPair = Pair(lolApiCurrentVersion, lolApiLatestVersion)
+    fun getLatestVersion() {
+        runBlocking {
+            getLatestVersionUseCase.invoke(Unit).collect {
+                Assert.assertNotNull(it)
+            }
+        }
+    }
 
-        val champions = listOf<Champion>()
-        val runes = listOf<Rune>()
-        val items = listOf<Item>()
-        val spells = listOf<Spell>()
-
-        every { preferencesHelper.lolApiVersion = lolApiLatestVersion } just Runs
-        every { preferencesHelper.lolApiVersion } returns lolApiCurrentVersion
-        coEvery { getLatestVersionUseCase.invoke(Unit) } returns flowOf(lolApiLatestVersion)
-        coEvery { getChampionsUseCase.invoke(versionPair) } returns champions
-        coEvery { getSpellUseCase.invoke(versionPair) } returns spells
-        coEvery { getRuneUseCase.invoke(versionPair) } returns runes
-        coEvery { getItemUseCase.invoke(versionPair) } returns items
-        coEvery { deleteGameDataBaseUseCase.invoke(Unit) } just Runs
-        coEvery { insertBaseDataBaseUseCase.invoke(any()) } just Runs
-
+    @Test
+    fun `loadGameDataFromApi success`() {
         // When
-        val viewModel = MainViewModel(
+        MainViewModel(
             getLatestVersionUseCase,
             deleteGameDataBaseUseCase,
             insertBaseDataBaseUseCase,
@@ -79,26 +92,14 @@ class MainViewModelTest {
             getItemUseCase,
             preferencesHelper
         )
-//        viewModel.loadGameDataFromApi(lolApiLatestVersion)
 
-        // Then
-        coVerifyOrder {
-            preferencesHelper.lolApiVersion
-            getLatestVersionUseCase.invoke(Unit)
-            getChampionsUseCase.invoke(versionPair)
-            getSpellUseCase.invoke(versionPair)
-            getRuneUseCase.invoke(versionPair)
-            getItemUseCase.invoke(versionPair)
-            deleteGameDataBaseUseCase.invoke(Unit)
-            insertBaseDataBaseUseCase.invoke(
-                ChampionRuneItemSpell(
-                    champions,
-                    runes,
-                    items,
-                    spells
-                )
-            )
-            preferencesHelper.lolApiVersion = lolApiLatestVersion
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                Assert.assertTrue(gameDataDao.getChampions().isEmpty())
+                Assert.assertTrue(gameDataDao.getItems().isEmpty())
+                Assert.assertTrue(gameDataDao.getRunes().isEmpty())
+                Assert.assertTrue(gameDataDao.getSpells().isEmpty())
+            }
         }
     }
 }

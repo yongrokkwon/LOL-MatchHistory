@@ -57,4 +57,16 @@ interface GameDataDao {
 
     @Query(value = "DELETE FROM spell")
     fun deleteSpell()
+
+    @Query("SELECT * FROM champion")
+    fun getChampions(): List<ChampionEntity>
+
+    @Query("SELECT * FROM item")
+    fun getItems(): List<ItemEntity>
+
+    @Query("SELECT * FROM rune")
+    fun getRunes(): List<RuneEntity>
+
+    @Query("SELECT * FROM spell")
+    fun getSpells(): List<SpellEntity>
 }
