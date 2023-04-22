@@ -116,10 +116,15 @@ dependencies {
     androidTestImplementation(AndroidTest.JUNIT_EXT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
     androidTestImplementation(AndroidTest.COMPOSE_UI_TEST)
+    androidTestImplementation(UnitTest.HILT_TEST)
+    androidTestImplementation(Google.HILT_ANDROID_COMPILER)
+    kaptTest(Google.HILT_ANDROID_COMPILER)
+
     debugImplementation(AndroidTest.COMPOSE_UI_TOOLING)
     debugImplementation(AndroidTest.COMPOSE_UI_TEST_MANIFEST)
 
     testImplementation(UnitTest.JUNIT)
+    testImplementation(UnitTest.JUNIT_EXT)
     testImplementation(UnitTest.CORE_TEST)
     testImplementation(UnitTest.RUNNER)
     testImplementation(UnitTest.MOCKK)
@@ -129,4 +134,6 @@ dependencies {
     testImplementation(UnitTest.JUNIT_KTX)
     testImplementation(UnitTest.CORE_KTX)
     testImplementation(UnitTest.ROBOLECTRIC)
+    testImplementation(UnitTest.HILT_TEST)
+    testImplementation("org.mockito.kotlin:mockito-kotlin:+")
 }

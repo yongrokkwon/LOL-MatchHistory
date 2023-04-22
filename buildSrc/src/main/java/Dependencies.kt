@@ -21,13 +21,14 @@ object Versions {
 
     const val CORE_TEST_VERSION = "1.5.0"
     const val RUNNER_VERSION = "1.5.2"
+    const val JUNIT_EXT_VERSION = "1.1.5"
     const val MOCKK_VERSION = "1.13.5"
     const val KOTLINX_COROUTINES_TEST_VERSION = "1.6.4"
     const val CORE_TESTING_VERSION = "2.2.0"
     const val JUNIT_KTX_VERSION = "1.1.5"
     const val TEST_CORE_KTX_VERSION = "1.5.0"
     const val ROBOLECTRIC_VERSION = "4.9.2"
-    const val JUNIT_VERSION = "5.9.2"
+    const val JUNIT_VERSION = "4.13.2"
 
     const val JUNIT_EXT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
@@ -134,6 +135,7 @@ object OtherLibrary {
 object UnitTest {
     const val CORE_TEST = "androidx.test:core:${Versions.CORE_TEST_VERSION}"
     const val RUNNER = "androidx.test:runner:${Versions.RUNNER_VERSION}"
+    const val JUNIT_EXT = "androidx.test.ext:junit:${Versions.JUNIT_EXT_VERSION}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK_VERSION}"
     const val RULES = "androidx.test:rules:${Versions.CORE_TEST_VERSION}"
     const val KOTLINX_COROUTINES_TEST =
@@ -142,7 +144,9 @@ object UnitTest {
     const val JUNIT_KTX = "androidx.test.ext:junit-ktx:${Versions.JUNIT_KTX_VERSION}"
     const val CORE_KTX = "androidx.test:core-ktx:${Versions.TEST_CORE_KTX_VERSION}"
     const val ROBOLECTRIC = "org.robolectric:robolectric:${Versions.ROBOLECTRIC_VERSION}"
-    const val JUNIT = "org.junit.jupiter:junit-jupiter:${Versions.JUNIT_VERSION}"
+//    const val JUNIT = "org.junit.jupiter:junit-jupiter:${Versions.JUNIT_VERSION}"
+    const val JUNIT = "junit:junit:${Versions.JUNIT_VERSION}"
+    const val HILT_TEST = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
 }
 
 object AndroidTest {
