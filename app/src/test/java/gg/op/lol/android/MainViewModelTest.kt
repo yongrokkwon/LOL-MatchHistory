@@ -80,7 +80,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `loadGameDataFromApi success`() {
+    fun testMainViewModelInitializationShouldInitializeGameDataDao() {
         // When
         MainViewModel(
             getLatestVersionUseCase,
