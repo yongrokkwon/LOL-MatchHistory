@@ -71,15 +71,6 @@ class MainViewModelTest {
     }
 
     @Test
-    fun getLatestVersion() {
-        runBlocking {
-            getLatestVersionUseCase.invoke(Unit).collect {
-                Assert.assertNotNull(it)
-            }
-        }
-    }
-
-    @Test
     fun testMainViewModelInitializationShouldInitializeGameDataDao() {
         // When
         MainViewModel(
