@@ -1,4 +1,4 @@
-package gg.op.lol.android
+package gg.op.lol.android.ui.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -72,7 +72,7 @@ class MainViewModelTest {
 
     @Test
     fun testMainViewModelInitializationShouldInitializeGameDataDao() {
-        // When
+        // Given When
         MainViewModel(
             getLatestVersionUseCase,
             deleteGameDataBaseUseCase,
@@ -83,7 +83,7 @@ class MainViewModelTest {
             getItemUseCase,
             preferencesHelper
         )
-
+        // Then
         runBlocking {
             withContext(Dispatchers.IO) {
                 Assert.assertTrue(gameDataDao.getChampions().isEmpty())
