@@ -8,7 +8,7 @@ import gg.lol.android.util.PreferencesHelper
 import gg.op.lol.domain.interactor.DeleteGameDataUseCase
 import gg.op.lol.domain.interactor.GetChampionsUseCase
 import gg.op.lol.domain.interactor.GetItemUseCase
-import gg.op.lol.domain.interactor.GetLatestVersionUseCase
+import gg.op.lol.domain.interactor.GetLatestVersionBaseUseCase
 import gg.op.lol.domain.interactor.GetRuneUseCase
 import gg.op.lol.domain.interactor.GetSpellUseCase
 import gg.op.lol.domain.interactor.InsertGameDataUseCase
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
-    private val getLatestVersionUseCase: GetLatestVersionUseCase,
+    private val getLatestVersionUseCase: GetLatestVersionBaseUseCase,
     private val deleteGameDataBaseUseCase: DeleteGameDataUseCase,
     private val insertBaseDataBaseUseCase: InsertGameDataUseCase,
     private val getChampionsUseCase: GetChampionsUseCase,
@@ -52,7 +52,7 @@ class MainViewModel @Inject internal constructor(
             val itemResponse = async { getItemUseCase.invoke(versionPair) }
             val spellResponse = async { getSpellUseCase.invoke(versionPair) }
 
-            deleteGameDataBaseUseCase.invoke(Unit)
+            deleteGameDataBaseUseCase.invoke()
             insertBaseDataBaseUseCase.invoke(
                 ChampionRuneItemSpell(
                     championResponse.await(),
@@ -67,7 +67,7 @@ class MainViewModel @Inject internal constructor(
 
     private fun loadGameDataWithLatestApiVersion() {
         launchCoroutineIO {
-            getLatestVersionUseCase.invoke(Unit).collect { lolApiLatestVersion ->
+            getLatestVersionUseCase.invoke().collect { lolApiLatestVersion ->
                 loadGameDataFromApi(lolApiLatestVersion)
             }
         }

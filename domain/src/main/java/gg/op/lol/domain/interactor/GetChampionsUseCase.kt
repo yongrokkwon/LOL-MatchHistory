@@ -4,7 +4,9 @@ import gg.op.lol.domain.models.Champion
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
-typealias GetChampionsBaseUseCase = BaseUseCase<Pair<String, String>, List<Champion>>
+interface GetChampionsBaseUseCase {
+    suspend fun invoke(params: Pair<String, String>): List<Champion>
+}
 
 class GetChampionsUseCase @Inject constructor(
     private val ddragonRepository: DDragonRepository

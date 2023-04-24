@@ -4,7 +4,9 @@ import gg.op.lol.domain.models.ChampionRuneItemSpell
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
-typealias InsertGameDataBaseUseCase = BaseUseCase<ChampionRuneItemSpell, Unit>
+interface InsertGameDataBaseUseCase {
+    suspend fun invoke(params: ChampionRuneItemSpell): Unit
+}
 
 class InsertGameDataUseCase @Inject constructor(
     private val ddragonRepository: DDragonRepository

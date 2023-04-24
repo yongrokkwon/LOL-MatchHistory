@@ -4,7 +4,9 @@ import gg.op.lol.domain.models.Item
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
-typealias GetItemBaseUseCase = BaseUseCase<Pair<String, String>, List<Item>>
+interface GetItemBaseUseCase {
+    suspend operator fun invoke(params: Pair<String, String>): List<Item>
+}
 
 class GetItemUseCase @Inject constructor(
     private val ddragonRepository: DDragonRepository

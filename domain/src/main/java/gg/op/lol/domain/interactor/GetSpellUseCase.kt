@@ -4,7 +4,9 @@ import gg.op.lol.domain.models.Spell
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
-typealias GetSpellBaseUseCase = BaseUseCase<Pair<String, String>, List<Spell>>
+interface GetSpellBaseUseCase {
+    suspend operator fun invoke(params: Pair<String, String>): List<Spell>
+}
 
 class GetSpellUseCase @Inject constructor(
     private val ddragonRepository: DDragonRepository

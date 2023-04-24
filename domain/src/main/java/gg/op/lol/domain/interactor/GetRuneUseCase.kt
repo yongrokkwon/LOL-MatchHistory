@@ -4,7 +4,9 @@ import gg.op.lol.domain.models.Rune
 import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
-typealias GetRuneBaseUseCase = BaseUseCase<Pair<String, String>, List<Rune>>
+interface GetRuneBaseUseCase {
+    suspend operator fun invoke(params: Pair<String, String>): List<Rune>
+}
 
 class GetRuneUseCase @Inject constructor(
     private val ddragonRepository: DDragonRepository
