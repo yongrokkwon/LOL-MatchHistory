@@ -11,6 +11,9 @@ android {
     namespace = "gg.lol.android"
     testOptions {
         unitTests {
+            all {
+                it.useJUnitPlatform()
+            }
             isIncludeAndroidResources = true
             isReturnDefaultValues = true
         }
@@ -66,6 +69,9 @@ android {
 dependencies {
     implementation(project(Modules.domain))
     implementation(project(Modules.data))
+
+    implementation(KotlinDep.KOTLIN_STDLIB)
+    implementation(KotlinDep.KOTLIN_REFLECT)
 
     implementation(AndroidX.FOUNDATION)
     implementation(AndroidX.FOUNDATION_LAYOUT)
@@ -123,17 +129,21 @@ dependencies {
     debugImplementation(AndroidTest.COMPOSE_UI_TOOLING)
     debugImplementation(AndroidTest.COMPOSE_UI_TEST_MANIFEST)
 
-    testImplementation(UnitTest.JUNIT)
-    testImplementation(UnitTest.JUNIT_EXT)
+//    testImplementation(UnitTest.JUNIT)
+//    testImplementation(UnitTest.JUNIT_EXT)
+//    testImplementation(UnitTest.JUNIT_KTX)
     testImplementation(UnitTest.CORE_TEST)
     testImplementation(UnitTest.RUNNER)
-    testImplementation(UnitTest.MOCKK)
+//    testImplementation(UnitTest.MOCKK)
     testImplementation(UnitTest.RULES)
     testImplementation(UnitTest.KOTLINX_COROUTINES_TEST)
     testImplementation(UnitTest.CORE_TESTING)
-    testImplementation(UnitTest.JUNIT_KTX)
     testImplementation(UnitTest.CORE_KTX)
     testImplementation(UnitTest.ROBOLECTRIC)
     testImplementation(UnitTest.HILT_TEST)
-    testImplementation("org.mockito.kotlin:mockito-kotlin:+")
+
+    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation("io.kotest:kotest-runner-junit5:5.6.1")
+    testImplementation("io.kotest:kotest-assertions-core:5.6.1")
+    testImplementation("io.kotest:kotest-property:5.6.1")
 }

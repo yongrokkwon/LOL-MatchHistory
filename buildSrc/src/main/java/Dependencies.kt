@@ -55,7 +55,8 @@ object CoroutinesDep {
 }
 
 object KotlinDep {
-    const val KOTLIN = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
+    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
+    const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN}"
 }
 
 object JavaDep {
@@ -133,19 +134,19 @@ object OtherLibrary {
 }
 
 object UnitTest {
+//    const val JUNIT = "org.junit.jupiter:junit-jupiter:${Versions.JUNIT_VERSION}"
+    const val JUNIT = "junit:junit:${Versions.JUNIT_VERSION}"
+    const val JUNIT_KTX = "androidx.test.ext:junit-ktx:${Versions.JUNIT_KTX_VERSION}"
+    const val JUNIT_EXT = "androidx.test.ext:junit:${Versions.JUNIT_EXT_VERSION}"
     const val CORE_TEST = "androidx.test:core:${Versions.CORE_TEST_VERSION}"
     const val RUNNER = "androidx.test:runner:${Versions.RUNNER_VERSION}"
-    const val JUNIT_EXT = "androidx.test.ext:junit:${Versions.JUNIT_EXT_VERSION}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK_VERSION}"
     const val RULES = "androidx.test:rules:${Versions.CORE_TEST_VERSION}"
     const val KOTLINX_COROUTINES_TEST =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.KOTLINX_COROUTINES_TEST_VERSION}"
     const val CORE_TESTING = "androidx.arch.core:core-testing:${Versions.CORE_TESTING_VERSION}"
-    const val JUNIT_KTX = "androidx.test.ext:junit-ktx:${Versions.JUNIT_KTX_VERSION}"
     const val CORE_KTX = "androidx.test:core-ktx:${Versions.TEST_CORE_KTX_VERSION}"
     const val ROBOLECTRIC = "org.robolectric:robolectric:${Versions.ROBOLECTRIC_VERSION}"
-//    const val JUNIT = "org.junit.jupiter:junit-jupiter:${Versions.JUNIT_VERSION}"
-    const val JUNIT = "junit:junit:${Versions.JUNIT_VERSION}"
     const val HILT_TEST = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
 }
 
