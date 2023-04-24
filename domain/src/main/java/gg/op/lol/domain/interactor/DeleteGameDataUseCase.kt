@@ -4,7 +4,7 @@ import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
 interface DeleteGameDataBaseUseCase {
-    suspend fun invoke(): Unit
+    suspend fun invoke()
 }
 
 class DeleteGameDataUseCase @Inject constructor(

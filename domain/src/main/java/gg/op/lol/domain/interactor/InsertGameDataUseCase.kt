@@ -5,7 +5,7 @@ import gg.op.lol.domain.repository.DDragonRepository
 import javax.inject.Inject
 
 interface InsertGameDataBaseUseCase {
-    suspend fun invoke(params: ChampionRuneItemSpell): Unit
+    suspend fun invoke(params: ChampionRuneItemSpell)
 }
 
 class InsertGameDataUseCase @Inject constructor(
