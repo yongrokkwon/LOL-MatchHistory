@@ -1,96 +1,61 @@
 package gg.op.lol.android.ui.main
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
 import gg.lol.android.ui.main.MainViewModel
-import gg.lol.android.util.PreferencesHelper
-import gg.op.lol.data.local.dao.GameDataDao
-import gg.op.lol.domain.interactor.DeleteGameDataUseCase
-import gg.op.lol.domain.interactor.GetChampionsUseCase
-import gg.op.lol.domain.interactor.GetItemUseCase
-import gg.op.lol.domain.interactor.GetLatestVersionUseCase
-import gg.op.lol.domain.interactor.GetRuneUseCase
-import gg.op.lol.domain.interactor.GetSpellUseCase
-import gg.op.lol.domain.interactor.InsertGameDataUseCase
-import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.withContext
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
+import gg.op.lol.domain.interactor.DeleteGameDataBaseUseCase
+import gg.op.lol.domain.interactor.GetChampionsBaseUseCase
+import gg.op.lol.domain.interactor.GetItemBaseUseCase
+import gg.op.lol.domain.interactor.GetRuneBaseUseCase
+import gg.op.lol.domain.interactor.GetSpellBaseUseCase
+import gg.op.lol.domain.interactor.InsertGameDataBaseUseCase
+import gg.op.lol.fake.interactor.FakeGetLatestVersionUseCase
+import gg.op.lol.fake.util.FakePreferencesHelperImp
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 
-@HiltAndroidTest
-@RunWith(AndroidJUnit4::class)
-@Config(application = HiltTestApplication::class)
-@ExperimentalCoroutinesApi
-class MainViewModelTest {
+class MainViewModelTest : ShouldSpec({
+    val fakeGetLatestVersionUseCase = FakeGetLatestVersionUseCase()
+    val fakeDeleteGameDataUseCase = mockk<DeleteGameDataBaseUseCase>()
+    val fakeInsertGameDataBaseUseCase = mockk<InsertGameDataBaseUseCase>()
+    val fakeGetChampionsUseCase = mockk<GetChampionsBaseUseCase>()
+    val fakeGetSpellUseCase = mockk<GetSpellBaseUseCase>()
+    val fakeGetRuneUseCase = mockk<GetRuneBaseUseCase>()
+    val fakeGetItemUseCase = mockk<GetItemBaseUseCase>()
+    val fakePreferencesHelperImp = FakePreferencesHelperImp()
 
-    @get:Rule
-    val hiltRule = HiltAndroidRule(this)
+    coEvery { fakeDeleteGameDataUseCase.invoke() } just Runs
+    coEvery { fakeInsertGameDataBaseUseCase.invoke(any()) } just Runs
+    coEvery { fakeGetChampionsUseCase.invoke(any()) } returns listOf()
+    coEvery { fakeGetSpellUseCase.invoke(any()) } returns listOf()
+    coEvery { fakeGetRuneUseCase.invoke(any()) } returns listOf()
+    coEvery { fakeGetItemUseCase.invoke(any()) } returns listOf()
 
-    @Inject
-    lateinit var getLatestVersionUseCase: GetLatestVersionUseCase
+    MainViewModel(
+        fakeGetLatestVersionUseCase,
+        fakeDeleteGameDataUseCase,
+        fakeInsertGameDataBaseUseCase,
+        fakeGetChampionsUseCase,
+        fakeGetSpellUseCase,
+        fakeGetRuneUseCase,
+        fakeGetItemUseCase,
+        fakePreferencesHelperImp
+    )
 
-    @Inject
-    lateinit var deleteGameDataBaseUseCase: DeleteGameDataUseCase
+    should("initialize GameDataDao") {
+        coVerify(exactly = 1) {
+            fakeGetChampionsUseCase.invoke(any())
+            fakeGetSpellUseCase.invoke(any())
+            fakeGetRuneUseCase.invoke(any())
+            fakeGetItemUseCase.invoke(any())
 
-    @Inject
-    lateinit var insertBaseDataBaseUseCase: InsertGameDataUseCase
-
-    @Inject
-    lateinit var getChampionsUseCase: GetChampionsUseCase
-
-    @Inject
-    lateinit var getSpellUseCase: GetSpellUseCase
-
-    @Inject
-    lateinit var getRuneUseCase: GetRuneUseCase
-
-    @Inject
-    lateinit var getItemUseCase: GetItemUseCase
-
-    @Inject
-    lateinit var preferencesHelper: PreferencesHelper
-
-    @Inject
-    lateinit var gameDataDao: GameDataDao
-
-    @Before
-    fun setup() {
-        Dispatchers.setMain(TestCoroutineDispatcher())
-        hiltRule.inject()
-    }
-
-    @Test
-    fun testMainViewModelInitializationShouldInitializeGameDataDao() {
-        // Given When
-        MainViewModel(
-            getLatestVersionUseCase,
-            deleteGameDataBaseUseCase,
-            insertBaseDataBaseUseCase,
-            getChampionsUseCase,
-            getSpellUseCase,
-            getRuneUseCase,
-            getItemUseCase,
-            preferencesHelper
-        )
-        // Then
-        runBlocking {
-            withContext(Dispatchers.IO) {
-                Assert.assertTrue(gameDataDao.getChampions().isEmpty())
-                Assert.assertTrue(gameDataDao.getItems().isEmpty())
-                Assert.assertTrue(gameDataDao.getRunes().isEmpty())
-                Assert.assertTrue(gameDataDao.getSpells().isEmpty())
-            }
+            fakeDeleteGameDataUseCase.invoke()
+            fakeInsertGameDataBaseUseCase.invoke(any())
         }
+
+        fakePreferencesHelperImp.lolApiVersion shouldBe "13.8.1"
     }
-}
+})
