@@ -27,25 +27,27 @@ class MainViewModelTest : ShouldSpec({
     val fakeGetItemUseCase = mockk<GetItemBaseUseCase>()
     val fakePreferencesHelperImp = FakePreferencesHelperImp()
 
-    coEvery { fakeDeleteGameDataUseCase.invoke() } just Runs
-    coEvery { fakeInsertGameDataBaseUseCase.invoke(any()) } just Runs
-    coEvery { fakeGetChampionsUseCase.invoke(any()) } returns listOf()
-    coEvery { fakeGetSpellUseCase.invoke(any()) } returns listOf()
-    coEvery { fakeGetRuneUseCase.invoke(any()) } returns listOf()
-    coEvery { fakeGetItemUseCase.invoke(any()) } returns listOf()
-
-    MainViewModel(
-        fakeGetLatestVersionUseCase,
-        fakeDeleteGameDataUseCase,
-        fakeInsertGameDataBaseUseCase,
-        fakeGetChampionsUseCase,
-        fakeGetSpellUseCase,
-        fakeGetRuneUseCase,
-        fakeGetItemUseCase,
-        fakePreferencesHelperImp
-    )
+    beforeTest {
+        coEvery { fakeDeleteGameDataUseCase.invoke() } just Runs
+        coEvery { fakeInsertGameDataBaseUseCase.invoke(any()) } just Runs
+        coEvery { fakeGetChampionsUseCase.invoke(any()) } returns listOf()
+        coEvery { fakeGetSpellUseCase.invoke(any()) } returns listOf()
+        coEvery { fakeGetRuneUseCase.invoke(any()) } returns listOf()
+        coEvery { fakeGetItemUseCase.invoke(any()) } returns listOf()
+    }
 
     should("initialize GameDataDao") {
+        MainViewModel(
+            fakeGetLatestVersionUseCase,
+            fakeDeleteGameDataUseCase,
+            fakeInsertGameDataBaseUseCase,
+            fakeGetChampionsUseCase,
+            fakeGetSpellUseCase,
+            fakeGetRuneUseCase,
+            fakeGetItemUseCase,
+            fakePreferencesHelperImp
+        )
+
         coVerify(exactly = 1) {
             fakeGetChampionsUseCase.invoke(any())
             fakeGetSpellUseCase.invoke(any())
