@@ -5,13 +5,13 @@ import gg.lol.android.BuildConfig
 import gg.lol.android.ui.BaseViewModel
 import gg.lol.android.ui.UiState
 import gg.lol.android.util.PreferencesHelper
-import gg.op.lol.domain.interactor.DeleteGameDataUseCase
-import gg.op.lol.domain.interactor.GetChampionsUseCase
-import gg.op.lol.domain.interactor.GetItemUseCase
+import gg.op.lol.domain.interactor.DeleteGameDataBaseUseCase
+import gg.op.lol.domain.interactor.GetChampionsBaseUseCase
+import gg.op.lol.domain.interactor.GetItemBaseUseCase
 import gg.op.lol.domain.interactor.GetLatestVersionBaseUseCase
-import gg.op.lol.domain.interactor.GetRuneUseCase
-import gg.op.lol.domain.interactor.GetSpellUseCase
-import gg.op.lol.domain.interactor.InsertGameDataUseCase
+import gg.op.lol.domain.interactor.GetRuneBaseUseCase
+import gg.op.lol.domain.interactor.GetSpellBaseUseCase
+import gg.op.lol.domain.interactor.InsertGameDataBaseUseCase
 import gg.op.lol.domain.models.ChampionRuneItemSpell
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,12 +22,12 @@ import kotlinx.coroutines.flow.StateFlow
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
     private val getLatestVersionUseCase: GetLatestVersionBaseUseCase,
-    private val deleteGameDataBaseUseCase: DeleteGameDataUseCase,
-    private val insertBaseDataBaseUseCase: InsertGameDataUseCase,
-    private val getChampionsUseCase: GetChampionsUseCase,
-    private val getSpellUseCase: GetSpellUseCase,
-    private val getRuneUseCase: GetRuneUseCase,
-    private val getItemUseCase: GetItemUseCase,
+    private val deleteGameDataBaseUseCase: DeleteGameDataBaseUseCase,
+    private val insertBaseDataBaseUseCase: InsertGameDataBaseUseCase,
+    private val getChampionsUseCase: GetChampionsBaseUseCase,
+    private val getSpellUseCase: GetSpellBaseUseCase,
+    private val getRuneUseCase: GetRuneBaseUseCase,
+    private val getItemUseCase: GetItemBaseUseCase,
     private val preferencesHelper: PreferencesHelper
 ) : BaseViewModel() {
 
