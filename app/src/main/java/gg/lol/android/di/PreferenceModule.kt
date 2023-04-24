@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import gg.lol.android.util.PreferencesHelper
+import gg.lol.android.util.PreferencesHelperImp
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +16,9 @@ object PreferenceModule {
 
     @Provides
     @Singleton
-    fun providePresentationPreferenceHelper(@ApplicationContext context: Context): PreferencesHelper {
-        return PreferencesHelper(context)
+    fun providePresentationPreferenceHelper(
+        @ApplicationContext context: Context
+    ): PreferencesHelper {
+        return PreferencesHelperImp(context)
     }
 }
