@@ -83,7 +83,7 @@ dependencies {
     implementation(AndroidX.COMPOSE_UI_TOOLING)
     implementation(AndroidX.COMPOSE_UI_TOOLING_PREVIEW)
     implementation(AndroidX.MATERIAL3)
-    implementation(AndroidX.RUNTIME_LIVEDATA)
+    implementation(AndroidX.COMPOSE_RUNTIME_LIVEDATA)
     implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
     implementation(AndroidX.LIFECYCLE_RUNTIME_KTX)
 

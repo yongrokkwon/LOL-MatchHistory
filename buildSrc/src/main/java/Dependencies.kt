@@ -5,7 +5,6 @@ object Versions {
     const val LIFECYCLE_VERSION = "2.6.0"
     const val ACTIVITY_COMPOSE_VERSION = "1.6.1"
     const val COMPOSE_VERSION = "1.3.3"
-    const val RUNTIME_VERSION = "1.3.3"
     const val MATERIAL3_VERSION = "1.0.1"
 
     const val COIL_COMPOSE_VERSION = "2.2.2"
@@ -21,20 +20,20 @@ object Versions {
 
     const val CORE_TEST_VERSION = "1.5.0"
     const val RUNNER_VERSION = "1.5.2"
-    const val JUNIT_EXT_VERSION = "1.1.5"
     const val MOCKK_VERSION = "1.13.5"
     const val KOTLINX_COROUTINES_TEST_VERSION = "1.6.4"
     const val CORE_TESTING_VERSION = "2.2.0"
-    const val JUNIT_KTX_VERSION = "1.1.5"
     const val TEST_CORE_KTX_VERSION = "1.5.0"
     const val ROBOLECTRIC_VERSION = "4.9.2"
-    const val JUNIT_VERSION = "4.13.2"
 
-    const val JUNIT_EXT = "1.1.5"
     const val ESPRESSO_CORE = "3.5.1"
     const val COMPOSE_UI = "1.3.3"
     const val PAGING_COMPOSE = "1.0.0-alpha18"
     const val PAGING_KTX = "3.2.0-alpha04"
+
+    const val JUNIT_VERSION = "4.13.2"
+    const val JUNIT_EXT = "1.1.5"
+    const val JUNIT_KTX_VERSION = "1.1.5"
 
     const val KOTLIN = "1.8.0"
     const val JAVAX_INJECT = "1"
@@ -81,11 +80,10 @@ object AndroidX {
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_VERSION}"
     const val COMPOSE_UI_TOOLING_PREVIEW =
         "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE_VERSION}"
+    const val COMPOSE_RUNTIME_LIVEDATA =
+        "androidx.compose.runtime:runtime-livedata:${Versions.COMPOSE_VERSION}"
 
     const val MATERIAL3 = "androidx.compose.material3:material3:${Versions.MATERIAL3_VERSION}"
-
-    const val RUNTIME_LIVEDATA =
-        "androidx.compose.runtime:runtime-livedata:${Versions.RUNTIME_VERSION}"
 
     const val LIFECYCLE_LIVEDATA_KTX =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
@@ -137,7 +135,7 @@ object UnitTest {
 //    const val JUNIT = "org.junit.jupiter:junit-jupiter:${Versions.JUNIT_VERSION}"
     const val JUNIT = "junit:junit:${Versions.JUNIT_VERSION}"
     const val JUNIT_KTX = "androidx.test.ext:junit-ktx:${Versions.JUNIT_KTX_VERSION}"
-    const val JUNIT_EXT = "androidx.test.ext:junit:${Versions.JUNIT_EXT_VERSION}"
+    const val JUNIT_EXT = "androidx.test.ext:junit:${Versions.JUNIT_EXT}"
     const val CORE_TEST = "androidx.test:core:${Versions.CORE_TEST_VERSION}"
     const val RUNNER = "androidx.test:runner:${Versions.RUNNER_VERSION}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK_VERSION}"
