@@ -87,7 +87,6 @@ dependencies {
     implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
     implementation(AndroidX.LIFECYCLE_RUNTIME_KTX)
 
-//    implementation(AndroidX.PAGING_COMMON_KTX)
     implementation(AndroidX.PAGING_COMPOSE)
 
     implementation(OtherLibrary.COIL_COMPOSE)
@@ -95,11 +94,6 @@ dependencies {
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
     implementation(AndroidX.HILT_NAVIGATION_COMPOSE)
-
-//    implementation(Google.HILT_ANDROID)
-//    kapt(Google.HILT_COMPILER)
-//    implementation(Google.HILT_ANDROID_COMPILER)
-//    implementation(AndroidX.HILT_NAVIGATION_COMPOSE)
 
     implementation(AndroidX.ROOM_RUNTIME)
     implementation(AndroidX.ROOM_KTX)
@@ -129,21 +123,16 @@ dependencies {
     debugImplementation(AndroidTest.COMPOSE_UI_TOOLING)
     debugImplementation(AndroidTest.COMPOSE_UI_TEST_MANIFEST)
 
-//    testImplementation(UnitTest.JUNIT)
-//    testImplementation(UnitTest.JUNIT_EXT)
-//    testImplementation(UnitTest.JUNIT_KTX)
     testImplementation(UnitTest.CORE_TEST)
     testImplementation(UnitTest.RUNNER)
-//    testImplementation(UnitTest.MOCKK)
     testImplementation(UnitTest.RULES)
     testImplementation(UnitTest.KOTLINX_COROUTINES_TEST)
     testImplementation(UnitTest.CORE_TESTING)
     testImplementation(UnitTest.CORE_KTX)
     testImplementation(UnitTest.ROBOLECTRIC)
     testImplementation(UnitTest.HILT_TEST)
-
-    testImplementation("io.mockk:mockk:1.13.5")
-    testImplementation("io.kotest:kotest-runner-junit5:5.6.1")
-    testImplementation("io.kotest:kotest-assertions-core:5.6.1")
-    testImplementation("io.kotest:kotest-property:5.6.1")
+    testImplementation(UnitTest.MOCKK)
+    testImplementation(UnitTest.KOTEST_RUNNER_JUNIT)
+    testImplementation(UnitTest.KOTEST_ASSERTIONS_CORE)
+    testImplementation(UnitTest.KOTEST_PROPERTY)
 }

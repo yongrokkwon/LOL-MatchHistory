@@ -44,6 +44,8 @@ object Versions {
     const val OKHTTP_LOGGING = "4.10.0"
 
     const val RECORDERABLE = "0.9.6"
+
+    const val KOTEST = "5.6.1"
 }
 
 object CoroutinesDep {
@@ -146,6 +148,10 @@ object UnitTest {
     const val CORE_KTX = "androidx.test:core-ktx:${Versions.TEST_CORE_KTX_VERSION}"
     const val ROBOLECTRIC = "org.robolectric:robolectric:${Versions.ROBOLECTRIC_VERSION}"
     const val HILT_TEST = "com.google.dagger:hilt-android-testing:${Versions.HILT_VERSION}"
+    const val KOTEST_RUNNER_JUNIT = "io.kotest:kotest-runner-junit5:${Versions.KOTEST}"
+    const val KOTEST_ASSERTIONS_CORE = "io.kotest:kotest-assertions-core:${Versions.KOTEST}"
+    const val KOTEST_PROPERTY = "io.kotest:kotest-property:${Versions.KOTEST}"
+
 }
 
 object AndroidTest {
