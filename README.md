@@ -7,9 +7,9 @@
 API_KEY=ADD_YOUR_API_KEY_HERE
 ```
 
-Temporary API_KEY key value: `RGAPI-58e6e8e2-7892-426e-890f-4b357c56a08d`
+Temporary API_KEY key value: `RGAPI-8fb0b290-1ef2-47a0-990f-360f952cd937`
 
-Expires: Wed, Apr 19th, 2023 @ 5:51pm (PT)
+Expires: May 1st, 2023 @ 1:25pm (PT)
 
 3. Run the app.
 
